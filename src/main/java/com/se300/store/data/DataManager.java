@@ -23,7 +23,7 @@ public class DataManager {
     private DataManager() {
     }
 
-    public static DataManager getInstance() { //Thread Safe Double-Checked Locking Pattern for persistence
+    public static DataManager getInstance() { //Thread Safe Double-Checked Locking Pattern
         DataManager result = instance;
         if (result == null) {
             synchronized (DataManager.class) {
