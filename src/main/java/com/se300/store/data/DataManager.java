@@ -17,19 +17,31 @@ public class DataManager {
     private static volatile DataManager instance;
 
     //TODO: Use ConcurrentHashMap for thread-safety
+    private final Map<String, Object> dataStore = new ConcurrentHashMap<>();
 
     // Private constructor to prevent instantiation
     private DataManager() {
     }
 
-    public static DataManager getInstance() {
-        return new DataManager();
+    public static DataManager getInstance() { //Thread Safe Double-Checked Locking Pattern for persistence
+        DataManager result = instance;
+        if (result == null) {
+            synchronized (DataManager.class) {
+                result = instance;
+                if (result == null) {
+                    result = new DataManager();
+                    instance = result;
+                }
+            }
+        }
+        return result;
     }
 
     /**
-     * Store data with a given key
+     * Store data with a given key 
      */
     public <T> void put(String key, T value) {
+        dataStore.put(key, value);
     }
 
     /**
@@ -37,6 +49,10 @@ public class DataManager {
      */
     @SuppressWarnings("unchecked")
     public <T> T get(String key) {
+        Object value = dataStore.get(key);
+        if (value != null) {
+            return (T) value;
+        }
         return null;
     }
 
@@ -44,32 +60,34 @@ public class DataManager {
      * Check if key exists
      */
     public boolean containsKey(String key) {
-        return false;
+        return dataStore.containsKey(key);
     }
 
     /**
      * Remove data by key
      */
     public void remove(String key) {
+        dataStore.remove(key);
     }
 
     /**
      * Clear all data
      */
     public void clear() {
+        dataStore.clear();
     }
 
     /**
      * Get all keys
      */
     public Iterable<String> keys() {
-        return null;
+        return dataStore.keySet();
     }
 
     /**
      * Get the size of the datastore
      */
     public int size() {
-        return 0;
+        return dataStore.size();
     }
 }
