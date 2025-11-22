@@ -8,3 +8,5 @@
 /dataSources.local.xml
 # Ignore Maven build output
 target/
+*target/
+**target/
