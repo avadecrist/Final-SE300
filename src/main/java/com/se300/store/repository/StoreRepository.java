@@ -71,4 +71,4 @@ public class StoreRepository {
     private Map<String, Store> getStoresMap() {
         return dataManager.get(STORES_KEY);
     }
-}
+} 
