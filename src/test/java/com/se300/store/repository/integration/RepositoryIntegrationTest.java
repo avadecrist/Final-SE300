@@ -153,10 +153,10 @@ public class RepositoryIntegrationTest {
 
         // ACT
         Store extraStore = new Store("store-extra", "999 Test Dr", "Extra Store");
-        storeRepository.save(extraStore); // add new store
+        storeRepository.save(extraStore); 
 
         User extraUser = new User("extra@example.com", "pw-333", "Extra User");
-        userRepository.save(extraUser); // add new user
+        userRepository.save(extraUser); 
 
         // RE-ARRANGE
         Map<String, Store> storesAfter = storeRepository.findAll();
@@ -180,5 +180,66 @@ public class RepositoryIntegrationTest {
     @Order(7)
     @DisplayName("Integration: Concurrent repository operations")
     public void testConcurrentOperations() {
+        // ARRANGE
+            // Get current counts so we can assert growth
+        int initialStoreCount = storeRepository.findAll().size();
+        int initialUserCount = userRepository.findAll().size();
+
+        // Each thread writes 50 NEW, uniquely-keyed entries
+        Runnable storeWriter = () -> {
+            for (int i = 0; i < 50; i++) {
+                Store s = new Store(
+                        "concurrent-store-" + i,
+                        "Concurrent Address " + i,
+                        "Concurrent Store " + i
+                );
+                storeRepository.save(s);
+            }
+        };
+
+        Runnable userWriter = () -> {
+            for (int i = 0; i < 50; i++) {
+                User u = new User(
+                        "concurrent-user-" + i + "@example.com",
+                        "pwd-" + i,
+                        "Concurrent User " + i
+                );
+                userRepository.save(u);
+            }
+        };
+
+        Thread t1 = new Thread(storeWriter);
+        Thread t2 = new Thread(userWriter);
+
+        // ACT
+            // Start both threads concurrently
+        t1.start();
+        t2.start();
+
+            // Wait for threads to finish
+        try {
+            t1.join();
+            t2.join();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            fail("Test interrupted during concurrent operations");
+        }
+
+        // ASSERT
+        Map<String, Store> currentStores = storeRepository.findAll();
+        Map<String, User> currentUsers = userRepository.findAll();
+
+        assertEquals(initialStoreCount + 50, currentStores.size(),
+            "StoreRepository should have 50 more stores after concurrent writes");
+        assertEquals(initialUserCount + 50, currentUsers.size(),
+            "UserRepository should have 50 more users after concurrent writes");
+
+            // Ensure all concurrent calls of save() worked
+        for (int i = 0; i < 50; i++) {
+            assertTrue(currentStores.containsKey("concurrent-store-" + i),
+                    "Store map should contain ID: concurrent-store-" + i);
+            assertTrue(currentUsers.containsKey("concurrent-user-" + i + "@example.com"),
+                    "User map should contain email: concurrent-user-" + i + "@example.com");
+        }
     }
 }
