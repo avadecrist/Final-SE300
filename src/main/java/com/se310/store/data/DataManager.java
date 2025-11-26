@@ -44,8 +44,18 @@ public class DataManager {
     }
 
     //TODO: Thread-safe singleton implementation with double-checked locking
-    public static DataManager getInstance() {
-        return new DataManager();
+    public static DataManager getInstance() { 
+        DataManager result = instance;
+        if (result == null) {
+            synchronized (DataManager.class) {
+                result = instance;
+                if (result == null) {
+                    result = new DataManager();
+                    instance = result;
+                }
+            }
+        }
+        return result;
     }
 
     /**
