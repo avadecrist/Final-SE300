@@ -34,6 +34,25 @@ public class StoreController extends BaseServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try{
+            // Extract store ID from URL
+            String storeId = extractResourceId(request);
+            // If store ID isn't provided return all the stores
+            if(storeId == null){
+                Collection<Store> stores = storeService.getAllStores();
+                sendJsonResponse(response, stores);
+            // Return the specific store if the ID is provided
+            }else{
+                Store store = storeService.showStore(storeId, null);
+                sendJsonResponse(response, store);
+            }
+        // Catches business logic errors
+        }catch(StoreException e){
+            sendErrorResponse(response, HttpServletResponse.SC_NOT_FOUND,e.getMessage());
+        // Catches any other errors that may come about
+        }catch(Exception e){
+            sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal server error");
+        }
     }
 
     /**
@@ -42,6 +61,27 @@ public class StoreController extends BaseServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try{
+            // Get parameters
+            String storeId = request.getParameter("storeId");
+            String name = request.getParameter("name");
+            String address = request.getParameter("address");
+            // Validate parameters are provided
+            if(storeId == null || name == null || address == null){
+                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "Missing required parameters: storeId, name and address are required.");
+                return;
+            }
+            // Call service to create store
+            Store createdStore = storeService.provisionStore(storeId, name, address, null);
+            // Send response that store has been created successfully
+            sendJsonResponse(response, createdStore, HttpServletResponse.SC_CREATED); // Expecting 201 Created
+            // Catches business logic errors
+        }catch(StoreException e){
+            sendErrorResponse(response, HttpServletResponse.SC_CONFLICT, e.getMessage());
+            // Catches any other errors that may come about
+        }catch(Exception e){
+            sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal server error");
+        }
     }
 
     /**
@@ -50,6 +90,28 @@ public class StoreController extends BaseServlet {
      */
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try{
+            // Extract store ID from URL
+            String storeId = extractResourceId(request);
+            // Validate store ID is provided 
+            if(storeId == null){
+                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "Store ID is required in URL");
+                return;
+            }
+            // Get parameters from request
+            String description = request.getParameter("description");
+            String address = request.getParameter("address");
+            // Call service to update the store
+            Store updatedStore = storeService.updateStore(storeId, description, address);
+            // Send success response
+            sendJsonResponse(response, updatedStore); // Expecting 200 OK
+            // Catches business logic errors
+        }catch(StoreException e){
+            sendErrorResponse(response, HttpServletResponse.SC_NOT_FOUND, e.getMessage());
+            // Catches any other errors that may come about
+        }catch(Exception e){
+            sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal server error");
+        }
     }
 
     /**
@@ -58,5 +120,24 @@ public class StoreController extends BaseServlet {
      */
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try{
+            // Extract store ID from URL
+            String storeId = extractResourceId(request);
+            // Validate store ID is provided
+            if(storeId == null){
+                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "Store ID is required in URL path");
+                return;
+            }
+            // Call service to delete store 
+            storeService.deleteStore(storeId);
+            // Send success response
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT); // Expecting 204 Not Found
+        // Catches business logic errors
+        }catch(StoreException e){
+            sendErrorResponse(response, HttpServletResponse.SC_NOT_FOUND, e.getMessage());
+        // Catches any other errors that may come about
+        }catch(Exception e){
+            sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal server error");
+        }
     }
 }
