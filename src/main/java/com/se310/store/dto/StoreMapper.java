@@ -35,8 +35,7 @@ public class StoreMapper {
 
         @Override
         public String toJson() {
-            StoreDTO copy = new StoreDTO(id, address,
-            description != null ? description.toLowerCase() : null);
+            StoreDTO copy = new StoreDTO(id, address, description);
             return JsonHelper.toJson(copy);
         }
 

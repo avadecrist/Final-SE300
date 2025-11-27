@@ -36,9 +36,7 @@ public class UserMapper {
 
         @Override
         public String toJson() {
-            UserDTO copy = new UserDTO(email, name,
-            role != null ? role.toLowerCase() : null);
-
+            UserDTO copy = new UserDTO(email, name, role);
             return JsonHelper.toJson(copy);
         }
 
