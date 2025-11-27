@@ -23,7 +23,9 @@ public class StoreRepository {
     private final DataManager dataManager;
 
     public StoreRepository(DataManager dataManager) {
-
+        if (dataManager == null) {
+            throw new NullPointerException("DataManager must not be null");
+        }
         this.dataManager = dataManager;
     }
 
@@ -42,14 +44,17 @@ public class StoreRepository {
     }
 
     public Store save(Store store) {
-        Objects.requireNonNull(store, "Store must not be null");
+        if (store == null) {
+            throw new NullPointerException("Store must not be null");
+        }
+
         if (store.getId() == null || store.getId().isBlank()) {
             throw new IllegalArgumentException("Store id must not be null or blank");
         }
         return dataManager.persistStore(store);
     }
 
-    public boolean deleteById(String storeId) {
+    public boolean delete(String storeId) {
         if (storeId == null || storeId.isBlank()) {
             return false;
         }
