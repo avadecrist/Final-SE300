@@ -21,7 +21,7 @@ public class UserMapper {
     private UserMapper() {
         throw new UnsupportedOperationException("Utility class cannot be instantiated");
     }
-    
+
     /**
      * UserDTO - Data Transfer Object for User
      */
