@@ -55,7 +55,7 @@ public class StoreController extends BaseServlet {
                 sendJsonResponse(response, storeDTOs);
             } else {
                 // Get specific store
-                Store store = storeService.getStore(storeId);
+                Store store = storeService.showStore(storeId, null);
                 if (store == null) {
                     sendErrorResponse(response, HttpServletResponse.SC_NOT_FOUND, 
                         "Store not found: " + storeId);
@@ -89,7 +89,7 @@ public class StoreController extends BaseServlet {
             }
             
             // Create store through service
-            Store store = storeService.createStore(storeId, name, address);
+            Store store = storeService.provisionStore(storeId, name, address, null);
             StoreDTO storeDTO = StoreMapper.toDTO(store);
             sendJsonResponse(response, storeDTO, HttpServletResponse.SC_CREATED);
             
@@ -147,12 +147,7 @@ public class StoreController extends BaseServlet {
             }
             
             // Delete through service
-            boolean deleted = storeService.deleteStore(storeId);
-            if (!deleted) {
-                sendErrorResponse(response, HttpServletResponse.SC_NOT_FOUND, 
-                    "Store not found: " + storeId);
-                return;
-            }
+            storeService.deleteStore(storeId);
             
             // Send success response with no content
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
