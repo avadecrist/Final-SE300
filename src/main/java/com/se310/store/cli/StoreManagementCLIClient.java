@@ -335,30 +335,42 @@ public class StoreManagementCLIClient {
         System.out.println("1. List all users");
         System.out.println("2. View user details");
         System.out.println("3. Register new user");
+        System.out.println("4. Update user");
+        System.out.println("5. Delete user");
         System.out.println("0. Back to main menu");
         System.out.print("Enter your choice: ");
 
         String choice = scanner.nextLine().trim();
 
-        switch (choice) {
-            case "1":
-                listUsers();
-                break;
-            case "2":
-                viewUserDetails();
-                break;
-            case "3":
-                registerUser();
-                break;
-            case "0":
-                printMainMenu();
-                break;
-            default:
-                System.out.println("Invalid choice. Please try again.");
+        try {
+            switch (choice) {
+                case "1":
+                    listUsers();
+                    break;
+                case "2":
+                    viewUserDetails();
+                    break;
+                case "3":
+                    registerUser();
+                    break;
+                case "4":
+                    updateUser();
+                    break;
+                case "5":
+                    deleteUser();
+                    break;
+                case "0":
+                    printMainMenu();
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } catch (Exception e) {
+            System.out.println("[X] Error during user operation: " + e.getMessage());
         }
     }
 
-    private static void listUsers() {
+    private static void listUsers() throws Exception {
         System.out.println("\n--- List of Users ---");
 
         String json = sendRequest("GET", "/users", null);
@@ -366,7 +378,7 @@ public class StoreManagementCLIClient {
         System.out.println(json);
     }
 
-    private static void viewUserDetails() {
+    private static void viewUserDetails() throws Exception {
         System.out.print("Enter User Email: ");
         String email = scanner.nextLine().trim();
 
@@ -381,8 +393,7 @@ public class StoreManagementCLIClient {
         System.out.println(json);
     }
 
-//this uses a non-null body??
-    private static void registerUser() {
+    private static void registerUser() throws Exception {
         System.out.print("Enter User Email: ");
         String email = scanner.nextLine().trim();
 
@@ -392,20 +403,77 @@ public class StoreManagementCLIClient {
         System.out.print("Enter User Name: ");
         String name = scanner.nextLine().trim();
 
-        System.out.print("Enter User Role (ADMIN/USER): ");
+        System.out.print("Enter User Role (ADMIN/MANAGER/USER): ");
         String role = scanner.nextLine().trim();
 
-        if (email.isEmpty() || password.isEmpty() || name.isEmpty()) {
-            System.out.println("[X] Email, Password, and Name cannot be empty");
+        if (email.isEmpty() || password.isEmpty() || name.isEmpty() || role.isEmpty()) {
+            System.out.println("[X] No fields may be empty when registering a user.");
             return;
         }
 
-        String body = String.format("?email=xxx&password=xxx&name=xxx&role=xxx",
-                urlEncode(email), urlEncode(password), urlEncode(name), urlEncode(role));
+        String endpoint = "?email=" + encode(email) + "&password=" + encode(password) + "&name=" + encode(name) + "&role=" + encode(role);
 
-        String json = sendRequest("POST", "/users" + body, null);
+        String json = sendRequest("POST", "/users" + endpoint, null);
 
         System.out.println("\n--- Registered User ---");
+        System.out.println(json);
+    }
+
+    private static void updateUser() throws Exception {
+        System.out.println("\n=== Update User ===");
+
+        System.out.print("Enter User Email to update: ");
+        String email = scanner.nextLine().trim();
+
+        if (email.isEmpty()) {
+            System.out.println("[X] User email cannot be empty");
+            return;
+        }
+
+        System.out.print("Enter new password (or leave blank to keep current password): ");
+        String password = scanner.nextLine().trim();
+
+        System.out.print("Enter new name (or leave blank to keep current name): ");
+        String name = scanner.nextLine().trim();
+
+        if (password.isEmpty() && name.isEmpty()) {
+            System.out.println("[X] Nothing to update. Both fields are blank.");
+            return;
+        }
+
+        // Start with path: /users/{email}
+        String path = "/users/" + encode(email);
+        // For any blank name or password parameter
+        boolean hasQueryParam = false;
+        String endpoint = path;
+
+        if (!password.isEmpty()) {
+            endpoint = endpoint + "?password=" + encode(password);
+            hasQueryParam = true;
+        }
+
+        if (!name.isEmpty()) {
+            endpoint = endpoint + (hasQueryParam ? "&" : "?") + "name=" + encode(name);
+        }
+
+        String json = sendRequest("PUT", endpoint, null);
+
+        System.out.println("\n--- Updated User ---");
+        System.out.println(json);
+    }
+
+    private static void deleteUser() throws Exception {
+        System.out.print("Enter User Email to delete: ");
+        String email = scanner.nextLine().trim();
+
+        if (email.isEmpty()) {
+            System.out.println("[X] User email cannot be empty");
+            return;
+        }
+
+        String json = sendRequest("DELETE", "/users/" + email, null);
+
+        System.out.println("\n--- Deleted User ---");
         System.out.println(json);
     }
 
@@ -448,7 +516,7 @@ public class StoreManagementCLIClient {
                 System.out.println("Invalid choice. Please try again.");
         }
     }
-//TEMPORARY METHOD
+
     private static void viewProduct() {
         System.out.print("Enter Product ID: ");
         String productId = scanner.nextLine().trim();
@@ -458,35 +526,47 @@ public class StoreManagementCLIClient {
             return;
         }
 
-        Optional<Product> productOpt = storeService.getProductById(productId);
-        if (productOpt.isPresent()) {
-            Product product = productOpt.get();
-            System.out.println("\n--- Product Details ---");
-            System.out.println(product);
-        } else {
-            System.out.println("[X] Product not found with ID: " + productId);
+        try {
+        Product product = storeService.showProduct(productId, authToken);
+
+        System.out.println("\n--- Product Details ---");
+        System.out.println(product);
+        } catch (StoreException e) {
+            System.out.println("[X] " + e.getAction() + " failed: " + e.getReason());
+        } catch (Exception e) {
+            System.out.println("[X] Unexpected error while viewing product: " + e.getMessage());
         }
+        
     }
-//TEMPORARY METHOD
+
     private static void createProduct() {
         System.out.print("Enter Product ID: ");
         String productId = scanner.nextLine().trim();
+
         System.out.print("Enter Product Name: ");
         String name = scanner.nextLine().trim();
+
         System.out.print("Enter Product Description: ");
         String description = scanner.nextLine().trim();
+
         System.out.print("Enter Product Size: ");
         String size = scanner.nextLine().trim();
+
         System.out.print("Enter Product Category: ");
         String category = scanner.nextLine().trim();
+
         System.out.print("Enter Product Price: ");
         String priceStr = scanner.nextLine().trim();
-        System.out.print("Enter Product Temperature (COLD/ROOM/HEATED): ");
+
+        System.out.print("Enter Product Temperature (frozen/refrigerated/ambient/warm/hot): ");
         String tempStr = scanner.nextLine().trim();
-        if (productId.isEmpty() || name.isEmpty() || priceStr.isEmpty() || tempStr.isEmpty()) {
-            System.out.println("[X] Product ID, Name, Price, and Temperature cannot be empty");
+
+        if (productId.isEmpty() || name.isEmpty() || description.isEmpty() || size.isEmpty() || 
+            category.isEmpty() || priceStr.isEmpty() || tempStr.isEmpty()) {
+            System.out.println("[X] All fields must be filled to create a product.");
             return;
         }
+
         Double price;
         try {
             price = Double.parseDouble(priceStr);
@@ -494,17 +574,25 @@ public class StoreManagementCLIClient {
             System.out.println("[X] Invalid price format");
             return;
         }
+
         Temperature temperature;
         try {
-            temperature = Temperature.valueOf(tempStr.toUpperCase());
+            temperature = Temperature.valueOf(tempStr.toLowerCase());
         } catch (IllegalArgumentException e) {
-            System.out.println("[X] Invalid temperature value");
+            System.out.println("[X] Invalid temperature value. Valid values include: frozen, refrigerated, ambient, warm, hot");
             return;
         }
-        Product product = new Product(productId, name, description, size, category, price, temperature);
-        storeService.addProduct(product);
-        System.out.println("\n--- Created Product ---");
-        System.out.println(product);
+    
+        try {
+            Product product = storeService.provisionProduct(productId, name, description, size, category, price, temperature, authToken);
+            System.out.println("\n--- Created Product ---");
+            System.out.println(product);
+        } catch (StoreException e) {
+            System.out.println("[X] " + e.getAction() + " failed: " + e.getReason());
+        } catch (Exception e) {
+            System.out.println("[X] Unexpected error while creating product: " + e.getMessage());
+        }
+        
     }
 
 
@@ -536,7 +624,6 @@ public class StoreManagementCLIClient {
         }
     }
 
-//TEMPORARY METHOD
     private static void viewCustomer() {
         System.out.print("Enter Customer ID: ");
         String customerId = scanner.nextLine().trim();
@@ -546,33 +633,61 @@ public class StoreManagementCLIClient {
             return;
         }
 
-        Optional<Customer> customerOpt = storeService.getCustomerById(customerId);
-        if (customerOpt.isPresent()) {
-            Customer customer = customerOpt.get();
+        try {
+            Customer customer = storeService.showCustomer(customerId, authToken);
+
             System.out.println("\n--- Customer Details ---");
             System.out.println(customer);
-        } else {
-            System.out.println("[X] Customer not found with ID: " + customerId);
+        } catch (StoreException e) {
+            System.out.println("[X] " + e.getAction() + " failed: " + e.getReason());
+        } catch (Exception e) {
+            System.out.println("[X] Unexpected error while viewing customer: " + e.getMessage());
         }
     }
-//TEMPORARY METHOD
+
     private static void registerCustomer() {
         System.out.print("Enter Customer ID: ");
         String customerId = scanner.nextLine().trim();
-        System.out.print("Enter Customer Name: ");
-        String name = scanner.nextLine().trim();
+
+        System.out.print("Enter Customer First Name: ");
+        String firstName = scanner.nextLine().trim();
+
+        System.out.print("Enter Customer Last Name: ");
+        String lastName = scanner.nextLine().trim();
+
+        System.out.print("Enter Customer Type (guest/registered): ");
+        String typeStr = scanner.nextLine().trim();
+
         System.out.print("Enter Customer Email: ");
         String email = scanner.nextLine().trim();
 
-        if (customerId.isEmpty() || name.isEmpty() || email.isEmpty()) {
-            System.out.println("[X] Customer ID, Name, and Email cannot be empty");
+        System.out.print("Enter Customer Address: ");
+        String address = scanner.nextLine().trim();
+
+        if (customerId.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || 
+            typeStr.isEmpty() || email.isEmpty() || address.isEmpty()) {
+            System.out.println("[X] All fields must be filled to register a customer.");
             return;
         }
 
-        Customer customer = new Customer(customerId, name, email);
-        storeService.addCustomer(customer);
-        System.out.println("\n--- Registered Customer ---");
-        System.out.println(customer);
+        CustomerType type;
+        try {
+            type = CustomerType.valueOf(typeStr.toLowerCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("[X] Invalid customer type. Please enter 'guest' or 'registered'.");
+            return;
+        }
+
+        try {
+            Customer customer = storeService.provisionCustomer(customerId, firstName, lastName, type, email, address, authToken);
+
+            System.out.println("\n--- Registered Customer ---");
+            System.out.println(customer);
+        } catch (StoreException e) {
+            System.out.println("[X] " + e.getAction() + " failed: " + e.getReason());
+        } catch (Exception e) {
+            System.out.println("[X] Unexpected error while registering customer: " + e.getMessage());
+        }
     }
 
     private static void viewDocumentation() {
