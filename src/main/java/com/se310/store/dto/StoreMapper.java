@@ -13,7 +13,7 @@ import com.se310.store.model.Store;
  */
 public class StoreMapper {
 
-    //TODO: Implement Data Transfer Object for Store entity
+    //TODO: Implement Data Transfer Object for Store entity 
     //TODO: Implement Factory methods for Store DTOs
 
     // Private constructor to prevent instantiation
@@ -91,7 +91,7 @@ public class StoreMapper {
      * @param store Store domain object
      * @return a populated StoreDTO, or null if store is null
      */
-    public static StoreDTO fromStore(Store store) {
+    public static StoreDTO toDTO(Store store) {
         // Store domain object must not be null
         if (store == null) {
             return null;

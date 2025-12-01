@@ -108,7 +108,7 @@ public class UserMapper {
      * @param user User domain object
      * @return a populated UserDTO, or null if user is null
      */
-    public static UserDTO fromUser(User user) {
+    public static UserDTO toDTO(User user) {
         // User domain object must not be null
         if (user == null) {
             return null;

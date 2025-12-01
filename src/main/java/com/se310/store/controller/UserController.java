@@ -3,6 +3,7 @@ package com.se310.store.controller;
 import com.se310.store.dto.UserMapper;
 import com.se310.store.dto.UserMapper.UserDTO;
 import com.se310.store.model.User;
+import com.se310.store.model.UserRole;
 import com.se310.store.service.AuthenticationService;
 import com.se310.store.servlet.BaseServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -54,7 +55,7 @@ public class UserController extends BaseServlet {
                 sendJsonResponse(response, userDTOs);
             } else {
                 // Get specific user
-                User user = authenticationService.getUser(email);
+                User user = authenticationService.getUserByEmail(email);
                 if (user == null) {
                     sendErrorResponse(response, HttpServletResponse.SC_NOT_FOUND, 
                         "User not found: " + email);
@@ -79,7 +80,7 @@ public class UserController extends BaseServlet {
             String email = request.getParameter("email");
             String password = request.getParameter("password");
             String name = request.getParameter("name");
-            String role = request.getParameter("role");
+            String roleStr = request.getParameter("role");
             
             // Basic validation
             if (email == null || password == null || name == null) {
@@ -87,7 +88,19 @@ public class UserController extends BaseServlet {
                     "Missing required parameters: email, password, name");
                 return;
             }
-            
+
+            // Convert role to User role enum
+            UserRole role = null;
+            if (roleStr != null && !roleStr.isBlank()) {
+                try {
+                    role = UserRole.valueOf(roleStr.toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST,
+                            "Invalid role: " + roleStr + ". Allowed: ADMIN, MANAGER, USER");
+                    return;
+                }
+            }
+
             // Create user through authentication service
             User user = authenticationService.registerUser(email, password, name, role);
             UserDTO userDTO = UserMapper.toDTO(user);
