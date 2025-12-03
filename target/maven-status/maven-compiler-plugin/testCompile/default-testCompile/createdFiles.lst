@@ -1,0 +1,12 @@
+com\se300\store\service\integration\ServiceIntegrationTest.class
+com\se300\store\controller\internalmockserver\InternalMockServerTest.class
+com\se300\store\TestExceptionLoggingFilter.class
+com\se300\store\service\unit\ServiceUnitTest.class
+com\se300\store\controller\integration\ControllerIntegrationTest.class
+com\se300\store\EndToEndSmartStoreTest.class
+com\se300\store\controller\externalmockserver\ExternalMockServerTest.class
+com\se300\store\repository\integration\RepositoryIntegrationTest.class
+com\se300\store\repository\unit\RepositoryUnitTest.class
+com\se300\store\controller\unit\ControllerUnitTest.class
+com\se300\store\DriverTest.class
+com\se300\store\model\unit\ModelUnitTest.class

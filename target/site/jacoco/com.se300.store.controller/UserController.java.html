@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">final</a> &gt; <a href="index.source.html" class="el_package">com.se300.store.controller</a> &gt; <span class="el_source">UserController.java</span></div><h1>UserController.java</h1><pre class="source lang-java linenums">package com.se300.store.controller;
+
+import com.se300.store.model.User;
+import com.se300.store.service.AuthenticationService;
+import com.se300.store.servlet.BaseServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+
+/**
+ * REST API controller for User operations
+ * Implements full CRUD operations
+ *
+ * @author Sergey L. Sundukovskiy, Ph.D.
+ * @version 1.0
+ */
+public class UserController extends BaseServlet {
+
+    //TODO: Implement REST CRUD API for User operations
+
+    private final AuthenticationService authenticationService;
+
+<span class="fc" id="L26">    public UserController(AuthenticationService authenticationService) {</span>
+<span class="fc" id="L27">        this.authenticationService = authenticationService;</span>
+<span class="fc" id="L28">    }</span>
+
+    /**
+     * Handle GET requests
+     * - GET /api/v1/users (no parameters) - Get all users
+     * - GET /api/v1/users/{email} - Get user by email
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try{
+            // Extract email 
+<span class="fc" id="L39">            String email = extractResourceId(request);</span>
+            // If the email isn't provided return all the users
+<span class="fc bfc" id="L41" title="All 2 branches covered.">            if(email == null){</span>
+<span class="fc" id="L42">                Collection&lt;User&gt; users = authenticationService.getAllUsers();</span>
+<span class="fc" id="L43">                sendJsonResponse(response, users);</span>
+            // If the email is provided return the specific user
+<span class="fc" id="L45">            }else{</span>
+<span class="fc" id="L46">                User user = authenticationService.getUserByEmail(email);</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">                if(user == null){</span>
+<span class="fc" id="L48">                    sendErrorResponse(response, HttpServletResponse.SC_NOT_FOUND, &quot;User not found&quot;);</span>
+                }else{
+<span class="fc" id="L50">                    sendJsonResponse(response, user);</span>
+                }
+            }
+        // Catches any errors that may come about
+<span class="nc" id="L54">        }catch(Exception e){</span>
+<span class="nc" id="L55">            sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, &quot;Internal server error&quot;);</span>
+<span class="fc" id="L56">        }</span>
+<span class="fc" id="L57">    }</span>
+
+    /**
+     * Handle POST requests - Register new user
+     * POST /api/v1/users?email=xxx&amp;password=xxx&amp;name=xxx
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try{
+            // Get parameters
+<span class="fc" id="L67">            String email = request.getParameter(&quot;email&quot;);</span>
+<span class="fc" id="L68">            String password = request.getParameter(&quot;password&quot;);</span>
+<span class="fc" id="L69">            String name = request.getParameter(&quot;name&quot;);</span>
+            // Validate parameters are provided
+<span class="pc bpc" id="L71" title="2 of 6 branches missed.">            if(email == null || password == null || name == null){</span>
+<span class="fc" id="L72">                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, &quot;Missing required parameters: email, password and name are required&quot;);</span>
+<span class="fc" id="L73">                return;</span>
+            }
+            // Call service to register the user
+<span class="fc" id="L76">            User regUser = authenticationService.registerUser(email, password, name);</span>
+            // Send response that the user has been registered successfully
+<span class="fc" id="L78">            sendJsonResponse(response, regUser, HttpServletResponse.SC_CREATED); // Expecting 201 Created</span>
+        // Catches all exceptions
+<span class="fc" id="L80">        }catch(Exception e){</span>
+<span class="fc" id="L81">            sendErrorResponse(response, HttpServletResponse.SC_CONFLICT, e.getMessage());</span>
+<span class="fc" id="L82">        }</span>
+<span class="fc" id="L83">    }</span>
+
+    /**
+     * Handle PUT requests - Update user information
+     * PUT /api/v1/users/{email}?password=xxx&amp;name=xxx
+     */
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try{
+            // Extract email from URL
+<span class="fc" id="L93">            String email = extractResourceId(request);</span>
+            // Validate email is provided
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">            if(email == null){</span>
+<span class="nc" id="L96">                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, &quot;Email is required in URL path&quot;);</span>
+<span class="nc" id="L97">                return;</span>
+            }
+            // Get parameters from request
+<span class="fc" id="L100">            String password = request.getParameter(&quot;password&quot;);</span>
+<span class="fc" id="L101">            String name = request.getParameter(&quot;name&quot;);</span>
+            // Call service to update the user
+<span class="fc" id="L103">            User updatedUser = authenticationService.updateUser(email, password, name);</span>
+            // Send response that the user has been updated successfully
+<span class="fc" id="L105">            sendJsonResponse(response, updatedUser); // Expecting 200 OK</span>
+        // Catches any errors that may come about
+<span class="nc" id="L107">        }catch(Exception e){</span>
+<span class="nc" id="L108">            sendErrorResponse(response, HttpServletResponse.SC_NOT_FOUND, e.getMessage());</span>
+<span class="fc" id="L109">        }</span>
+<span class="fc" id="L110">    }</span>
+
+    /**
+     * Handle DELETE requests - Delete user
+     * DELETE /api/v1/users/{email}
+     */
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try{
+            // Extract email from URL
+<span class="fc" id="L120">            String email = extractResourceId(request);</span>
+            // Validate email was provided
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">            if(email == null){</span>
+<span class="nc" id="L123">                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, &quot;Email is required in URL path&quot;);</span>
+<span class="nc" id="L124">                return;</span>
+            }
+            // Call service to delete the user
+<span class="fc" id="L127">            authenticationService.deleteUser(email);</span>
+            // Send response that user was deleted successfully
+<span class="fc" id="L129">            response.setStatus(HttpServletResponse.SC_NO_CONTENT); // Expecting 204 No Content</span>
+<span class="fc" id="L130">        }catch(Exception e){</span>
+            // Catches any errors that may come about 
+<span class="fc" id="L132">            sendErrorResponse(response, HttpServletResponse.SC_NOT_FOUND, e.getMessage());</span>
+<span class="fc" id="L133">        }</span>
+<span class="fc" id="L134">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

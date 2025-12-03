@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataManager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">final</a> &gt; <a href="index.source.html" class="el_package">com.se300.store.data</a> &gt; <span class="el_source">DataManager.java</span></div><h1>DataManager.java</h1><pre class="source lang-java linenums">package com.se300.store.data;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * DataManager - Singleton class for managing data storage.
+ * Provides centralized data management for the application.
+ *
+ * @author Sergey L. Sundukovskiy, Ph.D.
+ * @version 1.0
+ */
+public class DataManager {
+
+    //TODO: Implement Fake Persistent Data Storage for the application
+
+    private static volatile DataManager instance;
+
+    //TODO: Use ConcurrentHashMap for thread-safety
+<span class="fc" id="L20">    private final Map&lt;String, Object&gt; dataStore = new ConcurrentHashMap&lt;&gt;();</span>
+
+    // Private constructor to prevent instantiation
+<span class="fc" id="L23">    private DataManager() {</span>
+<span class="fc" id="L24">    }</span>
+
+    public static DataManager getInstance() { //Thread Safe Double-Checked Locking Pattern
+<span class="fc" id="L27">        DataManager result = instance;</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (result == null) {</span>
+<span class="fc" id="L29">            synchronized (DataManager.class) {</span>
+<span class="fc" id="L30">                result = instance;</span>
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">                if (result == null) {</span>
+<span class="fc" id="L32">                    result = new DataManager();</span>
+<span class="fc" id="L33">                    instance = result;</span>
+                }
+<span class="fc" id="L35">            }</span>
+        }
+<span class="fc" id="L37">        return result;</span>
+    }
+
+    /**
+     * Store data with a given key 
+     */
+    public &lt;T&gt; void put(String key, T value) {
+<span class="fc" id="L44">        dataStore.put(key, value);</span>
+<span class="fc" id="L45">    }</span>
+
+    /**
+     * Retrieve data by key
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T&gt; T get(String key) {
+<span class="fc" id="L52">        Object value = dataStore.get(key);</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        if (value != null) {</span>
+<span class="fc" id="L54">            return (T) value;</span>
+        }
+<span class="nc" id="L56">        return null;</span>
+    }
+
+    /**
+     * Check if key exists
+     */
+    public boolean containsKey(String key) {
+<span class="fc" id="L63">        return dataStore.containsKey(key);</span>
+    }
+
+    /**
+     * Remove data by key
+     */
+    public void remove(String key) {
+<span class="nc" id="L70">        dataStore.remove(key);</span>
+<span class="nc" id="L71">    }</span>
+
+    /**
+     * Clear all data
+     */
+    public void clear() {
+<span class="fc" id="L77">        dataStore.clear();</span>
+<span class="fc" id="L78">    }</span>
+
+    /**
+     * Get all keys
+     */
+    public Iterable&lt;String&gt; keys() {
+<span class="nc" id="L84">        return dataStore.keySet();</span>
+    }
+
+    /**
+     * Get the size of the datastore
+     */
+    public int size() {
+<span class="nc" id="L91">        return dataStore.size();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

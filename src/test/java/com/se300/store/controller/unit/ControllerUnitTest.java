@@ -110,7 +110,7 @@ public class ControllerUnitTest {
         .statusCode(201) // Expecting that a new store was created successfully
         .contentType(ContentType.JSON)
         // Assertions
-        .body("storeId", equalTo("lowes"))
+        .body("id", equalTo("lowes"))
         .body("address", equalTo("675 Main St"))
         .body("description", equalTo("Lowes"));
         // Verify method was called once with correct parameters
@@ -138,9 +138,9 @@ public class ControllerUnitTest {
                 .contentType(ContentType.JSON) //  Expecting JSON response
                 .body("size()", equalTo(2)) // Expecting 2 stores
                 // Assertions
-                .body("[0].storeId", equalTo("store1"))
+                .body("[0].id", equalTo("store1"))
                 .body("[0].address", equalTo("160 Main St"))
-                .body("[1].storeId", equalTo("store2"))
+                .body("[1].id", equalTo("store2"))
                 .body("[1].address", equalTo("180 Main St"));
         // Verify service was called exactly once
         verify(storeService, times(1)).getAllStores();
@@ -163,7 +163,7 @@ public class ControllerUnitTest {
                 .statusCode(200) // Expecting success
                 .contentType(ContentType.JSON) // Expecting JSON response
                 // Assertions
-                .body("storeId", equalTo("target"))
+                .body("id", equalTo("target"))
                 .body("address", equalTo("903 Main St"))
                 .body("description", equalTo("Target"));
         // Verify service was called exactly once
@@ -188,7 +188,7 @@ public class ControllerUnitTest {
             .statusCode(200) // Expecting success
             .contentType(ContentType.JSON)
             // Assertions
-            .body("storeId", equalTo("lowes"))
+            .body("id", equalTo("lowes"))
             .body("address", equalTo("675 Poppy St"))
             .body("description", equalTo("Lowes Updated"));
         // Verify service was called exactly once
@@ -330,7 +330,7 @@ public class ControllerUnitTest {
                 .contentType(ContentType.JSON)
                 // Assertions
                 .body("status", equalTo(404))
-                .body("message", equalTo("User not found"))
+                .body("message", equalTo("User not found"));
         // Verify service was called exactly once
         verify(authenticationService, times(1)).getUserByEmail("nonexistent@email.com");
         // Verify no other services were called
@@ -368,7 +368,7 @@ public class ControllerUnitTest {
     @DisplayName("Mock: Delete user - verify service call")
     public void testDeleteUserWithMock() throws Exception {
         // Create mock service to delete user
-        doNothing().when(authenticationService).deleteUser("awoh@email.com");
+        when(authenticationService.deleteUser("awoh@email.com")).thenReturn(true);
         // Make HTTP DELETE request
         given()
         .when()
@@ -385,7 +385,7 @@ public class ControllerUnitTest {
     @DisplayName("Mock: Delete user - user not found")
     public void testDeleteUserNotFoundWithMock() throws Exception {
         // Tell mock to throw runtime exception when there is no user for deletion
-        doThrow(new RuntimeException("User not found")).when(authenticationService).deleteUser("nonexistent@email.com");
+        when(authenticationService.deleteUser("nonexistent@email.com")).thenThrow(new RuntimeException("User not found"));
         // Make HTTP DELETE request
         given()
             .when()

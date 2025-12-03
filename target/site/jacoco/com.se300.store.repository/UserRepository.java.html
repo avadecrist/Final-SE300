@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">final</a> &gt; <a href="index.source.html" class="el_package">com.se300.store.repository</a> &gt; <span class="el_source">UserRepository.java</span></div><h1>UserRepository.java</h1><pre class="source lang-java linenums">package com.se300.store.repository;
+
+import com.se300.store.data.DataManager;
+import com.se300.store.model.User;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+/**
+ * User Repository represents the user data access layer
+ *
+ * @author  Sergey L. Sundukovskiy
+ * @version 1.0
+ * @since   2025-11-06
+ */
+public class UserRepository {
+
+    private static final String USERS_KEY = &quot;users&quot;;
+    private final DataManager dataManager;
+
+<span class="fc" id="L22">    public UserRepository(DataManager dataManager) {</span>
+<span class="fc" id="L23">        this.dataManager = dataManager;</span>
+        // Initialize user storage in DataManager if not exists
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">        if (!dataManager.containsKey(USERS_KEY)) {</span>
+<span class="fc" id="L26">            Map&lt;String, User&gt; users = new HashMap&lt;&gt;();</span>
+            // Add default test users
+<span class="fc" id="L28">            users.put(&quot;admin@store.com&quot;, new User(&quot;admin@store.com&quot;, &quot;admin123&quot;, &quot;Admin User&quot;));</span>
+<span class="fc" id="L29">            users.put(&quot;user@store.com&quot;, new User(&quot;user@store.com&quot;, &quot;user123&quot;, &quot;Regular User&quot;));</span>
+<span class="fc" id="L30">            dataManager.put(USERS_KEY, users);</span>
+        }
+<span class="fc" id="L32">    }</span>
+
+    /**
+     * Find user by email
+     */
+    public Optional&lt;User&gt; findByEmail(String email) {
+<span class="fc" id="L38">        Map&lt;String, User&gt; users = getUsersMap();</span>
+<span class="fc" id="L39">        return Optional.ofNullable(users.get(email));</span>
+    }
+
+    /**
+     * Save or update a user
+     */
+    public void save(User user) {
+<span class="fc" id="L46">        Map&lt;String, User&gt; users = getUsersMap();</span>
+<span class="fc" id="L47">        users.put(user.getEmail(), user);</span>
+<span class="fc" id="L48">        dataManager.put(USERS_KEY, users);</span>
+<span class="fc" id="L49">    }</span>
+
+    /**
+     * Check if user exists by email
+     */
+    public boolean existsByEmail(String email) {
+<span class="fc" id="L55">        Map&lt;String, User&gt; users = getUsersMap();</span>
+<span class="fc" id="L56">        return users.containsKey(email);</span>
+    }
+
+    /**
+     * Delete user by email
+     */
+    public void delete(String email) {
+<span class="fc" id="L63">        Map&lt;String, User&gt; users = getUsersMap();</span>
+<span class="fc" id="L64">        users.remove(email);</span>
+<span class="fc" id="L65">        dataManager.put(USERS_KEY, users);</span>
+<span class="fc" id="L66">    }</span>
+
+    /**
+     * Get all users
+     */
+    public Map&lt;String, User&gt; findAll() {
+<span class="fc" id="L72">        return new HashMap&lt;&gt;(getUsersMap());</span>
+    }
+
+    /**
+     * Helper method to get users map from DataManager
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    private Map&lt;String, User&gt; getUsersMap() {
+<span class="fc" id="L80">        Map&lt;String, User&gt; users = dataManager.get(USERS_KEY);</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (users == null) {</span>
+<span class="fc" id="L82">            users = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L83">            dataManager.put(USERS_KEY, users);</span>
+        }
+<span class="fc" id="L85">        return users;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
