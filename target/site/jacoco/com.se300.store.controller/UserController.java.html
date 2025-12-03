@@ -92,9 +92,9 @@ public class UserController extends BaseServlet {
             // Extract email from URL
 <span class="fc" id="L93">            String email = extractResourceId(request);</span>
             // Validate email is provided
-<span class="pc bpc" id="L95" title="1 of 2 branches missed.">            if(email == null){</span>
-<span class="nc" id="L96">                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, &quot;Email is required in URL path&quot;);</span>
-<span class="nc" id="L97">                return;</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">            if(email == null){</span>
+<span class="fc" id="L96">                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, &quot;Email is required in URL path&quot;);</span>
+<span class="fc" id="L97">                return;</span>
             }
             // Get parameters from request
 <span class="fc" id="L100">            String password = request.getParameter(&quot;password&quot;);</span>
@@ -119,9 +119,9 @@ public class UserController extends BaseServlet {
             // Extract email from URL
 <span class="fc" id="L120">            String email = extractResourceId(request);</span>
             // Validate email was provided
-<span class="pc bpc" id="L122" title="1 of 2 branches missed.">            if(email == null){</span>
-<span class="nc" id="L123">                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, &quot;Email is required in URL path&quot;);</span>
-<span class="nc" id="L124">                return;</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">            if(email == null){</span>
+<span class="fc" id="L123">                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, &quot;Email is required in URL path&quot;);</span>
+<span class="fc" id="L124">                return;</span>
             }
             // Call service to delete the user
 <span class="fc" id="L127">            authenticationService.deleteUser(email);</span>

@@ -51,8 +51,8 @@ public class Store {
      * @param id
      */
     public void setId(String id) {
-<span class="nc" id="L54">        this.id = id;</span>
-<span class="nc" id="L55">    }</span>
+<span class="fc" id="L54">        this.id = id;</span>
+<span class="fc" id="L55">    }</span>
 
     /**
      * Getter method for Store address
@@ -83,8 +83,8 @@ public class Store {
      * @param description
      */
     public void setDescription(String description) {
-<span class="nc" id="L86">        this.description = description;</span>
-<span class="nc" id="L87">    }</span>
+<span class="fc" id="L86">        this.description = description;</span>
+<span class="fc" id="L87">    }</span>
 
     /**
      * Add aisle to the Store. If Aisle already exists in the store throw StoreException
@@ -115,8 +115,8 @@ public class Store {
 
 <span class="fc" id="L116">        Aisle aisle = this.aislesMap.get(aisleNumber);</span>
         //Check to see if Aisle exists in the Store
-<span class="pc bpc" id="L118" title="1 of 2 branches missed.">        if(aisle == null){</span>
-<span class="nc" id="L119">            throw new StoreException(&quot;Get Aisle&quot;, &quot;Aisle Does Not Exist&quot;);</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if(aisle == null){</span>
+<span class="fc" id="L119">            throw new StoreException(&quot;Get Aisle&quot;, &quot;Aisle Does Not Exist&quot;);</span>
         }
 
 <span class="fc" id="L122">        return this.aislesMap.get(aisleNumber);</span>
@@ -144,9 +144,9 @@ public class Store {
     public void addCustomer(Customer customer) throws StoreException {
 
         //Check to see if Customer already exists in the Store
-<span class="nc bnc" id="L147" title="All 2 branches missed.">        if(this.customerMap.putIfAbsent(customer.getId(), customer) != null)</span>
-<span class="nc" id="L148">            throw new StoreException(&quot;Add Customer&quot;, &quot;Customer Already Exists&quot;);</span>
-<span class="nc" id="L149">    }</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">        if(this.customerMap.putIfAbsent(customer.getId(), customer) != null)</span>
+<span class="fc" id="L148">            throw new StoreException(&quot;Add Customer&quot;, &quot;Customer Already Exists&quot;);</span>
+<span class="fc" id="L149">    }</span>
 
     /**
      * Method for keeping local reference of the Device in the Store.
@@ -157,10 +157,10 @@ public class Store {
     public void addDevice(Device device) throws StoreException {
 
         //Check to see if Device already exists in the Store
-<span class="nc bnc" id="L160" title="All 2 branches missed.">        if(this.deviceMap.putIfAbsent(device.getId(), device) != null)</span>
-<span class="nc" id="L161">            throw new StoreException(&quot;Add Device&quot;, &quot;Device Already Exists&quot;);</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        if(this.deviceMap.putIfAbsent(device.getId(), device) != null)</span>
+<span class="fc" id="L161">            throw new StoreException(&quot;Add Device&quot;, &quot;Device Already Exists&quot;);</span>
 
-<span class="nc" id="L163">    }</span>
+<span class="fc" id="L163">    }</span>
 
     /**
      * Method for keeping local reference of the Basket in the Store.
@@ -170,10 +170,10 @@ public class Store {
      */
     public void addBasket(Basket basket) throws StoreException {
         //Check to see if basket already exists in the Store
-<span class="nc bnc" id="L173" title="All 2 branches missed.">        if(this.basketMap.putIfAbsent(basket.getId(), basket) != null)</span>
-<span class="nc" id="L174">            throw new StoreException(&quot;Add Device&quot;, &quot;Device Already Exists&quot;);</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">        if(this.basketMap.putIfAbsent(basket.getId(), basket) != null)</span>
+<span class="fc" id="L174">            throw new StoreException(&quot;Add Device&quot;, &quot;Device Already Exists&quot;);</span>
 
-<span class="nc" id="L176">    }</span>
+<span class="fc" id="L176">    }</span>
 
     /**
      * Method getting Customer by Id
@@ -181,7 +181,7 @@ public class Store {
      * @return
      */
     public Customer getCustomer(String customerId){
-<span class="nc" id="L184">        return this.customerMap.get(customerId);</span>
+<span class="fc" id="L184">        return this.customerMap.get(customerId);</span>
     }
 
     /**
@@ -190,14 +190,14 @@ public class Store {
      */
     public void removeCustomer(Customer customer){
 
-<span class="nc bnc" id="L193" title="All 2 branches missed.">        if(this.customerMap.get(customer.getId()) == null){</span>
-<span class="nc" id="L194">            this.customerMap.remove(customer.getId());</span>
+<span class="fc bfc" id="L193" title="All 2 branches covered.">        if(this.customerMap.get(customer.getId()) == null){</span>
+<span class="fc" id="L194">            this.customerMap.remove(customer.getId());</span>
         }
-<span class="nc" id="L196">    }</span>
+<span class="fc" id="L196">    }</span>
 
     @Override
     public String toString() {
-<span class="nc" id="L200">        return &quot;Store{&quot; +</span>
+<span class="fc" id="L200">        return &quot;Store{&quot; +</span>
                 &quot;id='&quot; + id + '\'' +
                 &quot;, address='&quot; + address + '\'' +
                 &quot;, description='&quot; + description + '\'' +

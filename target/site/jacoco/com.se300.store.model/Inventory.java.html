@@ -71,7 +71,7 @@ public class Inventory {
      * @return
      */
     public int getCapacity() {
-<span class="nc" id="L74">        return capacity;</span>
+<span class="fc" id="L74">        return capacity;</span>
     }
 
     /**
@@ -95,15 +95,15 @@ public class Inventory {
      * @param count
      */
     public void setCount(int count) {
-<span class="nc" id="L98">        this.count = count;</span>
-<span class="nc" id="L99">    }</span>
+<span class="fc" id="L98">        this.count = count;</span>
+<span class="fc" id="L99">    }</span>
 
     /**
      * Getter method for the Product associated with the Inventory item
      * @return
      */
     public String getProductId() {
-<span class="nc" id="L106">        return productId;</span>
+<span class="fc" id="L106">        return productId;</span>
     }
 
     /**
@@ -124,8 +124,8 @@ public class Inventory {
     synchronized public void updateInventory(int count) throws StoreException {
 
         //Check to see if count within proper bounds
-<span class="pc bpc" id="L127" title="2 of 4 branches missed.">        if(count &lt; 0 || (this.count + count) &gt; capacity)</span>
-<span class="nc" id="L128">            throw new StoreException(&quot;Update Inventory&quot;, &quot;Inventory Is Smaller Than O &quot; +</span>
+<span class="pc bpc" id="L127" title="1 of 4 branches missed.">        if(count &lt; 0 || (this.count + count) &gt; capacity)</span>
+<span class="fc" id="L128">            throw new StoreException(&quot;Update Inventory&quot;, &quot;Inventory Is Smaller Than O &quot; +</span>
                     &quot;or Larger Than Shelf Capacity&quot;);
 
 <span class="fc" id="L131">        this.count = this.count + count;</span>
@@ -150,7 +150,7 @@ public class Inventory {
 
     @Override
     public String toString() {
-<span class="nc" id="L153">        return &quot;Inventory{&quot; +</span>
+<span class="fc" id="L153">        return &quot;Inventory{&quot; +</span>
                 &quot;id='&quot; + id + '\'' +
                 &quot;, inventoryLocation=&quot; + inventoryLocation +
                 &quot;, capacity=&quot; + capacity +

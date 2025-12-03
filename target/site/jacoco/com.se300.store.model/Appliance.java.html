@@ -16,8 +16,8 @@ public class Appliance extends Device{
      * @param type
      */
     public Appliance(String id, String name, StoreLocation storeLocation, String type) {
-<span class="nc" id="L19">        super(id, name, storeLocation, type);</span>
-<span class="nc" id="L20">    }</span>
+<span class="fc" id="L19">        super(id, name, storeLocation, type);</span>
+<span class="fc" id="L20">    }</span>
 
     /**
      * Appliance specific event processing
@@ -25,8 +25,8 @@ public class Appliance extends Device{
      */
     @Override
     public void processEvent(String event) {
-<span class="nc" id="L28">        System.out.println(&quot;Processing Event : &quot; + event);</span>
-<span class="nc" id="L29">    }</span>
+<span class="fc" id="L28">        System.out.println(&quot;Processing Event : &quot; + event);</span>
+<span class="fc" id="L29">    }</span>
 
     /**
      * This is a placeholder for the processing commands
@@ -34,7 +34,7 @@ public class Appliance extends Device{
      * @param command
      */
     public void processCommand(String command){
-<span class="nc" id="L37">        System.out.println(&quot;&lt;&lt;&lt; &quot; + &quot;Processing Command : &quot; + command);</span>
-<span class="nc" id="L38">    }</span>
+<span class="fc" id="L37">        System.out.println(&quot;&lt;&lt;&lt; &quot; + &quot;Processing Command : &quot; + command);</span>
+<span class="fc" id="L38">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -94,9 +94,9 @@ public class StoreController extends BaseServlet {
             // Extract store ID from URL
 <span class="fc" id="L95">            String storeId = extractResourceId(request);</span>
             // Validate store ID is provided 
-<span class="pc bpc" id="L97" title="1 of 2 branches missed.">            if(storeId == null){</span>
-<span class="nc" id="L98">                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, &quot;Store ID is required in URL&quot;);</span>
-<span class="nc" id="L99">                return;</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">            if(storeId == null){</span>
+<span class="fc" id="L98">                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, &quot;Store ID is required in URL&quot;);</span>
+<span class="fc" id="L99">                return;</span>
             }
             // Get parameters from request
 <span class="fc" id="L102">            String description = request.getParameter(&quot;description&quot;);</span>
@@ -124,9 +124,9 @@ public class StoreController extends BaseServlet {
             // Extract store ID from URL
 <span class="fc" id="L125">            String storeId = extractResourceId(request);</span>
             // Validate store ID is provided
-<span class="pc bpc" id="L127" title="1 of 2 branches missed.">            if(storeId == null){</span>
-<span class="nc" id="L128">                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, &quot;Store ID is required in URL path&quot;);</span>
-<span class="nc" id="L129">                return;</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">            if(storeId == null){</span>
+<span class="fc" id="L128">                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, &quot;Store ID is required in URL path&quot;);</span>
+<span class="fc" id="L129">                return;</span>
             }
             // Call service to delete store 
 <span class="fc" id="L132">            storeService.deleteStore(storeId);</span>

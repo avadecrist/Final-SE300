@@ -50,10 +50,10 @@ public class DataManager {
     @SuppressWarnings(&quot;unchecked&quot;)
     public &lt;T&gt; T get(String key) {
 <span class="fc" id="L52">        Object value = dataStore.get(key);</span>
-<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        if (value != null) {</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (value != null) {</span>
 <span class="fc" id="L54">            return (T) value;</span>
         }
-<span class="nc" id="L56">        return null;</span>
+<span class="fc" id="L56">        return null;</span>
     }
 
     /**

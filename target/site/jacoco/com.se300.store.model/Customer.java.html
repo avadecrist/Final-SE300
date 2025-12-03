@@ -33,21 +33,21 @@ public class Customer {
      * @param accountAddress
      */
     public Customer(String id, String firstName, String lastName, CustomerType type, String email,
-<span class="nc" id="L36">                    String accountAddress) {</span>
-<span class="nc" id="L37">        this.id = id;</span>
-<span class="nc" id="L38">        this.firstName = firstName;</span>
-<span class="nc" id="L39">        this.lastName = lastName;</span>
-<span class="nc" id="L40">        this.type = type;</span>
-<span class="nc" id="L41">        this.email = email;</span>
-<span class="nc" id="L42">        this.accountAddress = accountAddress;</span>
-<span class="nc" id="L43">    }</span>
+<span class="fc" id="L36">                    String accountAddress) {</span>
+<span class="fc" id="L37">        this.id = id;</span>
+<span class="fc" id="L38">        this.firstName = firstName;</span>
+<span class="fc" id="L39">        this.lastName = lastName;</span>
+<span class="fc" id="L40">        this.type = type;</span>
+<span class="fc" id="L41">        this.email = email;</span>
+<span class="fc" id="L42">        this.accountAddress = accountAddress;</span>
+<span class="fc" id="L43">    }</span>
 
     /**
      * Getter method for Customer id
      * @return
      */
     public String getId() {
-<span class="nc" id="L50">        return id;</span>
+<span class="fc" id="L50">        return id;</span>
     }
 
     /**
@@ -95,7 +95,7 @@ public class Customer {
      * @return
      */
     public CustomerType getType() {
-<span class="nc" id="L98">        return type;</span>
+<span class="fc" id="L98">        return type;</span>
     }
 
     /**
@@ -159,7 +159,7 @@ public class Customer {
      * @return
      */
     public StoreLocation getStoreLocation() {
-<span class="nc" id="L162">        return storeLocation;</span>
+<span class="fc" id="L162">        return storeLocation;</span>
     }
 
     /**
@@ -167,8 +167,8 @@ public class Customer {
      * @param storeLocation
      */
     public void setStoreLocation(StoreLocation storeLocation) {
-<span class="nc" id="L170">        this.storeLocation = storeLocation;</span>
-<span class="nc" id="L171">    }</span>
+<span class="fc" id="L170">        this.storeLocation = storeLocation;</span>
+<span class="fc" id="L171">    }</span>
 
     /**
      * Method retrieving timestamp when Customer was last seen
@@ -183,15 +183,15 @@ public class Customer {
      * @return
      */
     public void setLastSeen(Date lastSeen) {
-<span class="nc" id="L186">        this.lastSeen = lastSeen;</span>
-<span class="nc" id="L187">    }</span>
+<span class="fc" id="L186">        this.lastSeen = lastSeen;</span>
+<span class="fc" id="L187">    }</span>
 
     /**
      * Method for retrieving Customer's Basket
      * @return
      */
     public Basket getBasket() {
-<span class="nc" id="L194">        return basket;</span>
+<span class="fc" id="L194">        return basket;</span>
     }
 
     /**
@@ -199,12 +199,12 @@ public class Customer {
      * @param basket
      */
     public void assignBasket(Basket basket) {
-<span class="nc" id="L202">        this.basket = basket;</span>
-<span class="nc" id="L203">    }</span>
+<span class="fc" id="L202">        this.basket = basket;</span>
+<span class="fc" id="L203">    }</span>
 
     @Override
     public String toString() {
-<span class="nc" id="L207">        return &quot;Customer{&quot; +</span>
+<span class="fc" id="L207">        return &quot;Customer{&quot; +</span>
                 &quot;id='&quot; + id + '\'' +
                 &quot;, firstName='&quot; + firstName + '\'' +
                 &quot;, lastName='&quot; + lastName + '\'' +
