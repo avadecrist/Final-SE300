@@ -1,4 +1,4 @@
-package com.se300.store.model;
+package com.se310.store.model;
 
 import java.util.*;
 
@@ -115,7 +115,6 @@ public class Store {
 
         Aisle aisle = this.aislesMap.get(aisleNumber);
         //Check to see if Aisle exists in the Store
-
         if(aisle == null){
             throw new StoreException("Get Aisle", "Aisle Does Not Exist");
         }

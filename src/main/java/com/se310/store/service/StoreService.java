@@ -1,8 +1,10 @@
-package com.se300.store.service;
+package com.se310.store.service;
 
-import com.se300.store.model.*;
-import com.se300.store.repository.StoreRepository;
+import com.se310.store.data.DataManager;
+import com.se310.store.model.*;
+import com.se310.store.repository.*;
 
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -14,12 +16,10 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @since 2025-09-25
  **/
-
-/*  Note: throw exceptions for aisle == null has been commented out, due to getAisle checking for nullity,
-        causing the code to not being able to be covered in testing
-*/     
-
 public class StoreService {
+
+    //TODO: Implement management of Store related information in the persistent storage
+    //TODO: Implement Service Layer Pattern
 
     private static final Map<String, Store> storeMap;
     private static final Map<String, Customer> customerMap;
@@ -39,15 +39,24 @@ public class StoreService {
     }
 
     private final StoreRepository storeRepository;
+    private final DataManager dataManager;
 
     public StoreService() {
         this.storeRepository = null;
+        this.dataManager = DataManager.getInstance();
     }
 
     public StoreService(StoreRepository storeRepository) {
         this.storeRepository = storeRepository;
-        // StoreRepository is available for future persistence needs
-        // Currently using static maps for in-memory storage
+        this.dataManager = DataManager.getInstance();
+        this.loadAllDataFromDatabase();
+    }
+
+    /**
+     * Load all data from database into memory maps
+     */
+    private void loadAllDataFromDatabase() {
+        //TODO: Load store data into the maps
     }
 
     /**
@@ -73,10 +82,7 @@ public class StoreService {
             throw new StoreException("Provision Store", "Store Already Exists");
         }
 
-        // Also save to repository if available
-        if (storeRepository != null) {
-            storeRepository.save(store);
-        }
+        //TODO: Persist Store to database
 
         return store;
     }
@@ -116,10 +122,9 @@ public class StoreService {
         } else {
             //Check to see if Aisle already exists
             aisle = store.getAisle(aisleNumber);
-            // Checked elsewhere
-            // if (aisle == null) {
-            //     throw new StoreException("Show Aisle", "Aisle Does Not Exist");
-            // }
+            if (aisle == null) {
+                throw new StoreException("Show Aisle", "Aisle Does Not Exist");
+            }
         }
         return aisle;
     }
@@ -136,22 +141,18 @@ public class StoreService {
         } else {
             Aisle aisle = store.getAisle(aisleNumber);
             //Check to see if Aisle exists
+            if (aisle == null){
+                throw new StoreException("Provision Shelf", "Aisle Does Not Exist");
+            } else {
+                shelf = aisle.getShelf(shelfId);
+                //Check to see if Shelf exists
+                if(shelf != null){
+                    throw new StoreException("Provision Shelf", "Shelf Already Exists");
+                }
 
-            // Commented out since aisle and shelf are tested for null elsewhere
-            // if (aisle == null){
-            //     throw new StoreException("Provision Shelf", "Aisle Does Not Exist");
-            // } else {
-            //     shelf = aisle.getShelf(shelfId);
-            //     //Check to see if Shelf exists
-            //     if(shelf != null){
-            //         throw new StoreException("Provision Shelf", "Shelf Already Exists");
-            //     }
-
-            //     //Add Shelf to the Aisle
-            //     shelf = aisle.addShelf(shelfId, name, level, description, temperature);
-            // }
-            shelf = aisle.getShelf(shelfId);
-            shelf = aisle.addShelf(shelfId, name, level, description, temperature);
+                //Add Shelf to the Aisle
+                shelf = aisle.addShelf(shelfId, name, level, description, temperature);
+            }
         }
         return shelf;
     }
@@ -166,15 +167,15 @@ public class StoreService {
         } else {
             //Check to see if Aisle exists
             Aisle aisle = store.getAisle(aisleNumber);
-            // if (aisle == null){
-            //     throw new StoreException("Show Shelf", "Aisle Does Not Exist");
-            // } else {
+            if (aisle == null){
+                throw new StoreException("Show Shelf", "Aisle Does Not Exist");
+            } else {
                 //Check to see if Shelf exists
                 shelf = aisle.getShelf(shelfId);
                 if(shelf == null){
                     throw new StoreException("Show Shelf", "Shelf Does Not Exist");
                 }
-            // }
+            }
         }
         return shelf;
     }
@@ -192,9 +193,9 @@ public class StoreService {
         } else {
             //Check to see if Aisle exists
             Aisle aisle = store.getAisle(aisleNumber);
-            // if (aisle == null){
-            //     throw new StoreException("Provision Inventory", "Aisle Does Not Exist");
-            // } else {
+            if (aisle == null){
+                throw new StoreException("Provision Inventory", "Aisle Does Not Exist");
+            } else {
                 //Check to see if Shelf exists
                 Shelf shelf = aisle.getShelf(shelfId);
                 if(shelf == null){
@@ -218,7 +219,14 @@ public class StoreService {
                 //Add Inventory to the Store
                 store.addInventory(inventory);
 
-            // }
+                // Persist to database
+                try {
+                    dataManager.saveInventory(inventoryId, storeId, aisleNumber, shelfId,
+                                             capacity, count, productId, type.name());
+                } catch (Exception e) {
+                    throw new StoreException("Provision Inventory", "Failed to save inventory to database: " + e.getMessage());
+                }
+            }
         }
 
         return inventory;
@@ -242,6 +250,8 @@ public class StoreService {
         //Update Inventory count
         inventory.updateInventory(count);
 
+        //TODO: Persist inventory update to database
+
         return inventory;
     }
 
@@ -252,6 +262,8 @@ public class StoreService {
         //Check to see if Product already exists
         if (productMap.putIfAbsent(productId, product) != null)
             throw new StoreException("Provision Product", "Product Already Exists");
+
+        //TODO: Persist to database
 
         return product;
     }
@@ -271,12 +283,10 @@ public class StoreService {
 
         Customer customer = new Customer(customerId, firstName, lastName, type, email, address);
         //Check to see if the Customer already exists
+        if(customerMap.putIfAbsent(customerId, customer) != null)
+            throw new StoreException("Provision Customer", "Customer Already Exists");
 
-        // This is tested in Store class, commented out
-        // if(customerMap.putIfAbsent(customerId, customer) != null) {
-        //     //throw new StoreException("Provision Customer", "Customer Already Exists");
-        // }
-        customerMap.putIfAbsent(customerId, customer);
+        //TODO: Persist to database
 
         return customer;
     }
@@ -292,17 +302,15 @@ public class StoreService {
         } else {
             //Check to see if Aisle exists
             Aisle aisle = store.getAisle(aisleNumber);
-
-            // Aisle is checked for nullity elsewhere
-            // if (aisle == null){
-            //     throw new StoreException("Update Customer", "Aisle Does Not Exist");
-            // } else {
+            if (aisle == null){
+                throw new StoreException("Update Customer", "Aisle Does Not Exist");
+            } else {
                 //Check to see if Customer exists
                 customer = customerMap.get(customerId);
                 if(customer == null){
                     throw new StoreException("Update Customer", "Customer Does Not Exist");
                 }
-            // }
+            }
         }
 
         //Check to see if Customer changing Stores
@@ -333,6 +341,8 @@ public class StoreService {
             customer.setLastSeen(new Date(System.currentTimeMillis()));
         }
 
+        //TODO: Persist customer location update to database
+
         return customer;
     }
 
@@ -352,6 +362,8 @@ public class StoreService {
         //Check if Basket already exists
         if(basketMap.putIfAbsent(basketId, basket) != null)
             throw new StoreException("Provision Basket", "Basket Already Exists");
+
+        //TODO: Persist Basket to database
 
         return basket;
     }
@@ -484,9 +496,9 @@ public class StoreService {
 
             //Check to see if aisle exists
             Aisle aisle = store.getAisle(aisleNumber);
-            // if (aisle == null){
-            //     throw new StoreException("Provision Device", "Aisle Does Not Exist");
-            // } else {
+            if (aisle == null){
+                throw new StoreException("Provision Device", "Aisle Does Not Exist");
+            } else {
                 storeLocation = new StoreLocation(storeId, aisleNumber);
 
                 //Check to see if device already exists
@@ -512,7 +524,8 @@ public class StoreService {
                 //Add device to the local store
                 store.addDevice(device);
 
-            // }
+                //TODO: Persist Device to database
+            }
         }
         return device;
     }
@@ -572,10 +585,7 @@ public class StoreService {
             store.setAddress(address);
         }
 
-        // Also update in repository if available
-        if (storeRepository != null) {
-            storeRepository.save(store);
-        }
+        //TODO: Update Store data in database
 
         return store;
     }
@@ -589,9 +599,6 @@ public class StoreService {
             throw new StoreException("Delete Store", "Store Does Not Exist");
         }
 
-        // Also delete from repository if available
-        if (storeRepository != null) {
-            storeRepository.delete(storeId);
-        }
+        //TODO: Delete data from database
     }
 }
