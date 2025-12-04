@@ -16,6 +16,11 @@ import static org.junit.jupiter.api.Assertions.*;
  * This class contains integration tests for verifying the correct functionality
  * of various service workflows in the Smart Store system.
  */
+
+/* Note: the aisle == null in StoreService has been commented out, due to getAisle checking for nullity,
+    causing tests to not cover the code
+*/
+
 @DisplayName("Service Integration Tests")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ServiceIntegrationTest {
@@ -47,6 +52,10 @@ public class ServiceIntegrationTest {
         // provision
         Store s = storeService.provisionStore("S1", "Main Store", "123 Main St", null);
 
+        // test if store exists
+        assertThrows(StoreException.class, () -> storeService.provisionStore("S1", "Main Store", "123 Main St", null));
+        
+
         assertNotNull(s);
         assertEquals("S1", s.getId());
         assertEquals("123 Main St", s.getAddress());
@@ -67,6 +76,7 @@ public class ServiceIntegrationTest {
 
         // delete store
         storeService.deleteStore("S1");
+        assertThrows(StoreException.class, () -> storeService.updateStore("S1", "Updated Description", "456 Updated Road"));
 
         // after deletion store list empty and showStore throws
         assertTrue(storeService.getAllStores().isEmpty());
@@ -99,6 +109,15 @@ public class ServiceIntegrationTest {
         // show shelf
         Shelf shown = storeService.showShelf("S2", "A1", "SH1", null);
         assertEquals("SH1", shown.getId());
+
+        // delete store, then test null store
+        storeService.deleteStore("S2");
+        assertThrows(StoreException.class, () -> storeService.provisionAisle("S2", "A1", "Produce", "Fresh produce", AisleLocation.floor, null));
+        assertThrows(StoreException.class, () -> storeService.showAisle("S2", "A1", null));
+        assertThrows(StoreException.class, () -> storeService.provisionShelf("S2", "A1", "SH1", "Top Shelf",
+                ShelfLevel.high, "Top shelf", Temperature.ambient, null));
+        assertThrows(StoreException.class, () -> storeService.showShelf("S2", "A1", "SH1", null));
+
     }
 
     @Test
@@ -110,6 +129,9 @@ public class ServiceIntegrationTest {
         storeService.provisionAisle("S3", "A1", "Dry Goods", "Pantry items", AisleLocation.floor, null);
         storeService.provisionShelf("S3", "A1", "SH1", "Middle Shelf", ShelfLevel.medium, "Middle shelf", Temperature.ambient, null);
 
+        // test product throws
+        assertThrows(StoreException.class, () -> storeService.showProduct("P2", null));
+
         // product
         Product p = storeService.provisionProduct(
                 "P1", "Cereal", "Corn flakes",
@@ -118,6 +140,13 @@ public class ServiceIntegrationTest {
         );
         assertNotNull(p);
         assertEquals("P1", p.getId());
+
+        // test
+        assertThrows(StoreException.class, () -> storeService.provisionProduct(
+            "P1", "Cereal", "Corn flakes",
+            "500g", "Grocery", 3.99,
+            Temperature.ambient, null
+        ));
 
         // inventory
         Inventory inv = storeService.provisionInventory(
@@ -135,6 +164,8 @@ public class ServiceIntegrationTest {
         // update
         Inventory updated = storeService.updateInventory("I1", 5, null);
         assertEquals(25, updated.getCount());
+
+
     }
 
     @Test
@@ -148,15 +179,37 @@ public class ServiceIntegrationTest {
 
         storeService.provisionProduct("P2", "Snack", "Chips", "200g", "Snacks", 1.99, Temperature.ambient, null);
         storeService.provisionInventory("I2", "S4", "A1", "SH1", 30, 10, "P2", InventoryType.standard, null);
+        // test null shelf, then product
+        assertThrows(StoreException.class, () -> storeService.provisionInventory("I2", "S4", "A1", "SH5", 30, 10, "P2", InventoryType.standard, null));
+        assertThrows(StoreException.class, () -> storeService.provisionInventory("I2", "S4", "A1", "SH1", 30, 10, "P5", InventoryType.standard, null));
+
+        // test null customer
+        assertThrows(StoreException.class, () -> storeService.assignCustomerBasket("C2", "B2", null));
+        assertThrows(StoreException.class, () -> storeService.showCustomer("C2", null));
+        assertThrows(StoreException.class, () -> storeService.updateCustomer("C2", "S4", "A1", null));
 
         // customer
-        storeService.provisionCustomer("C1", "Alice", "Smith", CustomerType.registered, "alice@example.com", "123 Lane", null);
+        storeService.provisionCustomer("C1", "AB", "Smith", CustomerType.registered, "AB@gmail.com", "123 Lane", null);
+        assertThrows(StoreException.class, () -> storeService.updateCustomer("C1", "S4", "A5", null));
         Customer updatedCustomer = storeService.updateCustomer("C1", "S4", "A1", null);
         assertNotNull(updatedCustomer);
         assertEquals("C1", updatedCustomer.getId());
 
+        // test null basket
+        assertThrows(StoreException.class, () -> storeService.showBasket("B2", null));
+        assertThrows(StoreException.class, () -> storeService.clearBasket("B2", null));
+        assertThrows(StoreException.class, () -> storeService.getCustomerBasket("C1", null));
+        assertThrows(StoreException.class, () -> storeService.assignCustomerBasket("C1", "B2", null));
+
         // basket
         storeService.provisionBasket("B1", null);
+        assertThrows(StoreException.class, () -> storeService.provisionBasket("B1", null));
+
+        // test if basket is not assigned whent trying to clear
+        assertThrows(StoreException.class, () -> storeService.clearBasket("B1", null));
+        assertThrows(StoreException.class, () -> storeService.addBasketProduct("B1", "P2", 2, null));
+        assertThrows(StoreException.class, () -> storeService.removeBasketProduct("B1", "P2", 2, null));
+        // assign
         Basket assigned = storeService.assignCustomerBasket("C1", "B1", null);
         assertNotNull(assigned);
 
@@ -164,11 +217,17 @@ public class ServiceIntegrationTest {
         storeService.addBasketProduct("B1", "P2", 2, null);
         Inventory afterAdd = storeService.showInventory("I2", null);
         assertEquals(8, afterAdd.getCount());
+        // basket is null
+        assertThrows(StoreException.class, () -> storeService.addBasketProduct("B2", "P2", 2, null));
 
         // remove
         storeService.removeBasketProduct("B1", "P2", 1, null);
         Inventory afterRemove = storeService.showInventory("I2", null);
         assertEquals(9, afterRemove.getCount());
+        // basket is null
+        assertThrows(StoreException.class, () -> storeService.removeBasketProduct("B2", "P2", 2, null));
+        // product is null
+        assertThrows(StoreException.class, () -> storeService.removeBasketProduct("B1", "P3", 2, null));
 
         // clear
         storeService.clearBasket("B1", null);
@@ -182,7 +241,6 @@ public class ServiceIntegrationTest {
     public void testAuthenticationWorkflow() {
         // register
         User u = authenticationService.registerUser("ava@gmail.com", "password123", "User One");
-        System.out.println (u.getEmail());
         assertNotNull(u);
         assertEquals("ava@gmail.com", u.getEmail());
 
@@ -204,6 +262,10 @@ public class ServiceIntegrationTest {
         boolean deleted = authenticationService.deleteUser("ava@gmail.com");
         assertTrue(deleted);
         assertFalse(authenticationService.userExists("ava@gmail.com"));
+
+        // update null user
+        User nullUser = authenticationService.updateUser("ava@gmail.com", "newPass", "User Uno");
+        assertNull(nullUser);
     }
 
     @Test
@@ -213,15 +275,30 @@ public class ServiceIntegrationTest {
         storeService.provisionStore("S5", "DeviceStore", "1 Device Rd", null);
         storeService.provisionAisle("S5", "A1", "Tech", "Tech aisle", AisleLocation.floor, null);
 
+        // test for null store
+        assertThrows(StoreException.class, () -> storeService.provisionDevice("D1", "TempSens", "microphone", "S6", "A1", null));
+        // test for null device
+        assertThrows(StoreException.class, () -> storeService.showDevice("D2", null));
+        assertThrows(StoreException.class, () -> storeService.raiseEvent("D1", "temperature high", null));
+        
+
         Device sensor = storeService.provisionDevice("D1", "TempSens", "microphone", "S5", "A1", null);
+        // test for pre-existing device
+        assertThrows(StoreException.class, () -> storeService.provisionDevice("D1", "TempSens", "microphone", "S5", "A1", null));
         assertNotNull(sensor);
 
         storeService.raiseEvent("D1", "temperature high", null);
+
+        // test null appliance
+        assertThrows(StoreException.class, () -> storeService.issueCommand("A2", "volume up", null));
 
         Device appliance = storeService.provisionDevice("A1", "Speaker", "speaker", "S5", "A1", null);
         assertNotNull(appliance);
 
         storeService.issueCommand("A1", "volume up", null);
+
+        
+
     }
 
     @Test

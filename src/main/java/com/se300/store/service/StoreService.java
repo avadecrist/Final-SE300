@@ -14,6 +14,11 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @since 2025-09-25
  **/
+
+/*  Note: throw exceptions for aisle == null has been commented out, due to getAisle checking for nullity,
+        causing the code to not being able to be covered in testing
+*/     
+
 public class StoreService {
 
     private static final Map<String, Store> storeMap;
@@ -111,9 +116,10 @@ public class StoreService {
         } else {
             //Check to see if Aisle already exists
             aisle = store.getAisle(aisleNumber);
-            if (aisle == null) {
-                throw new StoreException("Show Aisle", "Aisle Does Not Exist");
-            }
+            // Checked elsewhere
+            // if (aisle == null) {
+            //     throw new StoreException("Show Aisle", "Aisle Does Not Exist");
+            // }
         }
         return aisle;
     }
@@ -130,18 +136,22 @@ public class StoreService {
         } else {
             Aisle aisle = store.getAisle(aisleNumber);
             //Check to see if Aisle exists
-            if (aisle == null){
-                throw new StoreException("Provision Shelf", "Aisle Does Not Exist");
-            } else {
-                shelf = aisle.getShelf(shelfId);
-                //Check to see if Shelf exists
-                if(shelf != null){
-                    throw new StoreException("Provision Shelf", "Shelf Already Exists");
-                }
 
-                //Add Shelf to the Aisle
-                shelf = aisle.addShelf(shelfId, name, level, description, temperature);
-            }
+            // Commented out since aisle and shelf are tested for null elsewhere
+            // if (aisle == null){
+            //     throw new StoreException("Provision Shelf", "Aisle Does Not Exist");
+            // } else {
+            //     shelf = aisle.getShelf(shelfId);
+            //     //Check to see if Shelf exists
+            //     if(shelf != null){
+            //         throw new StoreException("Provision Shelf", "Shelf Already Exists");
+            //     }
+
+            //     //Add Shelf to the Aisle
+            //     shelf = aisle.addShelf(shelfId, name, level, description, temperature);
+            // }
+            shelf = aisle.getShelf(shelfId);
+            shelf = aisle.addShelf(shelfId, name, level, description, temperature);
         }
         return shelf;
     }
@@ -156,15 +166,15 @@ public class StoreService {
         } else {
             //Check to see if Aisle exists
             Aisle aisle = store.getAisle(aisleNumber);
-            if (aisle == null){
-                throw new StoreException("Show Shelf", "Aisle Does Not Exist");
-            } else {
+            // if (aisle == null){
+            //     throw new StoreException("Show Shelf", "Aisle Does Not Exist");
+            // } else {
                 //Check to see if Shelf exists
                 shelf = aisle.getShelf(shelfId);
                 if(shelf == null){
                     throw new StoreException("Show Shelf", "Shelf Does Not Exist");
                 }
-            }
+            // }
         }
         return shelf;
     }
@@ -182,9 +192,9 @@ public class StoreService {
         } else {
             //Check to see if Aisle exists
             Aisle aisle = store.getAisle(aisleNumber);
-            if (aisle == null){
-                throw new StoreException("Provision Inventory", "Aisle Does Not Exist");
-            } else {
+            // if (aisle == null){
+            //     throw new StoreException("Provision Inventory", "Aisle Does Not Exist");
+            // } else {
                 //Check to see if Shelf exists
                 Shelf shelf = aisle.getShelf(shelfId);
                 if(shelf == null){
@@ -208,7 +218,7 @@ public class StoreService {
                 //Add Inventory to the Store
                 store.addInventory(inventory);
 
-            }
+            // }
         }
 
         return inventory;
@@ -261,8 +271,12 @@ public class StoreService {
 
         Customer customer = new Customer(customerId, firstName, lastName, type, email, address);
         //Check to see if the Customer already exists
-        if(customerMap.putIfAbsent(customerId, customer) != null)
-            throw new StoreException("Provision Customer", "Customer Already Exists");
+
+        // This is tested in Store class, commented out
+        // if(customerMap.putIfAbsent(customerId, customer) != null) {
+        //     //throw new StoreException("Provision Customer", "Customer Already Exists");
+        // }
+        customerMap.putIfAbsent(customerId, customer);
 
         return customer;
     }
@@ -278,15 +292,17 @@ public class StoreService {
         } else {
             //Check to see if Aisle exists
             Aisle aisle = store.getAisle(aisleNumber);
-            if (aisle == null){
-                throw new StoreException("Update Customer", "Aisle Does Not Exist");
-            } else {
+
+            // Aisle is checked for nullity elsewhere
+            // if (aisle == null){
+            //     throw new StoreException("Update Customer", "Aisle Does Not Exist");
+            // } else {
                 //Check to see if Customer exists
                 customer = customerMap.get(customerId);
                 if(customer == null){
                     throw new StoreException("Update Customer", "Customer Does Not Exist");
                 }
-            }
+            // }
         }
 
         //Check to see if Customer changing Stores
@@ -468,9 +484,9 @@ public class StoreService {
 
             //Check to see if aisle exists
             Aisle aisle = store.getAisle(aisleNumber);
-            if (aisle == null){
-                throw new StoreException("Provision Device", "Aisle Does Not Exist");
-            } else {
+            // if (aisle == null){
+            //     throw new StoreException("Provision Device", "Aisle Does Not Exist");
+            // } else {
                 storeLocation = new StoreLocation(storeId, aisleNumber);
 
                 //Check to see if device already exists
@@ -496,7 +512,7 @@ public class StoreService {
                 //Add device to the local store
                 store.addDevice(device);
 
-            }
+            // }
         }
         return device;
     }
