@@ -28,7 +28,7 @@ public class UserRepository {
             users.put("admin@store.com", new User("admin@store.com", "admin123", "Admin User"));
             users.put("user@store.com", new User("user@store.com", "user123", "Regular User"));
             dataManager.put(USERS_KEY, users);
-        }
+        } 
     }
 
     /**
