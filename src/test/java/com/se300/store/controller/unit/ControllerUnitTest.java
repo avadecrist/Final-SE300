@@ -110,7 +110,7 @@ public class ControllerUnitTest {
         .statusCode(201) // Expecting that a new store was created successfully
         .contentType(ContentType.JSON)
         // Assertions
-        .body("storeId", equalTo("lowes"))
+        .body("id", equalTo("lowes"))
         .body("address", equalTo("675 Main St"))
         .body("description", equalTo("Lowes"));
         // Verify method was called once with correct parameters
@@ -138,9 +138,9 @@ public class ControllerUnitTest {
                 .contentType(ContentType.JSON) //  Expecting JSON response
                 .body("size()", equalTo(2)) // Expecting 2 stores
                 // Assertions
-                .body("[0].storeId", equalTo("store1"))
+                .body("[0].id", equalTo("store1"))
                 .body("[0].address", equalTo("160 Main St"))
-                .body("[1].storeId", equalTo("store2"))
+                .body("[1].id", equalTo("store2"))
                 .body("[1].address", equalTo("180 Main St"));
         // Verify service was called exactly once
         verify(storeService, times(1)).getAllStores();
@@ -163,7 +163,7 @@ public class ControllerUnitTest {
                 .statusCode(200) // Expecting success
                 .contentType(ContentType.JSON) // Expecting JSON response
                 // Assertions
-                .body("storeId", equalTo("target"))
+                .body("id", equalTo("target"))
                 .body("address", equalTo("903 Main St"))
                 .body("description", equalTo("Target"));
         // Verify service was called exactly once
@@ -188,7 +188,7 @@ public class ControllerUnitTest {
             .statusCode(200) // Expecting success
             .contentType(ContentType.JSON)
             // Assertions
-            .body("storeId", equalTo("lowes"))
+            .body("id", equalTo("lowes"))
             .body("address", equalTo("675 Poppy St"))
             .body("description", equalTo("Lowes Updated"));
         // Verify service was called exactly once
@@ -330,7 +330,7 @@ public class ControllerUnitTest {
                 .contentType(ContentType.JSON)
                 // Assertions
                 .body("status", equalTo(404))
-                .body("message", equalTo("User not found"))
+                .body("message", equalTo("User not found"));
         // Verify service was called exactly once
         verify(authenticationService, times(1)).getUserByEmail("nonexistent@email.com");
         // Verify no other services were called
@@ -368,7 +368,7 @@ public class ControllerUnitTest {
     @DisplayName("Mock: Delete user - verify service call")
     public void testDeleteUserWithMock() throws Exception {
         // Create mock service to delete user
-        doNothing().when(authenticationService).deleteUser("awoh@email.com");
+        when(authenticationService.deleteUser("awoh@email.com")).thenReturn(true);
         // Make HTTP DELETE request
         given()
         .when()
@@ -385,7 +385,7 @@ public class ControllerUnitTest {
     @DisplayName("Mock: Delete user - user not found")
     public void testDeleteUserNotFoundWithMock() throws Exception {
         // Tell mock to throw runtime exception when there is no user for deletion
-        doThrow(new RuntimeException("User not found")).when(authenticationService).deleteUser("nonexistent@email.com");
+        when(authenticationService.deleteUser("nonexistent@email.com")).thenThrow(new RuntimeException("User not found"));
         // Make HTTP DELETE request
         given()
             .when()
@@ -431,6 +431,668 @@ public class ControllerUnitTest {
     public void testNoUnexpectedServiceCalls() throws Exception {
         // Verify there were no interactions with either service
         verifyNoInteractions(storeService);
+        verifyNoInteractions(authenticationService);
+    }
+
+    // ==================== ADDITIONAL TESTS ====================
+
+    @Test
+    @DisplayName("Mock: Create store with missing parameters - validation error")
+    public void testCreateStoreWithMissingParams() throws Exception {
+        // Make HTTP POST request with missing required parameters
+        given()
+            .param("storeId", "lowes")
+            // Missing name and address parameters
+        .when()
+            .post("/api/v1/stores")
+        .then()
+            .statusCode(400) // Expecting Bad Request
+            .contentType(ContentType.JSON)
+            .body("message", containsString("Missing required parameters"));
+        
+        // Verify service was never called due to validation failure
+        verifyNoInteractions(storeService);
+    }
+
+    @Test
+    @DisplayName("Mock: Get store by ID - returns null (not found)")
+    public void testGetStoreByIdNotFound() throws Exception {
+        // Tell mock to return null when store doesn't exist
+        when(storeService.showStore("nonexistent", null)).thenReturn(null);
+        
+        given()
+        .when()
+            .get("/api/v1/stores/nonexistent")
+        .then()
+            .statusCode(404) // Expecting Not Found
+            .contentType(ContentType.JSON)
+            .body("message", containsString("Store not found"));
+        
+        verify(storeService, times(1)).showStore("nonexistent", null);
+        verifyNoMoreInteractions(storeService);
+    }
+
+    @Test
+    @DisplayName("Mock: Update store - returns null (not found)")
+    public void testUpdateStoreNotFound() throws Exception {
+        // Tell mock to return null when store doesn't exist
+        when(storeService.updateStore("nonexistent", "New Desc", "New Address")).thenReturn(null);
+        
+        given()
+            .param("description", "New Desc")
+            .param("address", "New Address")
+        .when()
+            .put("/api/v1/stores/nonexistent")
+        .then()
+            .statusCode(404) // Expecting Not Found
+            .contentType(ContentType.JSON)
+            .body("message", containsString("Store not found"));
+        
+        verify(storeService, times(1)).updateStore("nonexistent", "New Desc", "New Address");
+        verifyNoMoreInteractions(storeService);
+    }
+
+    @Test
+    @DisplayName("Mock: Update store with missing storeId in path")
+    public void testUpdateStoreWithoutStoreId() throws Exception {
+        // Make HTTP PUT request without storeId in path
+        given()
+            .param("description", "Updated Store")
+            .param("address", "New Address")
+        .when()
+            .put("/api/v1/stores") // No storeId in path
+        .then()
+            .statusCode(400) // Expecting Bad Request
+            .contentType(ContentType.JSON)
+            .body("message", containsString("Store ID is required"));
+        
+        // Verify service was never called
+        verifyNoInteractions(storeService);
+    }
+
+    @Test
+    @DisplayName("Mock: Delete store with missing storeId")
+    public void testDeleteStoreWithoutStoreId() throws Exception {
+        // Make HTTP DELETE request without storeId
+        given()
+        .when()
+            .delete("/api/v1/stores") // No storeId in path  
+        .then()
+            .statusCode(400); // Expecting Bad Request
+        
+        // Verify service was never called
+        verifyNoInteractions(storeService);
+    }
+
+    @Test
+    @DisplayName("Mock: Register user with missing parameters")
+    public void testRegisterUserWithMissingParams() throws Exception {
+        // Make HTTP POST request with missing required parameters
+        given()
+            .param("email", "test@email.com")
+            // Missing password and name
+        .when()
+            .post("/api/v1/users")
+        .then()
+            .statusCode(400) // Expecting Bad Request
+            .contentType(ContentType.JSON)
+            .body("message", containsString("Missing required parameters"));
+        
+        // Verify service was never called
+        verifyNoInteractions(authenticationService);
+    }
+
+    @Test
+    @DisplayName("Mock: Register user with invalid role")
+    public void testRegisterUserWithInvalidRole() throws Exception {
+        given()
+            .param("email", "test@email.com")
+            .param("password", "password123")
+            .param("name", "Test User")
+            .param("role", "INVALID_ROLE")
+        .when()
+            .post("/api/v1/users")
+        .then()
+            .statusCode(400) // Expecting Bad Request
+            .contentType(ContentType.JSON)
+            .body("message", containsString("Invalid role"));
+        
+        // Verify service was never called due to validation failure
+        verifyNoInteractions(authenticationService);
+    }
+
+    @Test
+    @DisplayName("Mock: Update user with missing email in path")
+    public void testUpdateUserWithoutEmail() throws Exception {
+        given()
+            .param("password", "newpass")
+            .param("name", "New Name")
+        .when()
+            .put("/api/v1/users") // No email in path
+        .then()
+            .statusCode(400) // Expecting Bad Request
+            .contentType(ContentType.JSON)
+            .body("message", containsString("Email is required"));
+        
+        // Verify service was never called
+        verifyNoInteractions(authenticationService);
+    }
+
+    @Test
+    @DisplayName("Mock: Update user - returns null (not found)")
+    public void testUpdateUserNotFound() throws Exception {
+        // Tell mock to return null when user doesn't exist
+        when(authenticationService.updateUser("nonexistent@email.com", "newpass", "New Name")).thenReturn(null);
+        
+        given()
+            .param("password", "newpass")
+            .param("name", "New Name")
+        .when()
+            .put("/api/v1/users/nonexistent@email.com")
+        .then()
+            .statusCode(404) // Expecting Not Found
+            .contentType(ContentType.JSON)
+            .body("message", containsString("User not found"));
+        
+        verify(authenticationService, times(1)).updateUser("nonexistent@email.com", "newpass", "New Name");
+        verifyNoMoreInteractions(authenticationService);
+    }
+
+    @Test
+    @DisplayName("Mock: Delete user - returns false (not found)")
+    public void testDeleteUserReturnsFalse() throws Exception {
+        // Tell mock to return false when user doesn't exist
+        when(authenticationService.deleteUser("nonexistent@email.com")).thenReturn(false);
+        
+        given()
+        .when()
+            .delete("/api/v1/users/nonexistent@email.com")
+        .then()
+            .statusCode(404) // Expecting Not Found
+            .contentType(ContentType.JSON)
+            .body("message", containsString("User not found"));
+        
+        verify(authenticationService, times(1)).deleteUser("nonexistent@email.com");
+        verifyNoMoreInteractions(authenticationService);
+    }
+
+    @Test
+    @DisplayName("Mock: Register user with valid role - ADMIN")
+    public void testRegisterUserWithValidAdminRole() throws Exception {
+        User mockUser = new User("admin@email.com", "admin123", "Admin User");
+        when(authenticationService.registerUser(eq("admin@email.com"), eq("admin123"), eq("Admin User"), any())).thenReturn(mockUser);
+        
+        given()
+            .param("email", "admin@email.com")
+            .param("password", "admin123")
+            .param("name", "Admin User")
+            .param("role", "ADMIN")
+        .when()
+            .post("/api/v1/users")
+        .then()
+            .statusCode(201) // Expecting Created
+            .contentType(ContentType.JSON)
+            .body("email", equalTo("admin@email.com"))
+            .body("name", equalTo("Admin User"));
+        
+        verify(authenticationService, times(1)).registerUser(eq("admin@email.com"), eq("admin123"), eq("Admin User"), any());
+        verifyNoMoreInteractions(authenticationService);
+    }
+
+    @Test
+    @DisplayName("Mock: Register user with valid role - USER")
+    public void testRegisterUserWithValidUserRole() throws Exception {
+        User mockUser = new User("user@email.com", "user123", "Regular User");
+        when(authenticationService.registerUser(eq("user@email.com"), eq("user123"), eq("Regular User"), any())).thenReturn(mockUser);
+        
+        given()
+            .param("email", "user@email.com")
+            .param("password", "user123")
+            .param("name", "Regular User")
+            .param("role", "USER")
+        .when()
+            .post("/api/v1/users")
+        .then()
+            .statusCode(201) // Expecting Created
+            .contentType(ContentType.JSON)
+            .body("email", equalTo("user@email.com"))
+            .body("name", equalTo("Regular User"));
+        
+        verify(authenticationService, times(1)).registerUser(eq("user@email.com"), eq("user123"), eq("Regular User"), any());
+        verifyNoMoreInteractions(authenticationService);
+    }
+
+    @Test
+    @DisplayName("Mock: Store service throws StoreException - proper error handling")
+    public void testStoreServiceThrowsStoreException() throws Exception {
+        // Test different types of StoreException handling
+        when(storeService.provisionStore("duplicate", "Duplicate Store", "123 Main St", null))
+            .thenThrow(new StoreException("Add Store", "Store Already Exists"));
+        
+        given()
+            .param("storeId", "duplicate")
+            .param("name", "Duplicate Store")
+            .param("address", "123 Main St")
+        .when()
+            .post("/api/v1/stores")
+        .then()
+            .statusCode(400) // Expecting Bad Request for business logic error
+            .contentType(ContentType.JSON);
+        
+        verify(storeService, times(1)).provisionStore("duplicate", "Duplicate Store", "123 Main St", null);
+        verifyNoMoreInteractions(storeService);
+    }
+
+    @Test
+    @DisplayName("Mock: User service throws RuntimeException - error handling")
+    public void testUserServiceThrowsRuntimeException() throws Exception {
+        // Test generic RuntimeException handling
+        when(authenticationService.registerUser("error@email.com", "pass123", "Error User"))
+            .thenThrow(new RuntimeException("Database connection failed"));
+        
+        given()
+            .param("email", "error@email.com")
+            .param("password", "pass123")
+            .param("name", "Error User")
+        .when()
+            .post("/api/v1/users")
+        .then()
+            .statusCode(500) // Expecting Internal Server Error
+            .contentType(ContentType.JSON);
+        
+        verify(authenticationService, times(1)).registerUser("error@email.com", "pass123", "Error User");
+        verifyNoMoreInteractions(authenticationService);
+    }
+
+    @Test
+    @DisplayName("Mock: Create store - missing only name parameter")
+    public void testCreateStoreMissingName() throws Exception {
+        given()
+            .param("storeId", "store123")
+            .param("address", "123 Main St")
+            // Missing name parameter
+        .when()
+            .post("/api/v1/stores")
+        .then()
+            .statusCode(400) // Expecting Bad Request
+            .contentType(ContentType.JSON)
+            .body("message", containsString("Missing required parameters"));
+        
+        verifyNoInteractions(storeService);
+    }
+
+    @Test
+    @DisplayName("Mock: Create store - missing only address parameter")
+    public void testCreateStoreMissingAddress() throws Exception {
+        given()
+            .param("storeId", "store123")
+            .param("name", "Test Store")
+            // Missing address parameter
+        .when()
+            .post("/api/v1/stores")
+        .then()
+            .statusCode(400) // Expecting Bad Request
+            .contentType(ContentType.JSON)
+            .body("message", containsString("Missing required parameters"));
+        
+        verifyNoInteractions(storeService);
+    }
+
+    @Test
+    @DisplayName("Mock: Create store - StoreException handling with specific error response")
+    public void testCreateStoreStoreExceptionHandling() throws Exception {
+        when(storeService.provisionStore("duplicate", "Duplicate Store", "123 Main St", null))
+            .thenThrow(new StoreException("Add Store", "Store Already Exists"));
+        
+        given()
+            .param("storeId", "duplicate")
+            .param("name", "Duplicate Store")
+            .param("address", "123 Main St")
+        .when()
+            .post("/api/v1/stores")
+        .then()
+            .statusCode(500) // Check actual status code returned by handleException
+            .contentType(ContentType.JSON);
+        
+        verify(storeService, times(1)).provisionStore("duplicate", "Duplicate Store", "123 Main St", null);
+        verifyNoMoreInteractions(storeService);
+    }
+
+    @Test
+    @DisplayName("Mock: Update store - StoreException handling")
+    public void testUpdateStoreStoreExceptionHandling() throws Exception {
+        when(storeService.updateStore("error", "New Desc", "New Address"))
+            .thenThrow(new StoreException("Update Store", "Store Update Failed"));
+        
+        given()
+            .param("description", "New Desc")
+            .param("address", "New Address")
+        .when()
+            .put("/api/v1/stores/error")
+        .then()
+            .statusCode(500) // Check actual status code returned by handleException
+            .contentType(ContentType.JSON);
+        
+        verify(storeService, times(1)).updateStore("error", "New Desc", "New Address");
+        verifyNoMoreInteractions(storeService);
+    }
+
+    @Test
+    @DisplayName("Mock: Delete store - StoreException handling")
+    public void testDeleteStoreStoreExceptionHandling() throws Exception {
+        doThrow(new StoreException("Delete Store", "Store Cannot Be Deleted"))
+            .when(storeService).deleteStore("protected");
+        
+        given()
+        .when()
+            .delete("/api/v1/stores/protected")
+        .then()
+            .statusCode(500) // Check actual status code returned by handleException
+            .contentType(ContentType.JSON);
+        
+        verify(storeService, times(1)).deleteStore("protected");
+        verifyNoMoreInteractions(storeService);
+    }
+
+    @Test
+    @DisplayName("Mock: Register user - missing only password parameter")
+    public void testRegisterUserMissingPassword() throws Exception {
+        given()
+            .param("email", "test@email.com")
+            .param("name", "Test User")
+            // Missing password parameter
+        .when()
+            .post("/api/v1/users")
+        .then()
+            .statusCode(400) // Expecting Bad Request
+            .contentType(ContentType.JSON)
+            .body("message", containsString("Missing required parameters"));
+        
+        verifyNoInteractions(authenticationService);
+    }
+
+    @Test
+    @DisplayName("Mock: Register user - missing only name parameter")
+    public void testRegisterUserMissingName() throws Exception {
+        given()
+            .param("email", "test@email.com")
+            .param("password", "password123")
+            // Missing name parameter
+        .when()
+            .post("/api/v1/users")
+        .then()
+            .statusCode(400) // Expecting Bad Request
+            .contentType(ContentType.JSON)
+            .body("message", containsString("Missing required parameters"));
+        
+        verifyNoInteractions(authenticationService);
+    }
+
+    @Test
+    @DisplayName("Mock: Register user with valid role - MANAGER")
+    public void testRegisterUserWithValidManagerRole() throws Exception {
+        User mockUser = new User("manager@email.com", "manager123", "Manager User");
+        when(authenticationService.registerUser(eq("manager@email.com"), eq("manager123"), eq("Manager User"), any())).thenReturn(mockUser);
+        
+        given()
+            .param("email", "manager@email.com")
+            .param("password", "manager123")
+            .param("name", "Manager User")
+            .param("role", "MANAGER")
+        .when()
+            .post("/api/v1/users")
+        .then()
+            .statusCode(201) // Expecting Created
+            .contentType(ContentType.JSON)
+            .body("email", equalTo("manager@email.com"))
+            .body("name", equalTo("Manager User"));
+        
+        verify(authenticationService, times(1)).registerUser(eq("manager@email.com"), eq("manager123"), eq("Manager User"), any());
+        verifyNoMoreInteractions(authenticationService);
+    }
+
+    @Test
+    @DisplayName("Mock: Update user - AuthenticationService exception handling")
+    public void testUpdateUserAuthenticationException() throws Exception {
+        when(authenticationService.updateUser("error@email.com", "newpass", "New Name"))
+            .thenThrow(new RuntimeException("Authentication failed"));
+        
+        given()
+            .param("password", "newpass")
+            .param("name", "New Name")
+        .when()
+            .put("/api/v1/users/error@email.com")
+        .then()
+            .statusCode(500) // Expecting Internal Server Error
+            .contentType(ContentType.JSON);
+        
+        verify(authenticationService, times(1)).updateUser("error@email.com", "newpass", "New Name");
+        verifyNoMoreInteractions(authenticationService);
+    }
+
+    @Test
+    @DisplayName("Mock: Delete user with missing email in path")
+    public void testDeleteUserWithoutEmail() throws Exception {
+        given()
+        .when()
+            .delete("/api/v1/users") // No email in path
+        .then()
+            .statusCode(400) // Expecting Bad Request
+            .contentType(ContentType.JSON)
+            .body("message", containsString("Email is required"));
+        
+        verifyNoInteractions(authenticationService);
+    }
+
+    @Test
+    @DisplayName("Mock: Register user - null role defaults properly")
+    public void testRegisterUserWithNullRole() throws Exception {
+        User mockUser = new User("default@email.com", "default123", "Default User");
+        when(authenticationService.registerUser("default@email.com", "default123", "Default User")).thenReturn(mockUser);
+        
+        given()
+            .param("email", "default@email.com")
+            .param("password", "default123")
+            .param("name", "Default User")
+            // No role parameter - should use default
+        .when()
+            .post("/api/v1/users")
+        .then()
+            .statusCode(201) // Expecting Created
+            .contentType(ContentType.JSON)
+            .body("email", equalTo("default@email.com"))
+            .body("name", equalTo("Default User"));
+        
+        verify(authenticationService, times(1)).registerUser("default@email.com", "default123", "Default User");
+        verifyNoMoreInteractions(authenticationService);
+    }
+
+    @Test
+    @DisplayName("Mock: Register user - empty role string handling")
+    public void testRegisterUserWithEmptyRole() throws Exception {
+        User mockUser = new User("empty@email.com", "empty123", "Empty Role User");
+        when(authenticationService.registerUser("empty@email.com", "empty123", "Empty Role User")).thenReturn(mockUser);
+        
+        given()
+            .param("email", "empty@email.com")
+            .param("password", "empty123")
+            .param("name", "Empty Role User")
+            .param("role", "") // Empty role string
+        .when()
+            .post("/api/v1/users")
+        .then()
+            .statusCode(201) // Expecting Created
+            .contentType(ContentType.JSON)
+            .body("email", equalTo("empty@email.com"))
+            .body("name", equalTo("Empty Role User"));
+        
+        verify(authenticationService, times(1)).registerUser("empty@email.com", "empty123", "Empty Role User");
+        verifyNoMoreInteractions(authenticationService);
+    }
+
+    @Test
+    @DisplayName("Mock: Register user - blank role string handling")
+    public void testRegisterUserWithBlankRole() throws Exception {
+        // Create mock user with blank role
+        User mockUser = new User("blank@email.com", "blank123", "Blank Role User");
+        // Tell mock to return user when registerUser is called with blank role string
+        when(authenticationService.registerUser("blank@email.com", "blank123", "Blank Role User")).thenReturn(mockUser);
+        
+        given()
+            .param("email", "blank@email.com")
+            .param("password", "blank123")
+            .param("name", "Blank Role User")
+            .param("role", "   ") // Blank role string with spaces
+        .when()
+            .post("/api/v1/users") // Send POST request to register user with blank role
+        .then()
+            .statusCode(201) // Expecting Created
+            .contentType(ContentType.JSON)
+            // Assertions
+            .body("email", equalTo("blank@email.com"))
+            .body("name", equalTo("Blank Role User"));
+        
+        // Verify service was called exactly once
+        verify(authenticationService, times(1)).registerUser("blank@email.com", "blank123", "Blank Role User");
+        // Verify no other services were called
+        verifyNoMoreInteractions(authenticationService);
+    }
+    
+    @Test
+    @DisplayName("Mock: Create store - missing only storeId parameter")
+    public void testCreateStoreMissingStoreId() throws Exception {
+        // Make HTTP POST request with missing storeId parameter
+        given()
+            .param("name", "Test Store")
+            .param("address", "123 Main St")
+            // Missing storeId parameter - this hits the final uncovered branch
+        .when()
+            .post("/api/v1/stores") // Send POST request to create store endpoint
+        .then()
+            .statusCode(400) // Expecting Bad Request
+            .contentType(ContentType.JSON)
+            // Assertion
+            .body("message", containsString("Missing required parameters"));
+        
+        // Verify service was never called due to validation failure
+        verifyNoInteractions(storeService);
+    }
+
+    @Test
+    @DisplayName("Mock: Register user - missing only email parameter")
+    public void testRegisterUserMissingEmail() throws Exception {
+        // Make HTTP POST request with missing email parameter
+        given()
+            .param("password", "password123")
+            .param("name", "Test User")
+            // Missing email parameter
+        .when()
+            .post("/api/v1/users") // Send POST request to register user
+        .then()
+            .statusCode(400) // Expecting Bad Request
+            .contentType(ContentType.JSON)
+            // Assertion
+            .body("message", containsString("Missing required parameters"));
+        
+        // Verify service was never called due to validation failure
+        verifyNoInteractions(authenticationService);
+    }
+
+    @Test
+    @DisplayName("Mock: Store controller - comprehensive exception handling")
+    public void testStoreControllerExceptionHandling() throws Exception {
+        // Tell mock to throw generic exception to test exception handling
+        when(storeService.getAllStores()).thenThrow(new RuntimeException("Unexpected server error"));
+        
+        // Make HTTP GET request
+        given()
+        .when()
+            .get("/api/v1/stores") // Get all stores
+        .then()
+            .statusCode(500) // Expecting Internal Server Error
+            .contentType(ContentType.JSON);
+        
+        // Verify service was called exactly once
+        verify(storeService, times(1)).getAllStores();
+        // Verify no other services were called
+        verifyNoMoreInteractions(storeService);
+    }
+
+    @Test
+    @DisplayName("Mock: User controller - comprehensive exception handling")
+    public void testUserControllerExceptionHandling() throws Exception {
+        // Tell mock to throw generic exception to test exception handling
+        when(authenticationService.getAllUsers()).thenThrow(new RuntimeException("Database connection lost"));
+        
+        // Make HTTP GET request
+        given()
+        .when()
+            .get("/api/v1/users") // Get all users
+        .then()
+            .statusCode(500) // Expecting Internal Server Error
+            .contentType(ContentType.JSON);
+        
+        // Verify service was called exactly once
+        verify(authenticationService, times(1)).getAllUsers();
+        // Verify no other services were called
+        verifyNoMoreInteractions(authenticationService);
+    }
+
+    @Test
+    @DisplayName("Mock: Store validation - all parameter combinations")
+    public void testStoreParameterValidationCombinations() throws Exception {
+        // Test case 1: All parameters null
+        given()
+        .when()
+            .post("/api/v1/stores") // Send POST request with no parameters
+        .then()
+            .statusCode(400) // Expecting Bad Request
+            .contentType(ContentType.JSON)
+            // Assertion
+            .body("message", containsString("Missing required parameters"));
+        
+        // Test case 2: Only storeId provided
+        given()
+            .param("storeId", "store123")
+        .when()
+            .post("/api/v1/stores") // Send POST request with only storeId
+        .then()
+            .statusCode(400) // Expecting Bad Request
+            .contentType(ContentType.JSON)
+            // Assertion
+            .body("message", containsString("Missing required parameters"));
+        
+        // Verify service was never called
+        verifyNoInteractions(storeService);
+    }
+
+    @Test
+    @DisplayName("Mock: User validation - all parameter combinations")
+    public void testUserParameterValidationCombinations() throws Exception {
+        // Test case 1: All required parameters null
+        given()
+        .when()
+            .post("/api/v1/users") // Send POST request with no parameters
+        .then()
+            .statusCode(400) // Expecting Bad Request
+            .contentType(ContentType.JSON)
+            // Assertion
+            .body("message", containsString("Missing required parameters"));
+        
+        // Test case 2: Only email and password provided
+        given()
+            .param("email", "test@email.com")
+            .param("password", "password123")
+            // Missing name parameter
+        .when()
+            .post("/api/v1/users") // Send POST request with missing name
+        .then()
+            .statusCode(400) // Expecting Bad Request
+            .contentType(ContentType.JSON)
+            // Assertion
+            .body("message", containsString("Missing required parameters"));
+        
+        // Verify service was never called
         verifyNoInteractions(authenticationService);
     }
 }
