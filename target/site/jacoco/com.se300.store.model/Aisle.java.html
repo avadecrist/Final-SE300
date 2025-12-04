@@ -49,8 +49,8 @@ public class Aisle {
      * @param number
      */
     public void setNumber(String number) {
-<span class="nc" id="L52">        this.number = number;</span>
-<span class="nc" id="L53">    }</span>
+<span class="fc" id="L52">        this.number = number;</span>
+<span class="fc" id="L53">    }</span>
 
     /**
      * Getter Method for Aisle name
@@ -89,7 +89,7 @@ public class Aisle {
      * @return
      */
     public AisleLocation getAisleLocation() {
-<span class="nc" id="L92">        return aisleLocation;</span>
+<span class="fc" id="L92">        return aisleLocation;</span>
     }
 
     /**
@@ -97,8 +97,8 @@ public class Aisle {
      * @param aisleLocation
      */
     public void setAisleLocation(AisleLocation aisleLocation) {
-<span class="nc" id="L100">        this.aisleLocation = aisleLocation;</span>
-<span class="nc" id="L101">    }</span>
+<span class="fc" id="L100">        this.aisleLocation = aisleLocation;</span>
+<span class="fc" id="L101">    }</span>
 
     /**
      * Method for adding Shelf to the Aisle. If Shelf already exists in the Aisle throws StoreException
@@ -125,8 +125,8 @@ public class Aisle {
         }
 
         //If Shelf already exists throw and exception
-<span class="pc bpc" id="L128" title="1 of 2 branches missed.">        if(this.shelfMap.putIfAbsent(id,shelf) != null)</span>
-<span class="nc" id="L129">            throw new StoreException(&quot;Add Shelf&quot;, &quot;Shelf Already Exists&quot;);</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        if(this.shelfMap.putIfAbsent(id,shelf) != null)</span>
+<span class="fc" id="L129">            throw new StoreException(&quot;Add Shelf&quot;, &quot;Shelf Already Exists&quot;);</span>
 
 <span class="fc" id="L131">        return shelf;</span>
     }
