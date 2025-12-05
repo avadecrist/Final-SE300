@@ -99,8 +99,8 @@ public class Store {
 
         //Check to see if Aisle already exists
 <span class="fc" id="L101">        Aisle aisle = new Aisle(aisleNumber, name, description, aisleLocation );</span>
-<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if(this.aislesMap.putIfAbsent(aisleNumber,aisle) != null)</span>
-<span class="nc" id="L103">            throw new StoreException(&quot;Add Aisle&quot;, &quot;Aisle Already Exists&quot;);</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        if(this.aislesMap.putIfAbsent(aisleNumber,aisle) != null)</span>
+<span class="fc" id="L103">            throw new StoreException(&quot;Add Aisle&quot;, &quot;Aisle Already Exists&quot;);</span>
 
 <span class="fc" id="L105">        return aisle;</span>
     }
@@ -130,8 +130,8 @@ public class Store {
     public void addInventory (Inventory inventory) throws StoreException {
 
         //Check to see if Inventory already exists in the Store
-<span class="pc bpc" id="L133" title="1 of 2 branches missed.">        if(this.inventoryMap.putIfAbsent(inventory.getId(), inventory) != null)</span>
-<span class="nc" id="L134">            throw new StoreException(&quot;Add Inventory&quot;, &quot;Inventory Already Exists&quot;);</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        if(this.inventoryMap.putIfAbsent(inventory.getId(), inventory) != null)</span>
+<span class="fc" id="L134">            throw new StoreException(&quot;Add Inventory&quot;, &quot;Inventory Already Exists&quot;);</span>
 
 <span class="fc" id="L136">    }</span>
 

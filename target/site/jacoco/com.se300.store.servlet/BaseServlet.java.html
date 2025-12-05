@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BaseServlet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">final</a> &gt; <a href="index.source.html" class="el_package">com.se300.store.servlet</a> &gt; <span class="el_source">BaseServlet.java</span></div><h1>BaseServlet.java</h1><pre class="source lang-java linenums">package com.se300.store.servlet;
+
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+/**
+ * Base servlet providing common functionality for all API servlets.
+ *
+ * @author Sergey L. Sundukovskiy, Ph.D.
+ * @version 1.0
+ */
+<span class="fc" id="L17">public abstract class BaseServlet extends HttpServlet {</span>
+
+    /**
+     * Read the request body as a string.
+     * Used for parsing JSON payloads from POST/PUT requests.
+     *
+     * @param request The HTTP request
+     * @return The request body as a string
+     * @throws IOException If reading fails
+     */
+    protected String readRequestBody(HttpServletRequest request) throws IOException {
+<span class="nc" id="L28">        StringBuilder buffer = new StringBuilder();</span>
+<span class="nc" id="L29">        BufferedReader reader = request.getReader();</span>
+        String line;
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L32">            buffer.append(line);</span>
+        }
+<span class="nc" id="L34">        return buffer.toString();</span>
+    }
+
+    /**
+     * Send a JSON response with HTTP 200 OK status.
+     *
+     * @param response The HTTP response
+     * @param object The object to serialize to JSON
+     * @throws IOException If writing fails
+     */
+    protected void sendJsonResponse(HttpServletResponse response, Object object) throws IOException {
+<span class="fc" id="L45">        sendJsonResponse(response, object, HttpServletResponse.SC_OK);</span>
+<span class="fc" id="L46">    }</span>
+
+    /**
+     * Send a JSON response with a specified HTTP status code.
+     *
+     * @param response The HTTP response
+     * @param object The object to serialize to JSON
+     * @param statusCode The HTTP status code (200, 201, 400, etc.)
+     * @throws IOException If writing fails
+     */
+    protected void sendJsonResponse(HttpServletResponse response, Object object, int statusCode) throws IOException {
+<span class="fc" id="L57">        response.setContentType(&quot;application/json&quot;);</span>
+<span class="fc" id="L58">        response.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="fc" id="L59">        response.setStatus(statusCode);</span>
+
+<span class="fc" id="L61">        PrintWriter out = response.getWriter();</span>
+<span class="fc" id="L62">        out.print(JsonHelper.toJson(object));</span>
+<span class="fc" id="L63">        out.flush();</span>
+<span class="fc" id="L64">    }</span>
+
+    /**
+     * Send an error response with a message.
+     *
+     * @param response The HTTP response
+     * @param statusCode The HTTP status code (400, 404, 500, etc.)
+     * @param message The error message
+     * @throws IOException If writing fails
+     */
+    protected void sendErrorResponse(HttpServletResponse response, int statusCode, String message) throws IOException {
+<span class="fc" id="L75">        response.setContentType(&quot;application/json&quot;);</span>
+<span class="fc" id="L76">        response.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+<span class="fc" id="L77">        response.setStatus(statusCode);</span>
+
+        // Create a simple error object
+<span class="fc" id="L80">        ErrorResponse error = new ErrorResponse(statusCode, message);</span>
+<span class="fc" id="L81">        PrintWriter out = response.getWriter();</span>
+<span class="fc" id="L82">        out.print(JsonHelper.toJson(error));</span>
+<span class="fc" id="L83">        out.flush();</span>
+<span class="fc" id="L84">    }</span>
+
+    /**
+     * Extract the resource ID from the request path.
+     * For example, &quot;/api/v1/deals/DEAL-001&quot; returns &quot;DEAL-001&quot;
+     *
+     * @param request The HTTP request
+     * @return The resource ID, or null if not present
+     */
+    protected String extractResourceId(HttpServletRequest request) {
+<span class="fc" id="L94">        String pathInfo = request.getPathInfo();</span>
+<span class="pc bpc" id="L95" title="1 of 4 branches missed.">        if (pathInfo == null || pathInfo.equals(&quot;/&quot;)) {</span>
+<span class="fc" id="L96">            return null;</span>
+        }
+
+        // Remove leading slash and extract ID
+<span class="fc" id="L100">        String[] parts = pathInfo.substring(1).split(&quot;/&quot;);</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        return parts.length &gt; 0 ? parts[0] : null;</span>
+    }
+
+    /**
+     * Simple error response object for consistent error formatting.
+     */
+    private static class ErrorResponse {
+        private final int status;
+        private final String message;
+        private final long timestamp;
+
+<span class="fc" id="L112">        public ErrorResponse(int status, String message) {</span>
+<span class="fc" id="L113">            this.status = status;</span>
+<span class="fc" id="L114">            this.message = message;</span>
+<span class="fc" id="L115">            this.timestamp = System.currentTimeMillis();</span>
+<span class="fc" id="L116">        }</span>
+
+        public int getStatus() {
+<span class="nc" id="L119">            return status;</span>
+        }
+
+        public String getMessage() {
+<span class="nc" id="L123">            return message;</span>
+        }
+
+        public long getTimestamp() {
+<span class="nc" id="L127">            return timestamp;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

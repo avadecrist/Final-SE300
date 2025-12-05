@@ -41,8 +41,8 @@ public class Basket {
      * @param id
      */
     public void setId(String id) {
-<span class="nc" id="L44">        this.id = id;</span>
-<span class="nc" id="L45">    }</span>
+<span class="fc" id="L44">        this.id = id;</span>
+<span class="fc" id="L45">    }</span>
 
     /**
      * Method to add Product to the Customer's Basket. It throws StoreModel Exception on
@@ -55,8 +55,8 @@ public class Basket {
     synchronized public void addProduct(String productId, int count) throws StoreException {
 
         //Make sure that the customer is registered
-<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        if(customer.getType() == CustomerType.guest){</span>
-<span class="nc" id="L59">            throw new StoreException(&quot;Add Product&quot;, &quot;Guests Are Not Allowed to Shop&quot;);</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if(customer.getType() == CustomerType.guest){</span>
+<span class="fc" id="L59">            throw new StoreException(&quot;Add Product&quot;, &quot;Guests Are Not Allowed to Shop&quot;);</span>
         }
 
         //Get location of the customer associated with this basket
@@ -85,16 +85,16 @@ public class Basket {
 
         //If inventory list is larger than one that means that there are multiple product are available
         //where customer was last seen
-<span class="pc bpc" id="L88" title="1 of 2 branches missed.">        if(inventoryList.size() &gt; 1){</span>
-<span class="nc" id="L89">            System.out.println(&quot;\u001B[31m&quot; + &quot;Error : &quot; + inventoryList + &quot;\u001B[0m&quot;);</span>
-<span class="nc" id="L90">            throw new StoreException(&quot;Add Product&quot;, &quot;There Are Several Products In the Aisle&quot;);</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        if(inventoryList.size() &gt; 1){</span>
+<span class="fc" id="L89">            System.out.println(&quot;\u001B[31m&quot; + &quot;Error : &quot; + inventoryList + &quot;\u001B[0m&quot;);</span>
+<span class="fc" id="L90">            throw new StoreException(&quot;Add Product&quot;, &quot;There Are Several Products In the Aisle&quot;);</span>
         }
 
         //If the count of the product on the shelf is smaller than the customer is trying to buy throw and exception
 <span class="fc" id="L94">        Inventory inventory = inventoryList.get(0);</span>
-<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        if((inventory.getCount() - count) &lt; 0){</span>
-<span class="nc" id="L96">            System.out.println(&quot;\u001B[31m&quot; + &quot;Error : &quot; + inventory + &quot;\u001B[0m&quot;);</span>
-<span class="nc" id="L97">            throw new StoreException(&quot;Add Product&quot;, &quot;There Is Not Enough Inventory on the Shelf&quot;);</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">        if((inventory.getCount() - count) &lt; 0){</span>
+<span class="fc" id="L96">            System.out.println(&quot;\u001B[31m&quot; + &quot;Error : &quot; + inventory + &quot;\u001B[0m&quot;);</span>
+<span class="fc" id="L97">            throw new StoreException(&quot;Add Product&quot;, &quot;There Is Not Enough Inventory on the Shelf&quot;);</span>
         }
 
         //Put the product in the basket and decrement product on the shelf
@@ -117,8 +117,8 @@ public class Basket {
 <span class="fc" id="L117">        Integer tempCount = this.productMap.get(productId);</span>
 <span class="fc bfc" id="L118" title="All 2 branches covered.">        if(tempCount == null){</span>
 <span class="fc" id="L119">            throw new StoreException(&quot;Remove Product&quot;, &quot;Product Does Not Exist&quot;);</span>
-<span class="pc bpc" id="L120" title="1 of 2 branches missed.">        } else if (count &gt; tempCount){</span>
-<span class="nc" id="L121">            throw new StoreException(&quot;Remove Product&quot;, &quot;Trying To Remove More Quantity Than Exists&quot;);</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        } else if (count &gt; tempCount){</span>
+<span class="fc" id="L121">            throw new StoreException(&quot;Remove Product&quot;, &quot;Trying To Remove More Quantity Than Exists&quot;);</span>
         }
 
         //Get location of the customer associated with this basket
@@ -140,23 +140,23 @@ public class Basket {
 <span class="fc" id="L140">                .collect(Collectors.toList());</span>
 
         //If inventory list is empty that means product is not available to be put on the shelf
-<span class="pc bpc" id="L143" title="1 of 2 branches missed.">        if(inventoryList.isEmpty()){</span>
-<span class="nc" id="L144">            System.out.println(&quot;\u001B[31m&quot; + &quot;Error: &quot; + customer + &quot;\u001B[0m&quot;);</span>
-<span class="nc" id="L145">            throw new StoreException(&quot;Remove Product&quot;, &quot;Customer Is Not Near Product&quot;);</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        if(inventoryList.isEmpty()){</span>
+<span class="fc" id="L144">            System.out.println(&quot;\u001B[31m&quot; + &quot;Error: &quot; + customer + &quot;\u001B[0m&quot;);</span>
+<span class="fc" id="L145">            throw new StoreException(&quot;Remove Product&quot;, &quot;Customer Is Not Near Product&quot;);</span>
         }
 
         //If inventory list is larger than one that means that there are multiple product slots are available
         //on the shelves where customer was last seen
-<span class="pc bpc" id="L150" title="1 of 2 branches missed.">        if(inventoryList.size() &gt; 1){</span>
-<span class="nc" id="L151">            System.out.println(&quot;\u001B[31m&quot; + &quot;Error : &quot; + inventoryList + &quot;\u001B[0m&quot;);</span>
-<span class="nc" id="L152">            throw new StoreException(&quot;Remove Product&quot;, &quot;There Are Several Products In the Aisle&quot;);</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        if(inventoryList.size() &gt; 1){</span>
+<span class="fc" id="L151">            System.out.println(&quot;\u001B[31m&quot; + &quot;Error : &quot; + inventoryList + &quot;\u001B[0m&quot;);</span>
+<span class="fc" id="L152">            throw new StoreException(&quot;Remove Product&quot;, &quot;There Are Several Products In the Aisle&quot;);</span>
         }
 
         //If product capacity on the shelf is smaller than what the customer is trying to put back throw and exception
 <span class="fc" id="L156">        Inventory inventory = inventoryList.get(0);</span>
-<span class="pc bpc" id="L157" title="1 of 2 branches missed.">        if((inventory.getCount() + count) &gt; inventory.getCapacity()){</span>
-<span class="nc" id="L158">            System.out.println(&quot;\u001B[31m&quot; + &quot;Error : &quot; + inventory + &quot;\u001B[0m&quot;);</span>
-<span class="nc" id="L159">            throw new StoreException(&quot;Remove Product&quot;, &quot;There Is Not Enough Capacity on the Shelf&quot;);</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">        if((inventory.getCount() + count) &gt; inventory.getCapacity()){</span>
+<span class="fc" id="L158">            System.out.println(&quot;\u001B[31m&quot; + &quot;Error : &quot; + inventory + &quot;\u001B[0m&quot;);</span>
+<span class="fc" id="L159">            throw new StoreException(&quot;Remove Product&quot;, &quot;There Is Not Enough Capacity on the Shelf&quot;);</span>
         }
 
         //Remove the product in the basket and increment product on the shelf
@@ -215,7 +215,7 @@ public class Basket {
      * @return
      */
     public Store getStore(){
-<span class="nc" id="L218">        return this.store;</span>
+<span class="fc" id="L218">        return this.store;</span>
     }
 
     /**
