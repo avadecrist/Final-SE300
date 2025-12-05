@@ -1114,4 +1114,74 @@ public class ControllerUnitTest {
             app.stop();
         }
     }
+
+    // ==================== GENERIC EXCEPTION HANDLER TESTS ====================
+    // These tests cover the defensive catch(Exception e) blocks in controllers
+
+    @Test
+    @DisplayName("Mock: Generic exception handler - doPost throws unexpected RuntimeException")
+    public void testCreateStoreGenericExceptionHandling() throws Exception {
+        // Tell mock to throw unexpected RuntimeException (simulating defensive programming)
+        when(storeService.provisionStore("lowes", "Lowes", "675 Main St", null))
+            .thenThrow(new RuntimeException("Unexpected system error"));
+        // Make HTTP POST request - should be handled by generic catch(Exception e) block
+        given()
+            .param("storeId", "lowes")
+            .param("name", "Lowes")
+            .param("address", "675 Main St")
+        .when()
+            .post("/api/v1/stores")
+        .then()
+            .statusCode(500) // Expecting internal server error
+            .contentType(ContentType.JSON)
+            // Assertion - verify error response
+            .body("status", equalTo(500));
+        // Verify service was called exactly once
+        verify(storeService, times(1)).provisionStore("lowes", "Lowes", "675 Main St", null);
+        // Verify that no other service was called
+        verifyNoMoreInteractions(storeService);
+    }
+
+    @Test
+    @DisplayName("Mock: Generic exception handler - doPut throws unexpected RuntimeException")
+    public void testUpdateStoreGenericExceptionHandling() throws Exception {
+        // Tell mock to throw unexpected RuntimeException (simulating defensive programming)
+        when(storeService.updateStore("lowes", "Lowes Updated", "675 Poppy St"))
+            .thenThrow(new RuntimeException("Unexpected system error"));
+        // Make HTTP PUT request - should be handled by generic catch(Exception e) block
+        given()
+            .param("description", "Lowes Updated")
+            .param("address", "675 Poppy St")
+        .when()
+            .put("/api/v1/stores/lowes")
+        .then()
+            .statusCode(500) // Expecting internal server error
+            .contentType(ContentType.JSON)
+            // Assertion - verify error response
+            .body("status", equalTo(500));
+        // Verify service was called exactly once
+        verify(storeService, times(1)).updateStore("lowes", "Lowes Updated", "675 Poppy St");
+        // Verify that no other service was called
+        verifyNoMoreInteractions(storeService);
+    }
+
+    @Test
+    @DisplayName("Mock: Generic exception handler - doDelete throws unexpected RuntimeException")
+    public void testDeleteStoreGenericExceptionHandling() throws Exception {
+        // Tell mock to throw unexpected RuntimeException (simulating defensive programming)
+        doThrow(new RuntimeException("Unexpected system error")).when(storeService).deleteStore("lowes");
+        // Make HTTP DELETE request - should be handled by generic catch(Exception e) block
+        given()
+        .when()
+            .delete("/api/v1/stores/lowes")
+        .then()
+            .statusCode(500) // Expecting internal server error
+            .contentType(ContentType.JSON)
+            // Assertion - verify error response
+            .body("status", equalTo(500));
+        // Verify service was called exactly once
+        verify(storeService, times(1)).deleteStore("lowes");
+        // Verify that no other service was called
+        verifyNoMoreInteractions(storeService);
+    }
 }

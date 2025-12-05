@@ -65,8 +65,8 @@ public class Basket {
 <span class="fc" id="L65">        Aisle aisle = store.getAisle(location.getAisleId());</span>
 
         //Check to see if exists
-<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if(aisle == null){</span>
-<span class="nc" id="L69">            throw new StoreException(&quot;Add Product&quot;, &quot;Aisle Does Not Exist&quot;);</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if(aisle == null){</span>
+<span class="fc" id="L69">            throw new StoreException(&quot;Add Product&quot;, &quot;Aisle Does Not Exist&quot;);</span>
         }
 
         //Get all inventory items from the shelves in the aisle where customer was last seen
@@ -127,8 +127,8 @@ public class Basket {
 <span class="fc" id="L127">        Aisle aisle = store.getAisle(location.getAisleId());</span>
 
         //Check to see if exists
-<span class="pc bpc" id="L130" title="1 of 2 branches missed.">        if(aisle == null){</span>
-<span class="nc" id="L131">            throw new StoreException(&quot;Remove Product&quot;, &quot;Aisle Does Not Exist&quot;);</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">        if(aisle == null){</span>
+<span class="fc" id="L131">            throw new StoreException(&quot;Remove Product&quot;, &quot;Aisle Does Not Exist&quot;);</span>
         }
 
         //Get all inventory items from the shelves in the aisle where customer was last seen

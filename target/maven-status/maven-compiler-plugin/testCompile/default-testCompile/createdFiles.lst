@@ -1,7 +1,9 @@
 com\se300\store\service\integration\ServiceIntegrationTest.class
 com\se300\store\controller\internalmockserver\InternalMockServerTest.class
+com\se300\store\EndToEndSmartStoreTest$2.class
 com\se300\store\TestExceptionLoggingFilter.class
 com\se300\store\service\unit\ServiceUnitTest.class
+com\se300\store\EndToEndSmartStoreTest$1.class
 com\se300\store\controller\integration\ControllerIntegrationTest.class
 com\se300\store\EndToEndSmartStoreTest.class
 com\se300\store\model\CommandProcessorIOExceptionTest.class
