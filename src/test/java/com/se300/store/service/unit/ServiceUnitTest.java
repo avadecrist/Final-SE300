@@ -40,6 +40,10 @@ public class ServiceUnitTest {
 
     @BeforeEach
     public void setUp() {
+        // Ensure in-memory stores are cleared between tests to avoid state leaking across test cases
+        DataManager.getInstance().clear();
+        StoreService.clearAllMaps();
+
         authenticationService = new AuthenticationService(userRepository);
         storeService = new StoreService();
     }

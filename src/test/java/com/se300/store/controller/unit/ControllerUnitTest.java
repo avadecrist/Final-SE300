@@ -13,6 +13,8 @@ import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
 import org.junit.jupiter.api.*;
+import com.se300.store.SmartStoreApplication;
+import java.io.IOException;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -1087,5 +1089,29 @@ public class ControllerUnitTest {
         
         // Verify service was never called
         verifyNoInteractions(authenticationService);
+    }
+
+    @Test
+    @DisplayName("Sanity: SmartStoreApplication startNonBlocking and stop")
+    public void testSmartStoreApplicationStartStop() throws Exception {
+        // Skip this test if port 8080 is already in use to avoid flaky failures on CI
+        boolean portFree = false;
+        try (java.net.ServerSocket ss = new java.net.ServerSocket(8080)) {
+            portFree = true;
+        } catch (IOException ioe) {
+            // port in use
+            portFree = false;
+        }
+        Assumptions.assumeTrue(portFree, "Port 8080 is in use — skipping SmartStoreApplication lifecycle test");
+
+        SmartStoreApplication app = new SmartStoreApplication();
+        try {
+            app.startNonBlocking();
+            // give server a moment to start
+            Thread.sleep(1000);
+        } finally {
+            // ensure we stop the server
+            app.stop();
+        }
     }
 }
