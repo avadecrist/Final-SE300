@@ -20,7 +20,6 @@ import static org.mockserver.model.HttpResponse.response;
  */
 @DisplayName("Internal Mock Server Tests")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@Disabled("Internal mock tests disabled - requires endpoint configuration")
 public class InternalMockServerTest {
 
     private static ClientAndServer mockServer;
@@ -52,8 +51,7 @@ public class InternalMockServerTest {
         mockServer
             .when(request()
                 .withMethod("POST")
-                .withPath("/api/internal/v1/stores/provision")
-                .withHeader("Content-Type", "application/x-www-form-urlencoded"))
+                .withPath("/api/internal/v1/stores/provision"))
             .respond(response()
                 .withStatusCode(201)
                 .withHeader(new Header("Content-Type", "application/json"))
@@ -61,6 +59,7 @@ public class InternalMockServerTest {
 
         // Call the mocked internal API
         given()
+            .contentType("application/x-www-form-urlencoded")
             .param("storeId", "store1")
             .param("name", "Internal Store")
             .param("address", "123 Internal Ave")
@@ -104,15 +103,15 @@ public class InternalMockServerTest {
         mockServer
             .when(request()
                 .withMethod("POST")
-                .withPath("/api/internal/v1/users/register")
-                .withHeader("Content-Type", "application/x-www-form-urlencoded"))
+                .withPath("/api/internal/v1/users/register"))
             .respond(response()
                 .withStatusCode(201)
                 .withHeader(new Header("Content-Type", "application/json"))
-                .withBody("{\"email\":\"user@internal.com\",\"name\":\"Internal User\",\"verified\":false}"));
+                .withBody("{\"id\":\"user1\",\"email\":\"user@internal.com\",\"verified\":false}"));
 
         // Call the mocked internal API
         given()
+            .contentType("application/x-www-form-urlencoded")
             .param("email", "user@internal.com")
             .param("password", "SecurePass123")
             .param("name", "Internal User")
@@ -132,15 +131,15 @@ public class InternalMockServerTest {
         mockServer
             .when(request()
                 .withMethod("POST")
-                .withPath("/api/internal/v1/auth/validate")
-                .withHeader("Content-Type", "application/x-www-form-urlencoded"))
+                .withPath("/api/internal/v1/auth/validate"))
             .respond(response()
                 .withStatusCode(200)
                 .withHeader(new Header("Content-Type", "application/json"))
-                .withBody("{\"valid\":true,\"email\":\"user@internal.com\",\"role\":\"admin\"}"));
+                .withBody("{\"valid\":true,\"role\":\"admin\"}"));
 
         // Call the mocked internal API
         given()
+            .contentType("application/x-www-form-urlencoded")
             .param("email", "user@internal.com")
             .param("password", "SecurePass123")
         .when()

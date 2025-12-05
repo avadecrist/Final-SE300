@@ -29,7 +29,6 @@ import static org.hamcrest.Matchers.*;
  */
 @DisplayName("Controller Integration Tests - REST API")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@Disabled("Pending servlet routing configuration - covered by EndToEndSmartStoreTest")
 public class ControllerIntegrationTest {
 
     private static Tomcat tomcat;
@@ -123,8 +122,7 @@ public class ControllerIntegrationTest {
     @DisplayName("Integration: Get all stores via REST API")
     public void testGetAllStores() {
         // First create a store
-        given()
-            .param("storeId", "target")
+        given()            .param("storeId", "target")
             .param("name", "Target")
             .param("address", "456 Oak Ave")
         .when()
@@ -145,8 +143,7 @@ public class ControllerIntegrationTest {
     @DisplayName("Integration: Get store by ID via REST API")
     public void testGetStoreById() {
         // First create a store
-        given()
-            .param("storeId", "bestbuy")
+        given()            .param("storeId", "bestbuy")
             .param("name", "Best Buy")
             .param("address", "789 Tech Blvd")
         .when()
@@ -168,16 +165,14 @@ public class ControllerIntegrationTest {
     @DisplayName("Integration: Update store via REST API")
     public void testUpdateStore() {
         // First create a store
-        given()
-            .param("storeId", "costco")
+        given()            .param("storeId", "costco")
             .param("name", "Costco")
             .param("address", "111 Warehouse Rd")
         .when()
             .post("/api/v1/stores");
 
         // Then update it
-        given()
-            .param("description", "Costco Updated")
+        given()            .param("description", "Costco Updated")
             .param("address", "222 New Warehouse Rd")
         .when()
             .put("/api/v1/stores/costco")
@@ -194,8 +189,7 @@ public class ControllerIntegrationTest {
     @DisplayName("Integration: Delete store via REST API")
     public void testDeleteStore() {
         // First create a store
-        given()
-            .param("storeId", "kroger")
+        given()            .param("storeId", "kroger")
             .param("name", "Kroger")
             .param("address", "333 Grocery Ln")
         .when()
@@ -223,8 +217,7 @@ public class ControllerIntegrationTest {
         String storeId = "workflow-store";
 
         // 1. CREATE
-        given()
-            .param("storeId", storeId)
+        given()            .param("storeId", storeId)
             .param("name", "Workflow Store")
             .param("address", "444 Workflow Way")
         .when()
@@ -243,8 +236,7 @@ public class ControllerIntegrationTest {
             .body("description", equalTo("Workflow Store"));
 
         // 3. UPDATE
-        given()
-            .param("description", "Workflow Store Updated")
+        given()            .param("description", "Workflow Store Updated")
             .param("address", "555 Updated Workflow Way")
         .when()
             .put("/api/v1/stores/" + storeId)
@@ -266,8 +258,7 @@ public class ControllerIntegrationTest {
     @Order(7)
     @DisplayName("Integration: Register user via REST API")
     public void testRegisterUser() {
-        given()
-            .param("email", "john@example.com")
+        given()            .param("email", "john@example.com")
             .param("password", "SecurePass123")
             .param("name", "John Doe")
         .when()
@@ -284,8 +275,7 @@ public class ControllerIntegrationTest {
     @DisplayName("Integration: Get all users via REST API")
     public void testGetAllUsers() {
         // First register a user
-        given()
-            .param("email", "jane@example.com")
+        given()            .param("email", "jane@example.com")
             .param("password", "SecurePass456")
             .param("name", "Jane Smith")
         .when()
@@ -308,8 +298,7 @@ public class ControllerIntegrationTest {
         String email = "bob@example.com";
 
         // First register a user
-        given()
-            .param("email", email)
+        given()            .param("email", email)
             .param("password", "SecurePass789")
             .param("name", "Bob Johnson")
         .when()
@@ -333,16 +322,14 @@ public class ControllerIntegrationTest {
         String email = "alice@example.com";
 
         // First register a user
-        given()
-            .param("email", email)
+        given()            .param("email", email)
             .param("password", "SecurePass000")
             .param("name", "Alice Brown")
         .when()
             .post("/api/v1/users");
 
         // Then update it
-        given()
-            .param("name", "Alice Updated")
+        given()            .param("name", "Alice Updated")
         .when()
             .put("/api/v1/users/" + email)
         .then()
@@ -359,8 +346,7 @@ public class ControllerIntegrationTest {
         String email = "charlie@example.com";
 
         // First register a user
-        given()
-            .param("email", email)
+        given()            .param("email", email)
             .param("password", "SecurePass111")
             .param("name", "Charlie Wilson")
         .when()
@@ -388,8 +374,7 @@ public class ControllerIntegrationTest {
         String email = "workflow@example.com";
 
         // 1. CREATE (Register)
-        given()
-            .param("email", email)
+        given()            .param("email", email)
             .param("password", "WorkflowPass123")
             .param("name", "Workflow User")
         .when()
@@ -408,8 +393,7 @@ public class ControllerIntegrationTest {
             .body("name", equalTo("Workflow User"));
 
         // 3. UPDATE
-        given()
-            .param("name", "Workflow User Updated")
+        given()            .param("name", "Workflow User Updated")
         .when()
             .put("/api/v1/users/" + email)
         .then()
@@ -431,8 +415,7 @@ public class ControllerIntegrationTest {
     @DisplayName("Integration: Test error handling - Missing parameters")
     public void testErrorHandlingMissingParameters() {
         // Try to create store without required parameters
-        given()
-            .param("storeId", "incomplete-store")
+        given()            .param("storeId", "incomplete-store")
             // Missing 'name' and 'address' parameters
         .when()
             .post("/api/v1/stores")
