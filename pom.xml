@@ -75,6 +75,12 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+                        <configuration>
+                            <excludes>
+                                <!-- Exclude duplicate/refactor package copies from coverage reporting -->
+                                <exclude>com/se310/**</exclude>
+                            </excludes>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>jacoco-check</id>
@@ -83,6 +89,9 @@
                             <goal>check</goal>
                         </goals>
                         <configuration>
+                            <excludes>
+                                <exclude>com/se310/**</exclude>
+                            </excludes>
                             <rules>
                                 <rule>
                                     <element>PACKAGE</element>
