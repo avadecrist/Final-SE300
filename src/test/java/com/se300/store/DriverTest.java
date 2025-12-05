@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class DriverTest {
 
+    @Test
     public void testDriver() throws URISyntaxException {
         // Process script file
         Path path = Path.of(Objects.requireNonNull(getClass().getResource("/store.script")).toURI());

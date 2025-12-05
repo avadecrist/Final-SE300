@@ -311,9 +311,14 @@ public class RepositoryUnitTest {
         when(dataManager.get("stores")).thenReturn(null);
         when(dataManager.get("users")).thenReturn(null);
 
-        // ACT + ASSERT for StoreRepository
-        assertThrows(NullPointerException.class, storeRepository::findAll,
-                "StoreRepository should throw NullPointerException when DataManager returns null for stores");
+        // ACT + ASSERT for StoreRepository - should initialize empty map instead of throwing exception
+        Map<String, Store> storeResult = storeRepository.findAll();
+        
+        // ASSERT for StoreRepository behavior
+        assertNotNull(storeResult,
+                "StoreRepository.findAll() should not return null even with null DataManager response");
+        assertTrue(storeResult.isEmpty(),
+                "StoreRepository.findAll() should return an empty map with null DataManager response");
 
         // ACT for UserRepository
         Map<String, User> userResult = userRepository.findAll(); // should handle null and return empty map
@@ -328,6 +333,6 @@ public class RepositoryUnitTest {
         verify(dataManager, atLeastOnce()).get("users");
 
         verify(dataManager, atLeastOnce()).put(eq("users"), any(Map.class)); // should at least put an empty map when initializing users map
-        verify(dataManager, never()).put(eq("stores"), any(Map.class)); // should not put anything for stores since storeRepository never initializes on null
+        verify(dataManager, atLeastOnce()).put(eq("stores"), any(Map.class)); // should also put an empty map for stores
     }
 }

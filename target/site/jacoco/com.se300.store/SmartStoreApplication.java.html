@@ -21,9 +21,9 @@ import java.io.File;
  * @author Sergey L. Sundukovskiy, Ph.D.
  * @version 1.0
  */
-<span class="fc" id="L24">public class SmartStoreApplication {</span>
+<span class="nc" id="L24">public class SmartStoreApplication {</span>
 
-<span class="fc" id="L26">    private static final Logger logger = LoggerFactory.getLogger(SmartStoreApplication.class);</span>
+<span class="nc" id="L26">    private static final Logger logger = LoggerFactory.getLogger(SmartStoreApplication.class);</span>
     private static final int PORT = 8080;
 
     private Tomcat tomcat;
@@ -55,8 +55,8 @@ import java.io.File;
      * Suitable for testing where you need the server running but want to continue execution.
      */
     public void startNonBlocking() throws LifecycleException {
-<span class="fc" id="L58">        startServer(false); // non-blocking mode</span>
-<span class="fc" id="L59">    }</span>
+<span class="nc" id="L58">        startServer(false); // non-blocking mode</span>
+<span class="nc" id="L59">    }</span>
 
     /**
      * Internal method to start the server with optional blocking.
@@ -64,77 +64,77 @@ import java.io.File;
      * @param block if true, blocks until server shutdown; if false, returns immediately
      */
     private void startServer(boolean block) throws LifecycleException {
-<span class="fc" id="L67">        logger.info(&quot;Starting Smart Store Application...&quot;);</span>
+<span class="nc" id="L67">        logger.info(&quot;Starting Smart Store Application...&quot;);</span>
 
         // Step 1: Initialize database
-<span class="fc" id="L70">        logger.info(&quot;Initializing database...&quot;);</span>
-<span class="fc" id="L71">        DataManager dataManager = DataManager.getInstance();</span>
+<span class="nc" id="L70">        logger.info(&quot;Initializing database...&quot;);</span>
+<span class="nc" id="L71">        DataManager dataManager = DataManager.getInstance();</span>
 
         // Step 2: Create repositories (Data Access Layer)
-<span class="fc" id="L74">        logger.info(&quot;Creating repositories...&quot;);</span>
-<span class="fc" id="L75">        StoreRepository storeRepository = new StoreRepository(dataManager);</span>
-<span class="fc" id="L76">        UserRepository userRepository = new UserRepository(dataManager);</span>
+<span class="nc" id="L74">        logger.info(&quot;Creating repositories...&quot;);</span>
+<span class="nc" id="L75">        StoreRepository storeRepository = new StoreRepository(dataManager);</span>
+<span class="nc" id="L76">        UserRepository userRepository = new UserRepository(dataManager);</span>
 
         // Step 3: Create services (Business Logic Layer)
-<span class="fc" id="L79">        logger.info(&quot;Creating services...&quot;);</span>
-<span class="fc" id="L80">        StoreService storeService = new StoreService(storeRepository);</span>
-<span class="fc" id="L81">        AuthenticationService userService = new AuthenticationService(userRepository);</span>
+<span class="nc" id="L79">        logger.info(&quot;Creating services...&quot;);</span>
+<span class="nc" id="L80">        StoreService storeService = new StoreService(storeRepository);</span>
+<span class="nc" id="L81">        AuthenticationService userService = new AuthenticationService(userRepository);</span>
 
         // Step 4: Create controllers (Presentation Layer)
-<span class="fc" id="L84">        logger.info(&quot;Creating controllers...&quot;);</span>
-<span class="fc" id="L85">        StoreController storeController = new StoreController(storeService);</span>
-<span class="fc" id="L86">        UserController userController = new UserController(userService);</span>
+<span class="nc" id="L84">        logger.info(&quot;Creating controllers...&quot;);</span>
+<span class="nc" id="L85">        StoreController storeController = new StoreController(storeService);</span>
+<span class="nc" id="L86">        UserController userController = new UserController(userService);</span>
 
         // Step 5: Configure and start Tomcat
-<span class="fc" id="L89">        logger.info(&quot;Configuring Tomcat server...&quot;);</span>
-<span class="fc" id="L90">        tomcat = new Tomcat();</span>
-<span class="fc" id="L91">        tomcat.setPort(PORT);</span>
-<span class="fc" id="L92">        tomcat.getConnector(); // Initialize default connector</span>
+<span class="nc" id="L89">        logger.info(&quot;Configuring Tomcat server...&quot;);</span>
+<span class="nc" id="L90">        tomcat = new Tomcat();</span>
+<span class="nc" id="L91">        tomcat.setPort(PORT);</span>
+<span class="nc" id="L92">        tomcat.getConnector(); // Initialize default connector</span>
 
         // Create context
-<span class="fc" id="L95">        String contextPath = &quot;&quot;;</span>
-<span class="fc" id="L96">        String docBase = new File(&quot;.&quot;).getAbsolutePath();</span>
-<span class="fc" id="L97">        Context context = tomcat.addContext(contextPath, docBase);</span>
+<span class="nc" id="L95">        String contextPath = &quot;&quot;;</span>
+<span class="nc" id="L96">        String docBase = new File(&quot;.&quot;).getAbsolutePath();</span>
+<span class="nc" id="L97">        Context context = tomcat.addContext(contextPath, docBase);</span>
 
         // Register Store Controller servlet
-<span class="fc" id="L100">        Tomcat.addServlet(context, &quot;storeController&quot;, storeController);</span>
-<span class="fc" id="L101">        context.addServletMappingDecoded(&quot;/api/v1/stores/*&quot;, &quot;storeController&quot;);</span>
+<span class="nc" id="L100">        Tomcat.addServlet(context, &quot;storeController&quot;, storeController);</span>
+<span class="nc" id="L101">        context.addServletMappingDecoded(&quot;/api/v1/stores/*&quot;, &quot;storeController&quot;);</span>
 
         // Register User Controller servlet
-<span class="fc" id="L104">        Tomcat.addServlet(context, &quot;userController&quot;, userController);</span>
-<span class="fc" id="L105">        context.addServletMappingDecoded(&quot;/api/v1/users/*&quot;, &quot;userController&quot;);</span>
+<span class="nc" id="L104">        Tomcat.addServlet(context, &quot;userController&quot;, userController);</span>
+<span class="nc" id="L105">        context.addServletMappingDecoded(&quot;/api/v1/users/*&quot;, &quot;userController&quot;);</span>
 
         // Step 6: Start Tomcat
-<span class="fc" id="L108">        tomcat.start();</span>
+<span class="nc" id="L108">        tomcat.start();</span>
 
-<span class="fc" id="L110">        logger.info(&quot;=&quot;.repeat(80));</span>
-<span class="fc" id="L111">        logger.info(&quot;Smart Store Application started successfully!&quot;);</span>
-<span class="fc" id="L112">        logger.info(&quot;=&quot;.repeat(80));</span>
-<span class="fc" id="L113">        logger.info(&quot;Server running on: http://localhost:{}&quot;, PORT);</span>
-<span class="fc" id="L114">        logger.info(&quot;&quot;);</span>
-<span class="fc" id="L115">        logger.info(&quot;Available endpoints:&quot;);</span>
-<span class="fc" id="L116">        logger.info(&quot;  - API:            http://localhost:{}/api/v1/stores&quot;, PORT);</span>
-<span class="fc" id="L117">        logger.info(&quot;  - API:            http://localhost:{}/api/v1/users&quot;, PORT);</span>
-<span class="fc" id="L118">        logger.info(&quot;=&quot;.repeat(80));</span>
+<span class="nc" id="L110">        logger.info(&quot;=&quot;.repeat(80));</span>
+<span class="nc" id="L111">        logger.info(&quot;Smart Store Application started successfully!&quot;);</span>
+<span class="nc" id="L112">        logger.info(&quot;=&quot;.repeat(80));</span>
+<span class="nc" id="L113">        logger.info(&quot;Server running on: http://localhost:{}&quot;, PORT);</span>
+<span class="nc" id="L114">        logger.info(&quot;&quot;);</span>
+<span class="nc" id="L115">        logger.info(&quot;Available endpoints:&quot;);</span>
+<span class="nc" id="L116">        logger.info(&quot;  - API:            http://localhost:{}/api/v1/stores&quot;, PORT);</span>
+<span class="nc" id="L117">        logger.info(&quot;  - API:            http://localhost:{}/api/v1/users&quot;, PORT);</span>
+<span class="nc" id="L118">        logger.info(&quot;=&quot;.repeat(80));</span>
 
         // Add shutdown hook
-<span class="fc" id="L121">        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));</span>
+<span class="nc" id="L121">        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));</span>
 
         // Keep the server running (only if blocking mode)
-<span class="pc bpc" id="L124" title="1 of 2 branches missed.">        if (block) {</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        if (block) {</span>
 <span class="nc" id="L125">            tomcat.getServer().await();</span>
         }
-<span class="fc" id="L127">    }</span>
+<span class="nc" id="L127">    }</span>
 
     /**
      * Stops the server.
      * Useful for testing scenarios where you need to explicitly stop the server.
      */
     public void stop() throws LifecycleException {
-<span class="pc bpc" id="L134" title="1 of 2 branches missed.">        if (tomcat != null) {</span>
-<span class="fc" id="L135">            tomcat.stop();</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        if (tomcat != null) {</span>
+<span class="nc" id="L135">            tomcat.stop();</span>
         }
-<span class="fc" id="L137">    }</span>
+<span class="nc" id="L137">    }</span>
 
 
     /**
@@ -146,18 +146,18 @@ import java.io.File;
      * hook to close when the JVM exits.
      */
     private void shutdown() {
-<span class="fc" id="L149">        logger.info(&quot;Shutting down Commission Calculator Integration Application...&quot;);</span>
+<span class="nc" id="L149">        logger.info(&quot;Shutting down Commission Calculator Integration Application...&quot;);</span>
 
         try {
-<span class="pc bpc" id="L152" title="1 of 2 branches missed.">            if (tomcat != null) {</span>
-<span class="fc" id="L153">                tomcat.stop();</span>
-<span class="fc" id="L154">                tomcat.destroy();</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">            if (tomcat != null) {</span>
+<span class="nc" id="L153">                tomcat.stop();</span>
+<span class="nc" id="L154">                tomcat.destroy();</span>
             }
 
-<span class="fc" id="L157">            logger.info(&quot;Application shut down successfully&quot;);</span>
+<span class="nc" id="L157">            logger.info(&quot;Application shut down successfully&quot;);</span>
 <span class="nc" id="L158">        } catch (Exception e) {</span>
 <span class="nc" id="L159">            logger.error(&quot;Error during shutdown&quot;, e);</span>
-<span class="fc" id="L160">        }</span>
-<span class="fc" id="L161">    }</span>
+<span class="nc" id="L160">        }</span>
+<span class="nc" id="L161">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.se300.store.controller.integration.ControllerIntegrationTest" time="2.825" tests="15" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.se300.store.controller.integration.ControllerIntegrationTest" time="2.584" tests="15" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -17,7 +17,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Eclipse Adoptium\jdk-17.0.17.10-hotspot\bin"/>
-    <property name="sun.java.command" value="C:\Users\kalya\AppData\Local\Temp\surefire10951241632459883498\surefirebooter-20251204220204880_3.jar C:\Users\kalya\AppData\Local\Temp\surefire10951241632459883498 2025-12-04T22-02-04_699-jvmRun1 surefire-20251204220204880_1tmp surefire_0-20251204220204880_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\kalya\AppData\Local\Temp\surefire8233899528697028908\surefirebooter-20251205002121552_3.jar C:\Users\kalya\AppData\Local\Temp\surefire8233899528697028908 2025-12-05T00-21-21_381-jvmRun1 surefire-20251205002121552_1tmp surefire_0-20251205002121552_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\kalya\OneDrive\Desktop\Final-SE300\target\test-classes;C:\Users\kalya\OneDrive\Desktop\Final-SE300\target\classes;C:\Users\kalya\.m2\repository\org\projectlombok\lombok\1.18.30\lombok-1.18.30.jar;C:\Users\kalya\.m2\repository\org\apache\commons\commons-lang3\3.13.0\commons-lang3-3.13.0.jar;C:\Users\kalya\.m2\repository\org\slf4j\slf4j-api\2.0.9\slf4j-api-2.0.9.jar;C:\Users\kalya\.m2\repository\ch\qos\logback\logback-classic\1.4.11\logback-classic-1.4.11.jar;C:\Users\kalya\.m2\repository\ch\qos\logback\logback-core\1.4.11\logback-core-1.4.11.jar;C:\Users\kalya\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\kalya\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\kalya\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\kalya\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\kalya\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\kalya\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;C:\Users\kalya\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.0\junit-jupiter-params-5.10.0.jar;C:\Users\kalya\.m2\repository\org\mockito\mockito-core\5.6.0\mockito-core-5.6.0.jar;C:\Users\kalya\.m2\repository\net\bytebuddy\byte-buddy\1.14.8\byte-buddy-1.14.8.jar;C:\Users\kalya\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.8\byte-buddy-agent-1.14.8.jar;C:\Users\kalya\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\kalya\.m2\repository\org\mockito\mockito-junit-jupiter\5.6.0\mockito-junit-jupiter-5.6.0.jar;C:\Users\kalya\.m2\repository\io\rest-assured\rest-assured\5.3.2\rest-assured-5.3.2.jar;C:\Users\kalya\.m2\repository\org\apache\groovy\groovy\4.0.11\groovy-4.0.11.jar;C:\Users\kalya\.m2\repository\org\apache\groovy\groovy-xml\4.0.11\groovy-xml-4.0.11.jar;C:\Users\kalya\.m2\repository\org\apache\httpcomponents\httpclient\4.5.13\httpclient-4.5.13.jar;C:\Users\kalya\.m2\repository\org\apache\httpcomponents\httpcore\4.4.13\httpcore-4.4.13.jar;C:\Users\kalya\.m2\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;C:\Users\kalya\.m2\repository\commons-codec\commons-codec\1.11\commons-codec-1.11.jar;C:\Users\kalya\.m2\repository\org\apache\httpcomponents\httpmime\4.5.13\httpmime-4.5.13.jar;C:\Users\kalya\.m2\repository\org\ccil\cowan\tagsoup\tagsoup\1.2.1\tagsoup-1.2.1.jar;C:\Users\kalya\.m2\repository\io\rest-assured\json-path\5.3.2\json-path-5.3.2.jar;C:\Users\kalya\.m2\repository\org\apache\groovy\groovy-json\4.0.11\groovy-json-4.0.11.jar;C:\Users\kalya\.m2\repository\io\rest-assured\rest-assured-common\5.3.2\rest-assured-common-5.3.2.jar;C:\Users\kalya\.m2\repository\io\rest-assured\xml-path\5.3.2\xml-path-5.3.2.jar;C:\Users\kalya\.m2\repository\org\hamcrest\hamcrest\2.2\hamcrest-2.2.jar;C:\Users\kalya\.m2\repository\org\mock-server\mockserver-netty\5.15.0\mockserver-netty-5.15.0.jar;C:\Users\kalya\.m2\repository\org\mock-server\mockserver-core\5.15.0\mockserver-core-5.15.0.jar;C:\Users\kalya\.m2\repository\com\lmax\disruptor\3.4.4\disruptor-3.4.4.jar;C:\Users\kalya\.m2\repository\javax\servlet\javax.servlet-api\4.0.1\javax.servlet-api-4.0.1.jar;C:\Users\kalya\.m2\repository\io\netty\netty-codec-socks\4.1.86.Final\netty-codec-socks-4.1.86.Final.jar;C:\Users\kalya\.m2\repository\io\netty\netty-handler-proxy\4.1.86.Final\netty-handler-proxy-4.1.86.Final.jar;C:\Users\kalya\.m2\repository\com\jcraft\jzlib\1.1.3\jzlib-1.1.3.jar;C:\Users\kalya\.m2\repository\com\fasterxml\uuid\java-uuid-generator\4.1.0\java-uuid-generator-4.1.0.jar;C:\Users\kalya\.m2\repository\org\bouncycastle\bcprov-jdk18on\1.72\bcprov-jdk18on-1.72.jar;C:\Users\kalya\.m2\repository\org\bouncycastle\bcpkix-jdk18on\1.72\bcpkix-jdk18on-1.72.jar;C:\Users\kalya\.m2\repository\org\bouncycastle\bcutil-jdk18on\1.72\bcutil-jdk18on-1.72.jar;C:\Users\kalya\.m2\repository\com\nimbusds\nimbus-jose-jwt\9.28\nimbus-jose-jwt-9.28.jar;C:\Users\kalya\.m2\repository\com\github\stephenc\jcip\jcip-annotations\1.0-1\jcip-annotations-1.0-1.jar;C:\Users\kalya\.m2\repository\org\apache\velocity\velocity-engine-scripting\2.3\velocity-engine-scripting-2.3.jar;C:\Users\kalya\.m2\repository\org\apache\velocity\velocity-engine-core\2.3\velocity-engine-core-2.3.jar;C:\Users\kalya\.m2\repository\org\apache\velocity\tools\velocity-tools-generic\3.1\velocity-tools-generic-3.1.jar;C:\Users\kalya\.m2\repository\commons-beanutils\commons-beanutils\1.9.4\commons-beanutils-1.9.4.jar;C:\Users\kalya\.m2\repository\commons-collections\commons-collections\3.2.2\commons-collections-3.2.2.jar;C:\Users\kalya\.m2\repository\org\apache\commons\commons-digester3\3.2\commons-digester3-3.2.jar;C:\Users\kalya\.m2\repository\com\github\cliftonlabs\json-simple\3.0.2\json-simple-3.0.2.jar;C:\Users\kalya\.m2\repository\com\samskivert\jmustache\1.15\jmustache-1.15.jar;C:\Users\kalya\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.14.1\jackson-core-2.14.1.jar;C:\Users\kalya\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.14.1\jackson-annotations-2.14.1.jar;C:\Users\kalya\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.14.1\jackson-databind-2.14.1.jar;C:\Users\kalya\.m2\repository\net\javacrumbs\json-unit\json-unit-core\2.36.0\json-unit-core-2.36.0.jar;C:\Users\kalya\.m2\repository\org\hamcrest\hamcrest-core\2.2\hamcrest-core-2.2.jar;C:\Users\kalya\.m2\repository\com\networknt\json-schema-validator\1.0.76\json-schema-validator-1.0.76.jar;C:\Users\kalya\.m2\repository\com\ethlo\time\itu\1.7.0\itu-1.7.0.jar;C:\Users\kalya\.m2\repository\com\jayway\jsonpath\json-path\2.7.0\json-path-2.7.0.jar;C:\Users\kalya\.m2\repository\net\minidev\json-smart\2.4.7\json-smart-2.4.7.jar;C:\Users\kalya\.m2\repository\net\minidev\accessors-smart\2.4.7\accessors-smart-2.4.7.jar;C:\Users\kalya\.m2\repository\org\ow2\asm\asm\9.1\asm-9.1.jar;C:\Users\kalya\.m2\repository\io\swagger\parser\v3\swagger-parser\2.1.10\swagger-parser-2.1.10.jar;C:\Users\kalya\.m2\repository\io\swagger\parser\v3\swagger-parser-v2-converter\2.1.10\swagger-parser-v2-converter-2.1.10.jar;C:\Users\kalya\.m2\repository\io\swagger\swagger-core\1.6.9\swagger-core-1.6.9.jar;C:\Users\kalya\.m2\repository\io\swagger\swagger-models\1.6.9\swagger-models-1.6.9.jar;C:\Users\kalya\.m2\repository\io\swagger\swagger-annotations\1.6.9\swagger-annotations-1.6.9.jar;C:\Users\kalya\.m2\repository\io\swagger\swagger-parser\1.0.64\swagger-parser-1.0.64.jar;C:\Users\kalya\.m2\repository\io\swagger\swagger-compat-spec-parser\1.0.64\swagger-compat-spec-parser-1.0.64.jar;C:\Users\kalya\.m2\repository\com\github\java-json-tools\json-schema-validator\2.2.14\json-schema-validator-2.2.14.jar;C:\Users\kalya\.m2\repository\com\github\java-json-tools\jackson-coreutils-equivalence\1.0\jackson-coreutils-equivalence-1.0.jar;C:\Users\kalya\.m2\repository\com\github\java-json-tools\json-schema-core\1.2.14\json-schema-core-1.2.14.jar;C:\Users\kalya\.m2\repository\com\github\java-json-tools\uri-template\0.10\uri-template-0.10.jar;C:\Users\kalya\.m2\repository\org\mozilla\rhino\1.7.7.2\rhino-1.7.7.2.jar;C:\Users\kalya\.m2\repository\com\sun\mail\mailapi\1.6.2\mailapi-1.6.2.jar;C:\Users\kalya\.m2\repository\joda-time\joda-time\2.10.5\joda-time-2.10.5.jar;C:\Users\kalya\.m2\repository\com\googlecode\libphonenumber\libphonenumber\8.11.1\libphonenumber-8.11.1.jar;C:\Users\kalya\.m2\repository\net\sf\jopt-simple\jopt-simple\5.0.4\jopt-simple-5.0.4.jar;C:\Users\kalya\.m2\repository\com\github\java-json-tools\json-patch\1.13\json-patch-1.13.jar;C:\Users\kalya\.m2\repository\com\github\java-json-tools\msg-simple\1.2\msg-simple-1.2.jar;C:\Users\kalya\.m2\repository\com\github\java-json-tools\btf\1.3\btf-1.3.jar;C:\Users\kalya\.m2\repository\com\github\java-json-tools\jackson-coreutils\2.0\jackson-coreutils-2.0.jar;C:\Users\kalya\.m2\repository\io\swagger\core\v3\swagger-models\2.2.8\swagger-models-2.2.8.jar;C:\Users\kalya\.m2\repository\io\swagger\parser\v3\swagger-parser-core\2.1.10\swagger-parser-core-2.1.10.jar;C:\Users\kalya\.m2\repository\io\swagger\parser\v3\swagger-parser-v3\2.1.10\swagger-parser-v3-2.1.10.jar;C:\Users\kalya\.m2\repository\io\swagger\core\v3\swagger-core\2.2.8\swagger-core-2.2.8.jar;C:\Users\kalya\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jsr310\2.14.0\jackson-datatype-jsr310-2.14.0.jar;C:\Users\kalya\.m2\repository\io\swagger\core\v3\swagger-annotations\2.2.8\swagger-annotations-2.2.8.jar;C:\Users\kalya\.m2\repository\jakarta\validation\jakarta.validation-api\2.0.2\jakarta.validation-api-2.0.2.jar;C:\Users\kalya\.m2\repository\com\fasterxml\jackson\dataformat\jackson-dataformat-yaml\2.14.0\jackson-dataformat-yaml-2.14.0.jar;C:\Users\kalya\.m2\repository\org\yaml\snakeyaml\1.33\snakeyaml-1.33.jar;C:\Users\kalya\.m2\repository\org\xmlunit\xmlunit-core\2.9.1\xmlunit-core-2.9.1.jar;C:\Users\kalya\.m2\repository\org\xmlunit\xmlunit-placeholders\2.9.1\xmlunit-placeholders-2.9.1.jar;C:\Users\kalya\.m2\repository\io\github\classgraph\classgraph\4.8.154\classgraph-4.8.154.jar;C:\Users\kalya\.m2\repository\io\prometheus\simpleclient\0.16.0\simpleclient-0.16.0.jar;C:\Users\kalya\.m2\repository\io\prometheus\simpleclient_tracer_otel\0.16.0\simpleclient_tracer_otel-0.16.0.jar;C:\Users\kalya\.m2\repository\io\prometheus\simpleclient_tracer_common\0.16.0\simpleclient_tracer_common-0.16.0.jar;C:\Users\kalya\.m2\repository\io\prometheus\simpleclient_tracer_otel_agent\0.16.0\simpleclient_tracer_otel_agent-0.16.0.jar;C:\Users\kalya\.m2\repository\io\prometheus\simpleclient_httpserver\0.16.0\simpleclient_httpserver-0.16.0.jar;C:\Users\kalya\.m2\repository\io\prometheus\simpleclient_common\0.16.0\simpleclient_common-0.16.0.jar;C:\Users\kalya\.m2\repository\io\netty\netty-buffer\4.1.86.Final\netty-buffer-4.1.86.Final.jar;C:\Users\kalya\.m2\repository\io\netty\netty-codec\4.1.86.Final\netty-codec-4.1.86.Final.jar;C:\Users\kalya\.m2\repository\io\netty\netty-codec-http\4.1.86.Final\netty-codec-http-4.1.86.Final.jar;C:\Users\kalya\.m2\repository\io\netty\netty-codec-http2\4.1.86.Final\netty-codec-http2-4.1.86.Final.jar;C:\Users\kalya\.m2\repository\io\netty\netty-common\4.1.86.Final\netty-common-4.1.86.Final.jar;C:\Users\kalya\.m2\repository\io\netty\netty-handler\4.1.86.Final\netty-handler-4.1.86.Final.jar;C:\Users\kalya\.m2\repository\io\netty\netty-resolver\4.1.86.Final\netty-resolver-4.1.86.Final.jar;C:\Users\kalya\.m2\repository\io\netty\netty-transport-native-unix-common\4.1.86.Final\netty-transport-native-unix-common-4.1.86.Final.jar;C:\Users\kalya\.m2\repository\io\netty\netty-transport\4.1.86.Final\netty-transport-4.1.86.Final.jar;C:\Users\kalya\.m2\repository\io\netty\netty-tcnative-boringssl-static\2.0.56.Final\netty-tcnative-boringssl-static-2.0.56.Final.jar;C:\Users\kalya\.m2\repository\io\netty\netty-tcnative-classes\2.0.56.Final\netty-tcnative-classes-2.0.56.Final.jar;C:\Users\kalya\.m2\repository\io\netty\netty-tcnative-boringssl-static\2.0.56.Final\netty-tcnative-boringssl-static-2.0.56.Final-linux-x86_64.jar;C:\Users\kalya\.m2\repository\io\netty\netty-tcnative-boringssl-static\2.0.56.Final\netty-tcnative-boringssl-static-2.0.56.Final-linux-aarch_64.jar;C:\Users\kalya\.m2\repository\io\netty\netty-tcnative-boringssl-static\2.0.56.Final\netty-tcnative-boringssl-static-2.0.56.Final-osx-x86_64.jar;C:\Users\kalya\.m2\repository\io\netty\netty-tcnative-boringssl-static\2.0.56.Final\netty-tcnative-boringssl-static-2.0.56.Final-osx-aarch_64.jar;C:\Users\kalya\.m2\repository\io\netty\netty-tcnative-boringssl-static\2.0.56.Final\netty-tcnative-boringssl-static-2.0.56.Final-windows-x86_64.jar;C:\Users\kalya\.m2\repository\commons-io\commons-io\2.11.0\commons-io-2.11.0.jar;C:\Users\kalya\.m2\repository\com\google\guava\guava\31.1-jre\guava-31.1-jre.jar;C:\Users\kalya\.m2\repository\com\google\guava\failureaccess\1.0.1\failureaccess-1.0.1.jar;C:\Users\kalya\.m2\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\Users\kalya\.m2\repository\org\checkerframework\checker-qual\3.12.0\checker-qual-3.12.0.jar;C:\Users\kalya\.m2\repository\com\google\j2objc\j2objc-annotations\1.3\j2objc-annotations-1.3.jar;C:\Users\kalya\.m2\repository\org\mock-server\mockserver-client-java\5.15.0\mockserver-client-java-5.15.0.jar;C:\Users\kalya\.m2\repository\org\jbehave\jbehave-core\5.2.0\jbehave-core-5.2.0.jar;C:\Users\kalya\.m2\repository\org\junit\platform\junit-platform-launcher\1.10.0\junit-platform-launcher-1.10.0.jar;C:\Users\kalya\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.0\junit-jupiter-5.10.0.jar;C:\Users\kalya\.m2\repository\org\junit\vintage\junit-vintage-engine\5.10.0\junit-vintage-engine-5.10.0.jar;C:\Users\kalya\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\kalya\.m2\repository\org\apache\commons\commons-text\1.10.0\commons-text-1.10.0.jar;C:\Users\kalya\.m2\repository\org\codehaus\plexus\plexus-utils\4.0.0\plexus-utils-4.0.0.jar;C:\Users\kalya\.m2\repository\org\freemarker\freemarker\2.3.32\freemarker-2.3.32.jar;C:\Users\kalya\.m2\repository\com\thoughtworks\paranamer\paranamer\2.8\paranamer-2.8.jar;C:\Users\kalya\.m2\repository\org\apache\tomcat\embed\tomcat-embed-core\10.1.15\tomcat-embed-core-10.1.15.jar;C:\Users\kalya\.m2\repository\org\apache\tomcat\tomcat-annotations-api\10.1.15\tomcat-annotations-api-10.1.15.jar;C:\Users\kalya\.m2\repository\org\apache\tomcat\embed\tomcat-embed-jasper\10.1.15\tomcat-embed-jasper-10.1.15.jar;C:\Users\kalya\.m2\repository\org\eclipse\jdt\ecj\3.33.0\ecj-3.33.0.jar;C:\Users\kalya\.m2\repository\org\apache\tomcat\tomcat-jsp-api\10.1.15\tomcat-jsp-api-10.1.15.jar;C:\Users\kalya\.m2\repository\org\apache\tomcat\tomcat-servlet-api\10.1.15\tomcat-servlet-api-10.1.15.jar;C:\Users\kalya\.m2\repository\jakarta\servlet\jsp\jstl\jakarta.servlet.jsp.jstl-api\3.0.0\jakarta.servlet.jsp.jstl-api-3.0.0.jar;C:\Users\kalya\.m2\repository\jakarta\servlet\jakarta.servlet-api\6.0.0\jakarta.servlet-api-6.0.0.jar;C:\Users\kalya\.m2\repository\jakarta\el\jakarta.el-api\5.0.0\jakarta.el-api-5.0.0.jar;C:\Users\kalya\.m2\repository\org\glassfish\web\jakarta.servlet.jsp.jstl\3.0.1\jakarta.servlet.jsp.jstl-3.0.1.jar;C:\Users\kalya\.m2\repository\org\apache\tomcat\embed\tomcat-embed-el\10.1.15\tomcat-embed-el-10.1.15.jar;C:\Users\kalya\.m2\repository\org\apache\tomcat\tomcat-el-api\10.1.15\tomcat-el-api-10.1.15.jar;C:\Users\kalya\.m2\repository\com\google\code\gson\gson\2.10.1\gson-2.10.1.jar;C:\Users\kalya\.m2\repository\com\h2database\h2\2.2.224\h2-2.2.224.jar;C:\Users\kalya\.m2\repository\org\webjars\swagger-ui\5.10.3\swagger-ui-5.10.3.jar;C:\Users\kalya\.m2\repository\com\graphql-java\graphql-java\21.3\graphql-java-21.3.jar;C:\Users\kalya\.m2\repository\com\graphql-java\java-dataloader\3.2.1\java-dataloader-3.2.1.jar;C:\Users\kalya\.m2\repository\org\reactivestreams\reactive-streams\1.0.3\reactive-streams-1.0.3.jar;C:\Users\kalya\.m2\repository\com\graphql-java\graphql-java-extended-scalars\21.0\graphql-java-extended-scalars-21.0.jar;C:\Users\kalya\.m2\repository\io\grpc\grpc-netty-shaded\1.60.0\grpc-netty-shaded-1.60.0.jar;C:\Users\kalya\.m2\repository\com\google\errorprone\error_prone_annotations\2.20.0\error_prone_annotations-2.20.0.jar;C:\Users\kalya\.m2\repository\io\perfmark\perfmark-api\0.26.0\perfmark-api-0.26.0.jar;C:\Users\kalya\.m2\repository\io\grpc\grpc-core\1.60.0\grpc-core-1.60.0.jar;C:\Users\kalya\.m2\repository\com\google\android\annotations\4.1.1.4\annotations-4.1.1.4.jar;C:\Users\kalya\.m2\repository\org\codehaus\mojo\animal-sniffer-annotations\1.23\animal-sniffer-annotations-1.23.jar;C:\Users\kalya\.m2\repository\io\grpc\grpc-context\1.60.0\grpc-context-1.60.0.jar;C:\Users\kalya\.m2\repository\io\grpc\grpc-util\1.60.0\grpc-util-1.60.0.jar;C:\Users\kalya\.m2\repository\io\grpc\grpc-protobuf\1.60.0\grpc-protobuf-1.60.0.jar;C:\Users\kalya\.m2\repository\io\grpc\grpc-api\1.60.0\grpc-api-1.60.0.jar;C:\Users\kalya\.m2\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar;C:\Users\kalya\.m2\repository\com\google\api\grpc\proto-google-common-protos\2.22.0\proto-google-common-protos-2.22.0.jar;C:\Users\kalya\.m2\repository\io\grpc\grpc-protobuf-lite\1.60.0\grpc-protobuf-lite-1.60.0.jar;C:\Users\kalya\.m2\repository\io\grpc\grpc-stub\1.60.0\grpc-stub-1.60.0.jar;C:\Users\kalya\.m2\repository\com\google\protobuf\protobuf-java\3.25.1\protobuf-java-3.25.1.jar;C:\Users\kalya\.m2\repository\javax\annotation\javax.annotation-api\1.3.2\javax.annotation-api-1.3.2.jar;C:\Users\kalya\.m2\repository\jakarta\xml\ws\jakarta.xml.ws-api\4.0.0\jakarta.xml.ws-api-4.0.0.jar;C:\Users\kalya\.m2\repository\jakarta\xml\soap\jakarta.xml.soap-api\3.0.0\jakarta.xml.soap-api-3.0.0.jar;C:\Users\kalya\.m2\repository\com\sun\xml\ws\jaxws-rt\4.0.1\jaxws-rt-4.0.1.jar;C:\Users\kalya\.m2\repository\org\glassfish\ha\ha-api\3.1.13\ha-api-3.1.13.jar;C:\Users\kalya\.m2\repository\org\glassfish\external\management-api\3.2.3\management-api-3.2.3.jar;C:\Users\kalya\.m2\repository\org\glassfish\gmbal\gmbal-api-only\4.0.3\gmbal-api-only-4.0.3.jar;C:\Users\kalya\.m2\repository\org\jvnet\staxex\stax-ex\2.1.0\stax-ex-2.1.0.jar;C:\Users\kalya\.m2\repository\com\sun\xml\stream\buffer\streambuffer\2.1.0\streambuffer-2.1.0.jar;C:\Users\kalya\.m2\repository\org\jvnet\mimepull\mimepull\1.10.0\mimepull-1.10.0.jar;C:\Users\kalya\.m2\repository\com\sun\xml\fastinfoset\FastInfoset\2.1.0\FastInfoset-2.1.0.jar;C:\Users\kalya\.m2\repository\jakarta\mail\jakarta.mail-api\2.1.1\jakarta.mail-api-2.1.1.jar;C:\Users\kalya\.m2\repository\org\eclipse\angus\angus-activation\2.0.0\angus-activation-2.0.0.jar;C:\Users\kalya\.m2\repository\org\eclipse\angus\angus-mail\2.0.1\angus-mail-2.0.1.jar;C:\Users\kalya\.m2\repository\com\sun\xml\messaging\saaj\saaj-impl\3.0.0\saaj-impl-3.0.0.jar;C:\Users\kalya\.m2\repository\com\fasterxml\woodstox\woodstox-core\6.5.0\woodstox-core-6.5.0.jar;C:\Users\kalya\.m2\repository\org\codehaus\woodstox\stax2-api\4.2.1\stax2-api-4.2.1.jar;C:\Users\kalya\.m2\repository\jakarta\activation\jakarta.activation-api\2.1.1\jakarta.activation-api-2.1.1.jar;C:\Users\kalya\.m2\repository\jakarta\annotation\jakarta.annotation-api\2.1.1\jakarta.annotation-api-2.1.1.jar;C:\Users\kalya\.m2\repository\jakarta\xml\bind\jakarta.xml.bind-api\4.0.0\jakarta.xml.bind-api-4.0.0.jar;C:\Users\kalya\.m2\repository\com\sun\xml\bind\jaxb-impl\4.0.2\jaxb-impl-4.0.2.jar;C:\Users\kalya\.m2\repository\com\sun\xml\bind\jaxb-core\4.0.2\jaxb-core-4.0.2.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -32,8 +32,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\kalya\AppData\Local\Temp\surefire10951241632459883498\surefirebooter-20251204220204880_3.jar"/>
-    <property name="maven.compiler.release" value="17"/>
+    <property name="surefire.real.class.path" value="C:\Users\kalya\AppData\Local\Temp\surefire8233899528697028908\surefirebooter-20251205002121552_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.17+10"/>
@@ -47,149 +46,49 @@
     <property name="localRepository" value="C:\Users\kalya\.m2\repository"/>
     <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
     <property name="java.io.tmpdir" value="C:\Users\kalya\AppData\Local\Temp\"/>
-    <property name="catalina.home" value="C:\Users\kalya\OneDrive\Desktop\Final-SE300\tomcat.8080"/>
+    <property name="catalina.home" value="C:\Users\kalya\OneDrive\Desktop\Final-SE300\tomcat.8082"/>
     <property name="java.version" value="17.0.17"/>
     <property name="user.dir" value="C:\Users\kalya\OneDrive\Desktop\Final-SE300"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="sun.os.patch.level" value=""/>
-    <property name="catalina.base" value="C:\Users\kalya\OneDrive\Desktop\Final-SE300\tomcat.8080"/>
+    <property name="catalina.base" value="C:\Users\kalya\OneDrive\Desktop\Final-SE300\tomcat.8082"/>
     <property name="native.encoding" value="Cp1252"/>
-    <property name="trimStackTrace" value="false"/>
     <property name="java.library.path" value="C:\Program Files\Eclipse Adoptium\jdk-17.0.17.10-hotspot\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;c:\Users\kalya\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\debugCommand;c:\Users\kalya\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\copilotCli;C:\Program Files\Eclipse Adoptium\jdk-17.0.17.10-hotspot\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Microsoft\jdk-11.0.12.7-hotspot\bin;C:\Program Files\National Instruments\Shared\OpenVINO\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\IVI Foundation\VISA\WinNT\Bin\;C:\Program Files\IVI Foundation\VISA\Win64\Bin\;C:\Program Files (x86)\National Instruments\Shared\LabVIEW CLI;C:\Program Files (x86)\IVI Foundation\VISA\WinNT\Bin;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;C:\Users\kalya\OneDrive\Desktop\android-studio-2022.1.1.15-windows\android-studio\jbr;C:\Program Files\Apache\apache-maven-3.9.11\bin;C:\Program Files\cursor\resources\app\bin;C:\Program Files\Docker\Docker\resources\bin;C:\Users\kalya\AppData\Local\Microsoft\WindowsApps;C:\Users\kalya\OneDrive\Desktop\Coding\flutter\bin;C:\Users\kalya\AppData\Local\GitHubDesktop\bin;C:\Program Files\heroku\bin;C:\Users\kalya\AppData\Local\Programs\Python\Python39;C:\Users\kalya\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Java\jdk-19\bin;;C:\Users\kalya\AppData\Local\Programs\Ollama;."/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
     <property name="java.vendor" value="Eclipse Adoptium"/>
     <property name="java.vm.version" value="17.0.17+10"/>
     <property name="java.specification.maintenance.version" value="1"/>
+    <property name="https.protocols" value="TLSv1,TLSv1.1,TLSv1.2"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testCreateStore" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.002">
-    <system-out><![CDATA[22:02:06.771 [main] INFO com.se300.store.SmartStoreApplication -- Starting Smart Store Application...
-22:02:06.775 [main] INFO com.se300.store.SmartStoreApplication -- Initializing database...
-22:02:06.775 [main] INFO com.se300.store.SmartStoreApplication -- Creating repositories...
-22:02:06.776 [main] INFO com.se300.store.SmartStoreApplication -- Creating services...
-22:02:06.779 [main] INFO com.se300.store.SmartStoreApplication -- Creating controllers...
-22:02:06.788 [main] INFO com.se300.store.SmartStoreApplication -- Configuring Tomcat server...
-22:02:07.447 [main] INFO com.se300.store.SmartStoreApplication -- ================================================================================
-22:02:07.447 [main] INFO com.se300.store.SmartStoreApplication -- Smart Store Application started successfully!
-22:02:07.447 [main] INFO com.se300.store.SmartStoreApplication -- ================================================================================
-22:02:07.447 [main] INFO com.se300.store.SmartStoreApplication -- Server running on: http://localhost:8080
-22:02:07.449 [main] INFO com.se300.store.SmartStoreApplication -- 
-22:02:07.449 [main] INFO com.se300.store.SmartStoreApplication -- Available endpoints:
-22:02:07.449 [main] INFO com.se300.store.SmartStoreApplication --   - API:            http://localhost:8080/api/v1/stores
-22:02:07.449 [main] INFO com.se300.store.SmartStoreApplication --   - API:            http://localhost:8080/api/v1/users
-22:02:07.449 [main] INFO com.se300.store.SmartStoreApplication -- ================================================================================
+  <testcase name="testCreateStore" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.306">
+    <system-out><![CDATA[2025-12-05 00:21:30 5.15.0 INFO Initializing ProtocolHandler ["http-nio-8082"] 
+2025-12-05 00:21:30 5.15.0 INFO Starting service [Tomcat] 
+2025-12-05 00:21:30 5.15.0 INFO Starting Servlet engine: [Apache Tomcat/10.1.15] 
+2025-12-05 00:21:30 5.15.0 INFO Starting ProtocolHandler ["http-nio-8082"] 
+00:21:31.653 [MockServer-ClientAndServer-eventLoop6] DEBUG io.netty.buffer.PoolThreadCache -- Freed 4 thread-local buffer(s) from thread: MockServer-ClientAndServer-eventLoop6
+00:21:31.653 [MockServer-ClientAndServer-eventLoop3] DEBUG io.netty.buffer.PoolThreadCache -- Freed 3 thread-local buffer(s) from thread: MockServer-ClientAndServer-eventLoop3
+00:21:31.653 [MockServer-ClientAndServer-eventLoop9] DEBUG io.netty.buffer.PoolThreadCache -- Freed 3 thread-local buffer(s) from thread: MockServer-ClientAndServer-eventLoop9
+00:21:31.654 [MockServer-ClientAndServer-eventLoop12] DEBUG io.netty.buffer.PoolThreadCache -- Freed 4 thread-local buffer(s) from thread: MockServer-ClientAndServer-eventLoop12
 ]]></system-out>
-    <system-err><![CDATA[Dec 04, 2025 10:02:07 PM org.apache.coyote.AbstractProtocol init
-INFO: Initializing ProtocolHandler ["http-nio-8080"]
-Dec 04, 2025 10:02:07 PM org.apache.catalina.util.LifecycleBase handleSubClassException
-SEVERE: Failed to initialize component [Connector["http-nio-8080"]]
-org.apache.catalina.LifecycleException: Protocol handler initialization failed
-	at org.apache.catalina.connector.Connector.initInternal(Connector.java:1015)
-	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:127)
-	at org.apache.catalina.core.StandardService.initInternal(StandardService.java:554)
-	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:127)
-	at org.apache.catalina.core.StandardServer.initInternal(StandardServer.java:1010)
-	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:127)
-	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:161)
-	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:488)
-	at com.se300.store.SmartStoreApplication.startServer(SmartStoreApplication.java:108)
-	at com.se300.store.SmartStoreApplication.startNonBlocking(SmartStoreApplication.java:58)
-	at com.se300.store.controller.integration.ControllerIntegrationTest.setUpClass(ControllerIntegrationTest.java:33)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
-	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:728)
-	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptLifecycleMethod(TimeoutExtension.java:128)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptBeforeAllMethod(TimeoutExtension.java:70)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
-	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeBeforeAllMethods$13(ClassBasedTestDescriptor.java:412)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeBeforeAllMethods(ClassBasedTestDescriptor.java:410)
-	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.before(ClassBasedTestDescriptor.java:216)
-	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.before(ClassBasedTestDescriptor.java:85)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:148)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
-	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
-	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85)
-	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
-	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56)
-	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:184)
-	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:148)
-	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:122)
-	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
-	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
-	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
-	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
-Caused by: java.net.BindException: Address already in use: bind
-	at java.base/sun.nio.ch.Net.bind0(Native Method)
-	at java.base/sun.nio.ch.Net.bind(Net.java:555)
-	at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:337)
-	at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:294)
-	at org.apache.tomcat.util.net.NioEndpoint.initServerSocket(NioEndpoint.java:247)
-	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:202)
-	at org.apache.tomcat.util.net.AbstractEndpoint.bindWithCleanup(AbstractEndpoint.java:1280)
-	at org.apache.tomcat.util.net.AbstractEndpoint.init(AbstractEndpoint.java:1293)
-	at org.apache.coyote.AbstractProtocol.init(AbstractProtocol.java:624)
-	at org.apache.coyote.http11.AbstractHttp11Protocol.init(AbstractHttp11Protocol.java:77)
-	at org.apache.catalina.connector.Connector.initInternal(Connector.java:1013)
-	... 71 more
-
-Dec 04, 2025 10:02:07 PM org.apache.catalina.core.StandardService startInternal
-INFO: Starting service [Tomcat]
-Dec 04, 2025 10:02:07 PM org.apache.catalina.core.StandardEngine startInternal
-INFO: Starting Servlet engine: [Apache Tomcat/10.1.15]
-]]></system-err>
   </testcase>
-  <testcase name="testGetAllStores" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.001"/>
-  <testcase name="testGetStoreById" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.001"/>
-  <testcase name="testUpdateStore" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.001"/>
-  <testcase name="testDeleteStore" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.001"/>
-  <testcase name="testStoreCompleteWorkflow" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.001"/>
-  <testcase name="testRegisterUser" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.0"/>
-  <testcase name="testGetAllUsers" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.0"/>
-  <testcase name="testGetUserByEmail" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.001"/>
-  <testcase name="testUpdateUser" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.001"/>
-  <testcase name="testDeleteUser" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.0"/>
-  <testcase name="testUserCompleteWorkflow" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.0"/>
-  <testcase name="testErrorHandlingMissingParameters" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.001"/>
-  <testcase name="testErrorHandlingUserNotFound" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.001"/>
-  <testcase name="testErrorHandlingDuplicateUser" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.001"/>
+  <testcase name="testGetAllStores" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.034"/>
+  <testcase name="testGetStoreById" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.042">
+    <system-out><![CDATA[00:21:31.871 [MockServer-ClientAndServer-eventLoop14] DEBUG io.netty.buffer.PoolThreadCache -- Freed 3 thread-local buffer(s) from thread: MockServer-ClientAndServer-eventLoop14
+]]></system-out>
+  </testcase>
+  <testcase name="testUpdateStore" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.057"/>
+  <testcase name="testDeleteStore" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.023"/>
+  <testcase name="testStoreCompleteWorkflow" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.075"/>
+  <testcase name="testRegisterUser" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.042"/>
+  <testcase name="testGetAllUsers" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.028"/>
+  <testcase name="testGetUserByEmail" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.039"/>
+  <testcase name="testUpdateUser" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.039"/>
+  <testcase name="testDeleteUser" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.021"/>
+  <testcase name="testUserCompleteWorkflow" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.074"/>
+  <testcase name="testErrorHandlingMissingParameters" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.006"/>
+  <testcase name="testErrorHandlingUserNotFound" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.02"/>
+  <testcase name="testErrorHandlingDuplicateUser" classname="com.se300.store.controller.integration.ControllerIntegrationTest" time="0.018"/>
 </testsuite>

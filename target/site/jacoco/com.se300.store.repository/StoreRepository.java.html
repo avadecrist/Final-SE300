@@ -69,7 +69,12 @@ public class StoreRepository {
      */
     @SuppressWarnings(&quot;unchecked&quot;)
     private Map&lt;String, Store&gt; getStoresMap() {
-<span class="fc" id="L72">        return dataManager.get(STORES_KEY);</span>
+<span class="fc" id="L72">        Map&lt;String, Store&gt; stores = dataManager.get(STORES_KEY);</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        if (stores == null) {</span>
+<span class="fc" id="L74">            stores = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L75">            dataManager.put(STORES_KEY, stores);</span>
+        }
+<span class="fc" id="L77">        return stores;</span>
     }
 } 
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

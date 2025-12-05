@@ -10,8 +10,8 @@
     <packaging>jar</packaging>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- SonarQube properties -->
@@ -22,8 +22,8 @@
 
         <!-- Language and Source Configuration -->
         <sonar.language>java</sonar.language>
-        <sonar.java.source>21</sonar.java.source>
-        <sonar.java.target>21</sonar.java.target>
+        <sonar.java.source>17</sonar.java.source>
+        <sonar.java.target>17</sonar.java.target>
         <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
 
         <!-- Source and Test Directories -->

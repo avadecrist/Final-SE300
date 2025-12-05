@@ -615,11 +615,19 @@ public class EndToEndSmartStoreTest {
         assertEquals("Guests Are Not Allowed to Shop", guestEx.getReason());
 
         // 2) Customer in a store but aisle does not exist -> should throw Aisle Does Not Exist
+        // We need to use a mock/stub Store that returns null for getAisle() to hit the branch in Basket
         Customer regCust = storeService.provisionCustomer("reg_cust", "R", "U", CustomerType.registered, "reg@ex.com", "addr", null);
-        regCust.setStoreLocation(new StoreLocation(storeId, "NO_AISLE"));
+        regCust.setStoreLocation(new StoreLocation(storeId, "A1")); // Valid aisle for now
         Basket regBasket = new Basket("reg_basket");
         regBasket.setCustomer(regCust);
-        regBasket.setStore(shopStore);
+        // Create a custom Store that returns null for getAisle() using reflection to override behavior
+        Store mockStore = new Store(storeId, "Mock Store", "Mock") {
+            @Override
+            public Aisle getAisle(String aisleNumber) {
+                return null; // Return null to trigger aisle == null branch
+            }
+        };
+        regBasket.setStore(mockStore);
         StoreException aisleEx = assertThrows(StoreException.class, () -> regBasket.addProduct("prod_shop", 1));
         assertEquals("Aisle Does Not Exist", aisleEx.getReason());
 
@@ -695,10 +703,17 @@ public class EndToEndSmartStoreTest {
 
             // C) aisle == null -> Aisle Does Not Exist
             Customer rpCustC = storeService.provisionCustomer("rp_c", "RPC", "C", CustomerType.registered, "rpc@ex.com", "addr", null);
-            rpCustC.setStoreLocation(new StoreLocation(storeId, "NO_SUCH_AISLE"));
+            rpCustC.setStoreLocation(new StoreLocation(storeId, "A1")); // Valid aisle
             Basket rpBasketC = new Basket("rp_basket_c");
             rpBasketC.setCustomer(rpCustC);
-            rpBasketC.setStore(storeService.showStore(storeId, null));
+            // Create a mock store that returns null for getAisle() to trigger the aisle == null branch
+            Store mockStoreRm = new Store(storeId, "Mock Store", "Mock") {
+                @Override
+                public Aisle getAisle(String aisleNumber) {
+                    return null; // Return null to trigger aisle == null branch
+                }
+            };
+            rpBasketC.setStore(mockStoreRm);
             @SuppressWarnings("unchecked")
             java.util.Map<String,Integer> mapC = (java.util.Map<String,Integer>) pmField.get(rpBasketC);
             mapC.put("prod_shop", 1);
