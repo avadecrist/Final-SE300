@@ -69,6 +69,11 @@ public class StoreRepository {
      */
     @SuppressWarnings("unchecked")
     private Map<String, Store> getStoresMap() {
-        return dataManager.get(STORES_KEY);
+        Map<String, Store> stores = dataManager.get(STORES_KEY);
+        if (stores == null) {
+            stores = new HashMap<>();
+            dataManager.put(STORES_KEY, stores);
+        }
+        return stores;
     }
 } 

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.se300.store.controller.unit.ControllerUnitTest
 -------------------------------------------------------------------------------
-Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.223 s -- in com.se300.store.controller.unit.ControllerUnitTest
+Tests run: 52, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 5.458 s -- in com.se300.store.controller.unit.ControllerUnitTest

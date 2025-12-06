@@ -26,7 +26,11 @@ public class AuthenticationService {
     /**
      * Register a new user
      */
-    public User registerUser(String email, String password, String name) {
+    public User registerUser(String email, String password, String name) throws IllegalArgumentException {
+        // Check if user already exists
+        if (userRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("User with email " + email + " already exists");
+        }
         User user = new User(email, password, name);
         userRepository.save(user);
         return user;
