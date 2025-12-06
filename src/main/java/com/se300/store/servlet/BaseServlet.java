@@ -24,7 +24,7 @@ public abstract class BaseServlet extends HttpServlet {
      * @return The request body as a string
      * @throws IOException If reading fails
      */
-    protected String readRequestBody(HttpServletRequest request) throws IOException {
+    public String readRequestBody(HttpServletRequest request) throws IOException {
         StringBuilder buffer = new StringBuilder();
         BufferedReader reader = request.getReader();
         String line;
@@ -90,7 +90,8 @@ public abstract class BaseServlet extends HttpServlet {
      * @param request The HTTP request
      * @return The resource ID, or null if not present
      */
-    protected String extractResourceId(HttpServletRequest request) {
+    // changed to public to help with testing
+    public String extractResourceId(HttpServletRequest request) {
         String pathInfo = request.getPathInfo();
         if (pathInfo == null || pathInfo.equals("/")) {
             return null;
@@ -98,13 +99,18 @@ public abstract class BaseServlet extends HttpServlet {
 
         // Remove leading slash and extract ID
         String[] parts = pathInfo.substring(1).split("/");
-        return parts.length > 0 ? parts[0] : null;
+        //return parts.length > 0 ? parts[0] : null;
+
+        // altered the return statement because after split, .length always returns a value greater than 0
+        return parts[0];
     }
+
 
     /**
      * Simple error response object for consistent error formatting.
      */
-    private static class ErrorResponse {
+    // Changed to public for testing
+    public static class ErrorResponse {
         private final int status;
         private final String message;
         private final long timestamp;

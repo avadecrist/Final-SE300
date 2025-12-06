@@ -65,9 +65,11 @@ public class Basket {
         Aisle aisle = store.getAisle(location.getAisleId());
 
         //Check to see if exists
-        if(aisle == null){
-            throw new StoreException("Add Product", "Aisle Does Not Exist");
-        }
+
+        // Commented out, since aisle is checked for nullity inside of getAisle
+        // if(aisle == null){
+        //     throw new StoreException("Add Product", "Aisle Does Not Exist");
+        // }
 
         //Get all inventory items from the shelves in the aisle where customer was last seen
         List<Inventory> inventoryList = aisle.getShelfMap().values()
@@ -127,9 +129,11 @@ public class Basket {
         Aisle aisle = store.getAisle(location.getAisleId());
 
         //Check to see if exists
-        if(aisle == null){
-            throw new StoreException("Remove Product", "Aisle Does Not Exist");
-        }
+
+        // Commented out, since aisle is checked for nullity inside of getAisle
+        // if(aisle == null){
+        //     throw new StoreException("Remove Product", "Aisle Does Not Exist");
+        // }
 
         //Get all inventory items from the shelves in the aisle where customer was last seen
         List<Inventory> inventoryList = aisle.getShelfMap().values()
