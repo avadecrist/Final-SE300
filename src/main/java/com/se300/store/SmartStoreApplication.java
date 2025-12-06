@@ -28,6 +28,17 @@ public class SmartStoreApplication {
 
     private Tomcat tomcat;
 
+    
+
+    // added to enable testing
+    public void setTomcat(Tomcat t) {
+        this.tomcat = t;
+    }
+    private boolean registerShutdownHook = true;
+    public void setRegisterShutdownHook(boolean value) { this.registerShutdownHook = value; }
+    private boolean allowTomcatOverwrite = true;
+    public void setAllowTomcatOverwrite(boolean v) { this.allowTomcatOverwrite = v; }
+
     /**
      * Main method - application entry point.
      */
@@ -87,7 +98,11 @@ public class SmartStoreApplication {
 
         // Step 5: Configure and start Tomcat
         logger.info("Configuring Tomcat server...");
-        tomcat = new Tomcat();
+        //tomcat = new Tomcat();
+        // new code to assist with testing
+        if (this.tomcat == null && allowTomcatOverwrite) {
+            this.tomcat = new Tomcat();
+        }
         tomcat.setPort(PORT);
         tomcat.getConnector(); // Initialize default connector
 
@@ -118,7 +133,12 @@ public class SmartStoreApplication {
         logger.info("=".repeat(80));
 
         // Add shutdown hook
-        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
+        // Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
+
+        // added to enable testing
+        if (registerShutdownHook) {
+            Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
+        }
 
         // Keep the server running (only if blocking mode)
         if (block) {

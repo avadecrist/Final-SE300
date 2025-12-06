@@ -14,6 +14,10 @@ import java.time.format.DateTimeFormatter;
  */
 public class JsonHelper {
 
+        // static {
+        //         System.out.println(">>> USING SERVLET JSONHELPER <<<");
+        //     }
+
     // Singleton Gson instance configured with custom type adapters
     // This ensures consistent JSON formatting across the entire application
     private static final Gson GSON = new GsonBuilder()
@@ -62,6 +66,17 @@ public class JsonHelper {
      * @return The Gson instance
      */
     public static Gson getGson() {
+        // System.out.println("GSON = " + GSON);
+        // System.out.println("serializeNulls test = " + GSON.toJson(new Object() { String x = null; }));
+
         return GSON;
     }
+
+    // added to assist 100% coverage
+    private JsonHelper() {
+        // prevents instantiation
+    }
+
+
+
 }

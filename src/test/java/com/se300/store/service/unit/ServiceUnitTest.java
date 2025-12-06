@@ -32,6 +32,14 @@ import com.google.gson.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import com.se300.store.SmartStoreApplication;
+import org.apache.catalina.startup.Tomcat;
+import org.apache.catalina.Server;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import org.apache.catalina.LifecycleException;
+
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -42,6 +50,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
+import org.mockito.MockedStatic;
+
 
 /**
  * Unit tests for Service classes including AuthenticationService and StoreService.
@@ -214,6 +224,7 @@ public class ServiceUnitTest {
 
 //      ----    ----    ----    ---- ADDITIONAL TESTS ----   ----   ----   ----
 
+    // Tests for BaseServlet.java
     @Test
     void testSendErrorResponse() throws Exception {
 
@@ -228,28 +239,28 @@ public class ServiceUnitTest {
     }
 
     @Test
-@DisplayName("Test readRequestBody reads full request body")
-void testReadRequestBody() throws Exception {
+    @DisplayName("Test readRequestBody reads full request body")
+    void testReadRequestBody() throws Exception {
 
-    // Mock request
-    HttpServletRequest request = mock(HttpServletRequest.class);
+        // Mock request
+        HttpServletRequest request = mock(HttpServletRequest.class);
 
-    // Fake body data
-    String fakeBody = "line1\nline2\nline3";
+        // Fake body data
+        String fakeBody = "line1\nline2\nline3";
 
-    // Mock reader
-    BufferedReader reader = new BufferedReader(new StringReader(fakeBody));
-    when(request.getReader()).thenReturn(reader);
+        // Mock reader
+        BufferedReader reader = new BufferedReader(new StringReader(fakeBody));
+        when(request.getReader()).thenReturn(reader);
 
-    // Subclass BaseServlet to access the protected method
-    BaseServlet servlet = new BaseServlet() {};
+        // Subclass BaseServlet to access the protected method
+        BaseServlet servlet = new BaseServlet() {};
 
-    // Call the method
-    String result = servlet.readRequestBody(request);
+        // Call the method
+        String result = servlet.readRequestBody(request);
 
-    // Assert
-    assertEquals("line1line2line3", result);
-}
+        // Assert
+        assertEquals("line1line2line3", result);
+    }
 
     @Test
     void testExtractResourceId_validPath() {
@@ -264,340 +275,237 @@ void testReadRequestBody() throws Exception {
         assertEquals("789", result, "Should extract first path segment as ID");
     }       
     @Test
-void testExtractResourceId_rootSlash() {
-    BaseServlet servlet = new BaseServlet() {};
-    HttpServletRequest request = mock(HttpServletRequest.class);
+    void testExtractResourceId_rootSlash() {
+        BaseServlet servlet = new BaseServlet() {};
+        HttpServletRequest request = mock(HttpServletRequest.class);
 
-    when(request.getPathInfo()).thenReturn("/");
+        when(request.getPathInfo()).thenReturn("/");
 
-    assertNull(servlet.extractResourceId(request));
+        assertNull(servlet.extractResourceId(request));
 
-
-}
-
-// Tests for JsonHelper
-// @Test
-// void testFromJsonDeserialization() {
-//     String json = """
-//         {
-//           "name": "Alice",
-//           "age": 30,
-//           "birthday": "1995-05-10",
-//           "created": "2024-12-05T14:30:00"
-//         }
-//         """;
-
-//     class Person {
-//         String name;
-//         int age;
-//         LocalDate birthday;
-//         LocalDateTime created;
-//     }
-
-//     Person p = JsonHelper.fromJson(json, Person.class);
-
-//     assertEquals("Alice", p.name);
-//     assertEquals(30, p.age);
-//     assertEquals(LocalDate.of(1995, 5, 10), p.birthday);
-//     assertEquals(LocalDateTime.of(2024, 12, 5, 14, 30), p.created);
-// }
-
-// @Test
-// void testGetGsonReturnsSingleton() {
-//     Gson gson1 = JsonHelper.getGson();
-//     Gson gson2 = JsonHelper.getGson();
-
-//     assertSame(gson1, gson2, "getGson() should return the same singleton instance");
-// }
-
-// @Test
-// void testGetGsonConfiguration() {
-//     Gson gson = JsonHelper.getGson();
-
-//     // serializeNulls behavior check
-//     class Example {
-//         String name = null;
-//     }
-
-//     String json = gson.toJson(new Example());
-
-//     assertTrue(json.contains("\"name\": null"), 
-//         "Gson must serialize null fields");
-        
-// }
-
-// @Test
-// void testJsonRoundTrip() {
-//     class Data {
-//         String field;
-//         LocalDate date;
-//         LocalDateTime timestamp;
-
-//         // constructor for convenience
-//         Data(String field, LocalDate date, LocalDateTime timestamp) {
-//             this.field = field;
-//             this.date = date;
-//             this.timestamp = timestamp;
-//         }
-//     }
-
-//     Data original = new Data(
-//             "Hello",
-//             LocalDate.of(2023, 1, 1),
-//             LocalDateTime.of(2023, 1, 1, 12, 0)
-//     );
-
-//     String json = JsonHelper.toJson(original);
-//     Data result = JsonHelper.fromJson(json, Data.class);
-
-//     assertEquals(original.field, result.field);
-//     assertEquals(original.date, result.date);
-//     assertEquals(original.timestamp, result.timestamp);
-// }
-
-// @Test
-// void testFromJsonWithNullLiteral() {
-//     String json = "null";
-
-//     Object result = JsonHelper.fromJson(json, Object.class);
-
-//     assertNull(result, "Deserializing 'null' should return null");
-// }
-
-// Tests for JsonHelper
-@Test
-void testFromJsonDeserialization() {
-    String json = """
-        {
-          "name": "Alice",
-          "age": 30,
-          "birthday": "1995-05-10",
-          "created": "2024-12-05T14:30:00"
-        }
-        """;
-
-    class Person {
-        String name;
-        int age;
-        LocalDate birthday;
-        LocalDateTime created;
     }
 
-    Person p = JsonHelper.fromJson(json, Person.class);
+    // Tests for JsonHelper.java
+    @Test
+    void testFromJsonDeserialization() {
+        String json = """
+            {
+            "name": "Alice",
+            "age": 30,
+            "birthday": "1995-05-10",
+            "created": "2024-12-05T14:30:00"
+            }
+            """;
 
-    assertEquals("Alice", p.name);
-    assertEquals(30, p.age);
-    assertEquals(LocalDate.of(1995, 5, 10), p.birthday);
-    assertEquals(LocalDateTime.of(2024, 12, 5, 14, 30), p.created);
-}
+        Person p = JsonHelper.fromJson(json, Person.class);
 
-@Test
-void testGetGsonReturnsSingleton() {
-    Gson gson1 = JsonHelper.getGson();
-    Gson gson2 = JsonHelper.getGson();
+        assertEquals("Alice", p.name);
+        assertEquals(30, p.age);
+        assertEquals(LocalDate.of(1995, 5, 10), p.birthday);
+        assertEquals(LocalDateTime.of(2024, 12, 5, 14, 30), p.created);
+    }
 
-    assertSame(gson1, gson2, "getGson() should return the same singleton instance");
-}
+    @Test
+    void testGetGsonReturnsSingleton() {
+        Gson gson1 = JsonHelper.getGson();
+        Gson gson2 = JsonHelper.getGson();
 
-@Test
-void testGetGsonConfiguration() {
-    Gson gson = JsonHelper.getGson();
+        assertSame(gson1, gson2, "getGson() should return the same singleton instance");
+    }
 
     // serializeNulls behavior check
-    class Example {
-        String name = null;
+    public static class Example {
+        public String name = null;
     }
 
-    String json = gson.toJson(new Example());
+    @Test
+    void testGetGsonConfiguration() {
+        Gson gson = JsonHelper.getGson();
 
-    assertTrue(json.contains("\"name\": null"), 
-        "Gson must serialize null fields");
+        // uses the Example class located outside this test method
+
+        String json = gson.toJson(new Example());
+
+        assertTrue(json.contains("\"name\": null"), 
+            "Gson must serialize null fields");
         
-}
+    }
 
-@Test
-void testJsonRoundTrip() {
-    class Data {
-        String field;
-        LocalDate date;
-        LocalDateTime timestamp;
+    @Test
+    void testJsonRoundTrip() {
+    
+
+        Data original = new Data(
+            "Hello",
+            LocalDate.of(2023, 1, 1),
+            LocalDateTime.of(2023, 1, 1, 12, 0)
+        );
+
+        String json = JsonHelper.toJson(original);
+        Data result = JsonHelper.fromJson(json, Data.class);
+
+        assertEquals(original.field, result.field);
+        assertEquals(original.date, result.date);
+        assertEquals(original.timestamp, result.timestamp);
+    }
+
+    @Test
+    void testFromJsonWithNullLiteral() {
+        String json = "null";
+
+        Object result = JsonHelper.fromJson(json, Object.class);
+
+        assertNull(result, "Deserializing 'null' should return null");
+    }
+
+    @Test
+    void testJsonHelperConstructor() throws Exception {
+        Constructor<JsonHelper> ctor = JsonHelper.class.getDeclaredConstructor();
+        ctor.setAccessible(true);
+        ctor.newInstance(); // executes the constructor
+    }
+
+    public static class Person {
+        public String name;
+        public int age;
+        public LocalDate birthday;
+        public LocalDateTime created;
+    }
+
+    public static class Data {
+        public String field;
+        public LocalDate date;
+        public LocalDateTime timestamp;
 
         // constructor for convenience
-        Data(String field, LocalDate date, LocalDateTime timestamp) {
+        public Data(String field, LocalDate date, LocalDateTime timestamp) {
             this.field = field;
             this.date = date;
             this.timestamp = timestamp;
         }
     }
 
-    Data original = new Data(
-            "Hello",
-            LocalDate.of(2023, 1, 1),
-            LocalDateTime.of(2023, 1, 1, 12, 0)
-    );
+// Additional tests for Store
 
-    String json = JsonHelper.toJson(original);
-    Data result = JsonHelper.fromJson(json, Data.class);
+// class FakeBlockingTomcat extends Tomcat {
 
-    assertEquals(original.field, result.field);
-    assertEquals(original.date, result.date);
-    assertEquals(original.timestamp, result.timestamp);
-}
+//     boolean awaitWasCalled = false;
 
-@Test
-void testFromJsonWithNullLiteral() {
-    String json = "null";
+//     @Override
+//     public void start() {} // Prevent real startup
 
-    Object result = JsonHelper.fromJson(json, Object.class);
-
-    assertNull(result, "Deserializing 'null' should return null");
-}
-
-@Test
-void debugPrintGson() {
-    System.out.println("GSON class = " + JsonHelper.getGson().getClass());
-    System.out.println("serializeNulls = " + JsonHelper.getGson().toJson(new Object() { String x = null; }));
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//     @Override
+//     public Server getServer() {
+//         return (Server) Proxy.newProxyInstance(
+//                 Server.class.getClassLoader(),
+//                 new Class<?>[]{Server.class},
+//                 (proxy, method, args) -> {
+//                     if (method.getName().equals("await")) {
+//                         awaitWasCalled = true;
+//                         return null;
+//                     }
+//                     // return a harmless default for everything else
+//                     if (method.getReturnType().equals(boolean.class)) return false;
+//                     return null;
+//                 }
+//         );
+//     }
+// }
 
 // @Test
-// void testExtractResourceId_singleSegment() {
-//     BaseServlet servlet = new BaseServlet() {};
-//     HttpServletRequest request = mock(HttpServletRequest.class);
+// void testStartCallsStartServerBlocking() throws Exception {
 
-//     when(request.getPathInfo()).thenReturn("/456");
+//     final boolean[] called = {false};
 
-//     String result = servlet.extractResourceId(request);
+//     SmartStoreApplication spyApp = new SmartStoreApplication() {
+        
+//         @Override
+//         public void start() throws LifecycleException {
+//             called[0] = true;
+//             super.start();
+//         }
+//     };
 
-//     assertEquals("456", result);
+//     spyApp.setAllowTomcatOverwrite(false);
+//     spyApp.setRegisterShutdownHook(false);
+
+//     Field tomField = SmartStoreApplication.class.getDeclaredField("tomcat");
+//     tomField.setAccessible(true);
+//     tomField.set(spyApp, new FakeBlockingTomcat());
+
+//     assertDoesNotThrow(() -> spyApp.start());
+//     assertTrue(called[0]);
 // }
+
 // @Test
-// void testExtractResourceId_nullPath() {
-//     BaseServlet servlet = new BaseServlet() {};
-//     HttpServletRequest request = mock(HttpServletRequest.class);
+// void testStartServerBlockingCallsAwait() throws Exception {
+//     SmartStoreApplication app = new SmartStoreApplication();
+//     app.setAllowTomcatOverwrite(false);
+//     app.setRegisterShutdownHook(false);
 
-//     when(request.getPathInfo()).thenReturn(null);
+//     FakeBlockingTomcat fake = new FakeBlockingTomcat();
 
-//     assertNull(servlet.extractResourceId(request));
+//     Field f = SmartStoreApplication.class.getDeclaredField("tomcat");
+//     f.setAccessible(true);
+//     f.set(app, fake);
+
+//     Method method = SmartStoreApplication.class
+//             .getDeclaredMethod("startServer", boolean.class);
+//     method.setAccessible(true);
+
+//     method.invoke(app, false);
+//     method.invoke(app, true);
+
+//     assertTrue(fake.awaitWasCalled);
 // }
 
+// @Test
+// void testMainHandlesExceptionAndCallsSystemExit() throws Exception {
+//     SmartStoreApplication badApp = Mockito.mock(SmartStoreApplication.class);
 
+//     Mockito.doThrow(new RuntimeException("fail"))
+//             .when(badApp).start();
 
-    // @Test
-    // @DisplayName("Test ErrorResponse getters")
-    // void testErrorResponseGetters() throws Exception {
-    //     TestServlet servlet = new TestServlet();
+//     try (MockedStatic<SmartStoreApplication> ignored =
+//                  Mockito.mockStatic(SmartStoreApplication.class)) {
 
-    //     // Create a test instance via our exposed helper
-    //     BaseServlet.ErrorResponse er = servlet.createErrorResponse(500, "Internal error");
+//         ignored.when(SmartStoreApplication::new).thenReturn(badApp);
 
-    //     // Now test the getters
-    //     assertEquals(500, er.getStatus());
-    //     assertEquals("Internal error", er.getMessage());
-    //     assertTrue(er.getTimestamp() > 0);  // timestamp should be set
-    // }
-
-//     @Test
-// @DisplayName("Test ErrorResponse getters via reflection")
-// void testErrorResponseGettersViaReflection() throws Exception {
-
-//     // Use reflection to get the private inner class
-//     Class<?> errorResponseClass = Class.forName(
-//             "com.se300.store.servlet.BaseServlet$ErrorResponse"
-//     );
-
-//     // Get the constructor: ErrorResponse(int status, String message)
-//     Constructor<?> ctor = errorResponseClass.getDeclaredConstructor(int.class, String.class);
-//     ctor.setAccessible(true);
-
-//     // Create the instance
-//     Object er = ctor.newInstance(500, "Internal error");
-
-//     // Access getters
-//     Method getStatus = errorResponseClass.getDeclaredMethod("getStatus");
-//     Method getMessage = errorResponseClass.getDeclaredMethod("getMessage");
-//     Method getTimestamp = errorResponseClass.getDeclaredMethod("getTimestamp");
-
-//     // Call getters
-//     // int status = (int) getStatus.invoke(er);
-//     // String message = (String) getMessage.invoke(er);
-//     // long timestamp = (long) getTimestamp.invoke(er);
-
-//     // Assertions
-//     // assertEquals(500, (int) getStatus.invoke(er));
-//     // assertEquals("Internal error", (String) getMessage.invoke(er));
-//     // assertTrue((long) getTimestamp.invoke(er) > 0);
-
-
-//     //assertEquals(500, status);
-//     // assertEquals("Internal error", message);
-//     // assertTrue(timestamp > 0);
+//         try (MockedStatic<System> sys = Mockito.mockStatic(System.class)) {
+//             SmartStoreApplication.main(new String[]{});
+//             sys.verify(() -> System.exit(1));
+//         }
+//     }
 // }
 
-    
-    /** Wrapper subclass to expose protected methods */
-    // static class TestServlet extends BaseServlet {
-    //     public void callSendError(HttpServletResponse response, int code, String message) throws Exception {
-    //         sendErrorResponse(response, code, message);
-    //     }
+// @Test
+// void testShutdownHandlesException() throws Exception {
+//     SmartStoreApplication app = new SmartStoreApplication();
+//     app.setRegisterShutdownHook(false);
 
-    //     // public ErrorResponse createErrorResponse(int status, String message) {
-    //     //     return new ErrorResponse(status, message);
-    //     // }
+//     Tomcat badTomcat = Mockito.mock(Tomcat.class);
+//     Mockito.doThrow(new RuntimeException("explode"))
+//             .when(badTomcat).stop();
 
-    //     // Expose protected method for testing sendErrorResponse
-    // // public void callSendError(HttpServletResponse response, int code, String message) throws Exception {
-    // //     sendErrorResponse(response, code, message);
-    // // }
+//     Field f = SmartStoreApplication.class.getDeclaredField("tomcat");
+//     f.setAccessible(true);
+//     f.set(app, badTomcat);
 
-    // // Expose ErrorResponse for testing getters
-    // // public Object createErrorResponseForTest(int status, String message) {
-    // //     return new ErrorResponse(status, message);
-    // // }
-    // }
+//     Method shutdown = SmartStoreApplication.class
+//             .getDeclaredMethod("shutdown");
+//     shutdown.setAccessible(true);
 
-
-//     @Test
-// void testErrorResponseGetters() throws Exception {
-//     TestServlet servlet = new TestServlet();
-
-//     // create private ErrorResponse through wrapper
-//     Object errorObj = servlet.createErrorResponseForTest(404, "Not Found");
-
-//     // Use reflection to call getters
-//     java.lang.reflect.Method getStatus = errorObj.getClass().getMethod("getStatus");
-//     java.lang.reflect.Method getMessage = errorObj.getClass().getMethod("getMessage");
-//     java.lang.reflect.Method getTimestamp = errorObj.getClass().getMethod("getTimestamp");
-
-//     int status = (int) getStatus.invoke(errorObj);
-//     String message = (String) getMessage.invoke(errorObj);
-//     long timestamp = (long) getTimestamp.invoke(errorObj);
-
-//     assertEquals(404, status);
-//     assertEquals("Not Found", message);
-    
-//     // timestamp should be "recent"
-//     assertTrue(timestamp > 0);
-//     assertTrue(timestamp <= System.currentTimeMillis());
+//     assertDoesNotThrow(() -> shutdown.invoke(app));
 // }
-
-
-
 
 }
+
+
+
+
+
+
+
+
+
+
